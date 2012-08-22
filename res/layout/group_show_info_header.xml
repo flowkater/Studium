@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+     >
+
+    <ImageView
+        android:id="@+id/group_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/group_name"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignTop="@+id/group_image"
+        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@+id/group_image"
+        android:text="그룹 이름"
+        android:textColor="#000000"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/group_starttime"
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_alignLeft="@+id/group_name"
+        android:layout_below="@+id/group_name"
+        android:layout_marginTop="5dp"
+        android:text="그룹생성시간"
+        android:textColor="#000000"
+        android:textSize="10dp" />
+
+    <TextView
+        android:id="@+id/group_subject"
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:layout_alignBottom="@+id/group_image"
+        android:layout_alignLeft="@+id/group_starttime"
+        android:layout_marginTop="5dp"
+        android:text="그룹 주제 "
+        android:textColor="#000000"
+        android:textSize="10dp" />
+
+    <TextView
+        android:id="@+id/group_goal"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_below="@+id/group_image"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="그룹 목표"
+        android:textColor="#000000"
+        android:textSize="15dp" />
+
+</RelativeLayout>

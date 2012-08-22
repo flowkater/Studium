@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/titlebar_linearlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+<!--     <ImageButton -->
+<!--         android:id="@+id/titlebar_leftbutton" -->
+<!--         android:layout_width="wrap_content" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:layout_weight="1" -->
+<!--         android:layout_gravity="left|center" -->
+<!--         android:background="@drawable/title_btn_setting" /> -->
+
+    <TextView
+        android:id="@+id/titlebar_text"
+        android:layout_width="wrap_content"
+        android:layout_height="32.69998dip"
+        android:layout_gravity="center"
+        android:layout_weight="8"
+        android:focusableInTouchMode="true"
+        android:gravity="center"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:text="StudyGroup"
+        android:textSize="20.0dip" />
+
+<!--     <ImageButton -->
+<!--         android:id="@+id/titlebar_rightbutton" -->
+<!--         android:layout_width="wrap_content" -->
+<!--         android:layout_height="wrap_content" -->
+<!--         android:layout_weight="1" -->
+<!--         android:layout_gravity="right|center" -->
+<!--         android:background="@drawable/title_btn_search" /> -->
+
+</LinearLayout>
