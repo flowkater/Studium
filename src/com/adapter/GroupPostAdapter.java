@@ -45,13 +45,25 @@ public class GroupPostAdapter extends ArrayAdapter<Post> {
 					.findViewById(R.id.member_name);
 			holder.post_body = (TextView) convertView
 					.findViewById(R.id.post_body);
+			holder.feed_content_img = (ImageView) convertView
+					.findViewById(R.id.feed_content_img);
+			holder.comment_count = (TextView) convertView
+					.findViewById(R.id.comment_count);
 
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
+		holder.member_img.setImageBitmap(post.getMember_img());
+		if (post.getContent_img() != null) {
+			holder.feed_content_img.setImageBitmap(post.getContent_img());
+		}
+		holder.member_name.setText(post.getMember_name());
 		holder.post_body.setText(post.getBody());
+		holder.comment_count.setText(post.getComment_count());
+		
+//		holder.posting_time.setText(text);
 
 		return convertView;
 	}
@@ -59,6 +71,9 @@ public class GroupPostAdapter extends ArrayAdapter<Post> {
 	class ViewHolder {
 		ImageView member_img;
 		TextView member_name;
+		TextView posting_time;
 		TextView post_body;
+		ImageView feed_content_img;
+		TextView comment_count;
 	}
 }

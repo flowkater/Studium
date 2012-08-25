@@ -3,6 +3,8 @@ package com.fragment;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,64 +17,77 @@ import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.activity.R;
-import com.adapter.GroupListAdapter;
+import com.adapter.MyStudyListAdapter;
 import com.google.gson.Gson;
 import com.model.Group;
 import com.model.Groups;
 import com.utils.Global;
 import com.utils.NetHelper;
 
-public class SlideMenuFragment extends SherlockListFragment implements OnItemClickListener{
+public class SlideMenuFragment extends SherlockListFragment implements
+		OnItemClickListener {
 	private ArrayList<Group> mArrayList;
-	private GroupListAdapter mAdapter;
+	private MyStudyListAdapter mAdapter;
 	private ListView mListView;
 	private String mResult;
 	int mPrevTotalItemCount = 0;
 	private LinearLayout headerview;
 	private LinearLayout footerview;
-	
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.slide_menu, null);
 	}
-	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		mArrayList = new ArrayList<Group>();
 		mListView = getListView();
-		
-		for (int i = 0; i < 2; i++) {
-			mArrayList.add(new Group("����100��","����100��"));
-		}
-		
-		mAdapter = new GroupListAdapter(getActivity(),
-				R.layout.group_list_row, mArrayList);
-		// header, footer �� ����
+
+		// 임의생성
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inSampleSize = 4;
+		Bitmap orgImage = BitmapFactory.decodeResource(getResources(),
+				R.drawable.member_ladygaga, options);
+		Bitmap resize = Bitmap.createScaledBitmap(orgImage, 70, 70, true);
+		mArrayList.add(new Group(resize, "회화스터디", "영어회화 능력향상 ", "6", "10",
+				"미정"));
+		orgImage = BitmapFactory.decodeResource(getResources(),
+				R.drawable.member_jobs, options);
+		resize = Bitmap.createScaledBitmap(orgImage, 70, 70, true);
+		mArrayList.add(new Group(resize, "재무스터디",
+				"스터디 동안에 최소 재무관리 전 범위를 4회독 이상 목표로 하고 있습니다.", "7", "4",
+				"백기 스터디룸  "));
+
+		mAdapter = new MyStudyListAdapter(getActivity(),
+				R.layout.slide_menu_mystudy_row, mArrayList);
+		// header, footer 뷰 설정
 		LayoutInflater inflater = getLayoutInflater(savedInstanceState);
-		headerview = (LinearLayout)inflater.inflate(R.layout.slide_menu_header, null);
-		footerview = (LinearLayout)inflater.inflate(R.layout.slide_menu_footer, null);
+		headerview = (LinearLayout) inflater.inflate(
+				R.layout.slide_menu_header, null);
+		footerview = (LinearLayout) inflater.inflate(
+				R.layout.slide_menu_footer, null);
 		mListView.addHeaderView(headerview);
 		mListView.addFooterView(footerview);
 		// header, footer end
-		
+
 		mListView.setAdapter(mAdapter);
 		mListView.setOnItemClickListener(this);
 		mListView.setSelector(android.R.color.transparent);
 	}
-	
-	// My Study �ҷ��;ߵ�
+
+	// My Study 불러와야됨
 	private class GetMyStudyList extends AsyncTask<Void, Void, Void> {
 		@Override
 		protected Void doInBackground(Void... params) {
-			mResult = NetHelper
-					.DownloadHtml(Global.ServerUrl + "groups.json");
+			mResult = NetHelper.DownloadHtml(Global.ServerUrl + "groups.json");
 			System.out.println(mResult);
 			return null;
 		}
@@ -89,8 +104,6 @@ public class SlideMenuFragment extends SherlockListFragment implements OnItemCli
 			super.onPostExecute(result);
 		}
 	}
-	
-	
 
 	@Override
 	public void onStart() {
@@ -120,6 +133,6 @@ public class SlideMenuFragment extends SherlockListFragment implements OnItemCli
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

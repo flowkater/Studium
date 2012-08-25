@@ -20,7 +20,7 @@
         android:layout_alignTop="@+id/member_img"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/member_img"
-        android:text="시간"
+        android:text="8분전"
         android:textSize="10sp" />
 
     <TextView

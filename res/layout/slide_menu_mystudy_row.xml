@@ -20,8 +20,7 @@
             android:id="@+id/mystudy_img"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_margin="10dp"
-            android:background="#E44044" />
+            android:layout_margin="10dp"/>
         <!-- /유저 프로필 이미지 -->
         <!-- 유저 스크린네임 -->
 

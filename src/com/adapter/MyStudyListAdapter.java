@@ -36,22 +36,23 @@ public class MyStudyListAdapter extends ArrayAdapter<Group> {
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = mInflater.inflate(mResource, null);
 			holder = new ViewHolder();
-			holder.group_image = (ImageView) convertView
+			holder.mystudy_img = (ImageView) convertView
 					.findViewById(R.id.mystudy_img);
-			holder.group_name = (TextView) convertView
+			holder.mystudy_name = (TextView) convertView
 					.findViewById(R.id.mystudy_name);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		holder.group_name.setText(group.getName());
+		holder.mystudy_img.setImageBitmap(group.getGroup_img());
+		holder.mystudy_name.setText(group.getName());
 
 		return convertView;
 	}
 
 	class ViewHolder {
-		ImageView group_image;
-		TextView group_name;
+		ImageView mystudy_img;
+		TextView mystudy_name;
 	}
 }

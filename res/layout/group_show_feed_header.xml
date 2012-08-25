@@ -11,7 +11,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="15dp"
-        android:text="그룹 이름" />
+        android:text="토익완전정복" />
 
     <TextView
         android:id="@+id/group_goal"
@@ -20,7 +20,7 @@
         android:layout_alignLeft="@+id/group_name"
         android:layout_below="@+id/group_name"
         android:layout_marginTop="15dp"
-        android:text="그룹 목표 그룹 목표 그룹 그룹 목표 그룹 목표 그룹 그룹 목표 그룹 목표 그룹" />
+        android:text="토플 100점! 토익이 100점이라는게 함정" />
 
     <Button
         android:id="@+id/group_meeting_date_btn"
@@ -29,7 +29,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/group_name"
         android:layout_marginRight="20dp"
-        android:text="모임"
+        android:text="8/24"
         android:textSize="10sp" />
 
     <Button
@@ -39,7 +39,7 @@
         android:layout_alignBaseline="@+id/group_meeting_date_btn"
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@+id/group_meeting_date_btn"
-        android:text="공지"
+        android:text="9/16"
         android:textSize="10sp" />
 
     <TextView
@@ -49,7 +49,7 @@
         android:layout_alignRight="@+id/group_meeting_date_btn"
         android:layout_below="@+id/group_goal"
         android:layout_marginTop="5dp"
-        android:text="80%" />
+        android:text="20%" />
 
     <ProgressBar
         android:id="@+id/progressBar1"
@@ -60,6 +60,6 @@
         android:layout_alignRight="@+id/group_meeting_date_btn"
         android:layout_below="@+id/group_progress"
         android:layout_marginTop="5dp"
-        android:progress="80" />
+        android:progress="20" />
 
 </RelativeLayout>

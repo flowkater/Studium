@@ -46,14 +46,13 @@
 
     <ImageView
         android:id="@+id/feed_content_img"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_alignLeft="@+id/feed_content_text"
-        android:layout_alignRight="@+id/feed_content_text"
-        android:layout_below="@+id/feed_content_text"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignLeft="@+id/post_body"
+        android:layout_alignRight="@+id/post_body"
+        android:layout_below="@+id/post_body"
         android:layout_marginTop="10dp"
-        android:scaleType="fitCenter"
-        android:src="@android:drawable/ic_menu_month" />
+        android:scaleType="fitStart" />
 
     <ImageView
         android:id="@+id/comment_img"
@@ -68,7 +67,7 @@
         android:id="@+id/comment_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/comment_img"
+        android:layout_alignTop="@+id/comment_img"
         android:layout_toLeftOf="@+id/comment_img"
         android:text="댓글수 0개" />
 

@@ -39,19 +39,24 @@ public class PostCommentAdapter extends ArrayAdapter<Comment> {
 			
 			holder.member_image = (ImageView)convertView.findViewById(R.id.member_img);
 			holder.comment_body = (TextView)convertView.findViewById(R.id.comment_content);
+			holder.member_name = (TextView)convertView.findViewById(R.id.member_name);
 			
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder)convertView.getTag();
 		}
 		
+		holder.member_image.setImageBitmap(comment.getMember_img());
 		holder.comment_body.setText(comment.getBody());
+		holder.member_name.setText(comment.getMember_name());
 		
 		return convertView;
 	}
 	
 	class ViewHolder{
 		ImageView member_image;
+		TextView member_name;
 		TextView comment_body;
+		TextView comment_time;
 	}
 }

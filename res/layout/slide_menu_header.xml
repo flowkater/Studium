@@ -21,7 +21,7 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="10dp"
-            android:background="#E44044" />
+            android:background="@drawable/member_byung" />
         <!-- /유저 프로필 이미지 -->
         <!-- 유저 스크린네임 -->
 
@@ -37,7 +37,7 @@
                 android:id="@+id/user_name"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="유저 이름"
+                android:text="김병철"
                 android:textColor="#666666"
                 android:textSize="25dp"
                 android:textStyle="bold" />

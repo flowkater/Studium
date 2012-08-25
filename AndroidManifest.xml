@@ -26,7 +26,6 @@
             android:name=".GroupShowActivity"
             android:label="@string/title_activity_group_index" >
         </activity>
-        
         <activity
             android:name=".PostShowActivity"
             android:label="@string/title_activity_group_index" >
