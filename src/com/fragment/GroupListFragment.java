@@ -34,8 +34,8 @@ public class GroupListFragment extends SherlockFragment implements
 		OnItemClickListener {
 	private ArrayList<Group> mArrayList;
 	private GroupListAdapter mAdapter;
-	private View mView;
 	private PullToRefreshListView mListView;
+	private View mView;
 	private String mResult;
 	int mPrevTotalItemCount = 0;
 	private Integer mCurrentPage = 1;
