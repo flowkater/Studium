@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 public class Comment {
 	private Bitmap member_img;
+
 	private String body;
 	private String member_name;
 	private String comment_time;
