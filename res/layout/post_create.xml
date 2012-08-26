@@ -6,13 +6,28 @@
     android:layout_alignParentTop="true"
     android:minHeight="60dp"
     android:orientation="horizontal" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
-    <ImageView
-        android:id="@+id/profile_thumbnail"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="10dp"
-        android:background="#E44044" />
+        <ImageView
+            android:id="@+id/profile_thumbnail"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:background="#E44044" />
+
+        <Button
+            android:id="@+id/postcreate_img_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="5dp"
+            android:text="사진올리기"
+            android:textSize="10sp" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -23,13 +38,20 @@
         android:orientation="vertical" >
 
         <EditText
-            android:id="@+id/user_name"
+            android:id="@+id/post_string"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="#ffffff"
             android:textColor="#000000"
             android:textSize="15dp"
             android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/postcreate_img"
+            android:layout_width="200dip"
+            android:layout_height="200dip"
+            android:background="#fff000"
+             />
 
     </LinearLayout>
 

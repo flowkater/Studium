@@ -3,6 +3,7 @@ package com.activity;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -94,7 +95,16 @@ public class GroupShowActivity extends SlidingFragmentActivity {
 			toggle();
 			return true;
 		}
-		return super.onOptionsItemSelected(item);
+		//우현 추가 코드
+		Intent intent = new Intent(this, PostPageActivity.class);
+		//intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY );
+
+		startActivity(intent);
+		//끝
+        return true;
+		
+		
+		
 	}
 
 	public static class TabsAdapter extends FragmentStatePagerAdapter implements
