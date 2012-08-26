@@ -24,7 +24,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 /**
- * 洹몃━�쒕럭瑜��댁슜���щ젰 �덉젣
+ * 域밸챶�곻옙�뺣윮�쒙옙占쎈똻�쒙옙占쏙옙���占쎈뜆��
  * 
  * @blog http://croute.me
  * @link http://croute.me/335
@@ -81,7 +81,7 @@ public class GVCalendarActivity extends Activity implements
 		bNextMonth.setOnClickListener(this);
 		mGvCalendar.setOnItemClickListener(this);
 		
-		//가상의 피드 추가............
+		//媛�긽���쇰뱶 異붽�............
 //
 //		mDayList = new ArrayList<DayInfo>();
 //
@@ -97,7 +97,7 @@ public class GVCalendarActivity extends Activity implements
 //		mPostList.add(new Post("2012-9-3"));
 //		mPostList.add(new Post("2012-9-31"));
 		
-		//시간 정보를 파싱하여 년 월 일로 나눔
+		//�쒓컙 �뺣낫瑜��뚯떛�섏뿬 �����쇰줈 �섎닎
 //		
 //
 //		String[] Posttime = new String[mPostList.size()];
@@ -124,55 +124,51 @@ public class GVCalendarActivity extends Activity implements
 	protected void onResume() {
 		super.onResume();
 
-		//클릭해서 다시 캘린더로 돌아왔을 때를 감지함 색변화 봄
+		//�대┃�댁꽌 �ㅼ떆 罹섎┛�붾줈 �뚯븘�붿쓣 �뚮� 媛먯����됰���遊�
 		if (getIntent().getStringExtra("color") != null) {
 			update_color = Integer
 					.parseInt(getIntent().getStringExtra("color"));
 			isUpdate = 1;
 		}
 		
-		//callender 생성
+		//callender �앹꽦
 
 		mThisMonthCalendar = Calendar.getInstance();
 		mThisMonthCalendar.set(Calendar.DAY_OF_MONTH, 1);
-		//그리는 부분
+		//洹몃━��遺�텇
 		getCalendar(mThisMonthCalendar);
 	}
 
 	/**
-	 * �щ젰���뗮똿�쒕떎.
+	 * 占싼됱젾占쏙옙占쎈뿮�울옙�뺣뼄.
 	 * 
 	 * @param calendar
-	 *            �щ젰��蹂댁뿬吏�뒗 �대쾲�ъ쓽 Calendar 媛앹껜
+	 *            占싼됱젾占쏙옙癰귣똻肉э쭪占쎈뮉 占쎈�苡뀐옙���Calendar 揶쏆빘猿�
 	 */
 	private void getCalendar(Calendar calendar)
 	{
-		int lastMonthStartDay;//지난 달 마지막날
-		int dayOfMonth;//이번달 날짜수
-		int thisMonthLastDay;//이번달 마지막날
+		int lastMonthStartDay;
+		int dayOfMonth;
+		int thisMonthLastDay;
 		
 		mDayList.clear();
 		
-		
-		//달력의 시작일
 		
 		int [] start_calender = new int [3];
 		
 		
 		
 		
-		// 이번달 시작일의 요일을 구한다. 시작일이 일요일인 경우 인덱스를 1(일요일)에서 8(다음주 일요일)로 바꾼다.)
 		dayOfMonth = calendar.get(Calendar.DAY_OF_WEEK);
 		thisMonthLastDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 		
 		calendar.add(Calendar.MONTH, -1);
-		Log.e("吏�궃��留덉�留됱씪", calendar.get(Calendar.DAY_OF_MONTH)+"");
+//		Log.e("筌욑옙沅껓옙占쏙쭕�됵옙筌띾맩��", calendar.get(Calendar.DAY_OF_MONTH)+"");
 
-		// 지난달의 마지막 일자를 구한다.
 		lastMonthStartDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
 		calendar.add(Calendar.MONTH, 1);
-		Log.e("�대쾲���쒖옉��", calendar.get(Calendar.DAY_OF_MONTH)+"");
+//		Log.e("占쎈�苡뀐옙占쏙옙�뽰삂占쏙옙", calendar.get(Calendar.DAY_OF_MONTH)+"");
 		
 		if(dayOfMonth == SUNDAY)
 		{
@@ -182,19 +178,16 @@ public class GVCalendarActivity extends Activity implements
 		lastMonthStartDay -= (dayOfMonth-1)-1;
 		
 
-		// 캘린더 타이틀(년월 표시)을 세팅한다. 
-		mTvCalendarTitle.setText(mThisMonthCalendar.get(Calendar.YEAR) + "��"
-				+ (mThisMonthCalendar.get(Calendar.MONTH) + 1) + "��");
+		mTvCalendarTitle.setText(mThisMonthCalendar.get(Calendar.YEAR) + "占쏙옙"
+				+ (mThisMonthCalendar.get(Calendar.MONTH) + 1) + "占쏙옙");
 
 		DayInfo day;
 		
-		Log.e("DayOfMOnth", dayOfMonth+"");
+//		Log.e("DayOfMOnth", dayOfMonth+"");
 		System.out.println("last create");
 		
-		//인덱스를 0부터 해서 끝날때까지 다비교해보고 하나씩 증가시켜서 feed값확인
 		int index=0;
 		
-		//달력 첫날 설정
 		start_calender[0]=mThisMonthCalendar.get(Calendar.YEAR);
 		start_calender[1]=mThisMonthCalendar.get(calendar.MONTH);
 		start_calender[2]=lastMonthStartDay;
@@ -204,7 +197,7 @@ public class GVCalendarActivity extends Activity implements
 
 		
 	
-		//index 조절
+		//index 議곗젅
 		while(true)
 		{
 			
@@ -254,7 +247,7 @@ public class GVCalendarActivity extends Activity implements
 			else day.setBg_color(Color.WHITE);
 			
 			
-			//무한 반복으로 중복 feed 찾아내 하나의 date마다 하나씩 feed의 배열과 비교해봐
+			//臾댄븳 諛섎났�쇰줈 以묐났 feed 李얠븘���섎굹��date留덈떎 �섎굹��feed��諛곗뿴怨�鍮꾧탳�대킄
 			while(true)
 			{
 			if(Integer.parseInt(temp[index][0])== mThisMonthCalendar.get(Calendar.YEAR)
@@ -300,7 +293,7 @@ public class GVCalendarActivity extends Activity implements
 			}
 			else day.setBg_color(Color.WHITE);
 			
-			//무한 반복으로 중복 feed 찾아내 하나의 date마다 하나씩 feed의 배열과 비교해봐
+			//臾댄븳 諛섎났�쇰줈 以묐났 feed 李얠븘���섎굹��date留덈떎 �섎굹��feed��諛곗뿴怨�鍮꾧탳�대킄
 			while(true)
 			{
 			if(Integer.parseInt(temp[index][0])== mThisMonthCalendar.get(Calendar.YEAR)
@@ -367,7 +360,7 @@ public class GVCalendarActivity extends Activity implements
 	}
 
 	/**
-	 * 吏�궃�ъ쓽 Calendar 媛앹껜瑜�諛섑솚�⑸땲��
+	 * 筌욑옙沅껓옙���Calendar 揶쏆빘猿쒐몴占썼쳸�묒넎占썩뫖�뀐옙占�
 	 * 
 	 * @param calendar
 	 * @return LastMonthCalendar
@@ -376,13 +369,13 @@ public class GVCalendarActivity extends Activity implements
 		calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
 				1);
 		calendar.add(Calendar.MONTH, -1);
-		mTvCalendarTitle.setText(mThisMonthCalendar.get(Calendar.YEAR) + "��"
-				+ (mThisMonthCalendar.get(Calendar.MONTH) + 1) + "��");
+		mTvCalendarTitle.setText(mThisMonthCalendar.get(Calendar.YEAR) + "占쏙옙"
+				+ (mThisMonthCalendar.get(Calendar.MONTH) + 1) + "占쏙옙");
 		return calendar;
 	}
 
 	/**
-	 * �ㅼ쓬�ъ쓽 Calendar 媛앹껜瑜�諛섑솚�⑸땲��
+	 * 占썬끉�э옙���Calendar 揶쏆빘猿쒐몴占썼쳸�묒넎占썩뫖�뀐옙占�
 	 * 
 	 * @param calendar
 	 * @return NextMonthCalendar
@@ -391,8 +384,8 @@ public class GVCalendarActivity extends Activity implements
 		calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
 				1);
 		calendar.add(Calendar.MONTH, +1);
-		mTvCalendarTitle.setText(mThisMonthCalendar.get(Calendar.YEAR) + "��"
-				+ (mThisMonthCalendar.get(Calendar.MONTH) + 1) + "��");
+		mTvCalendarTitle.setText(mThisMonthCalendar.get(Calendar.YEAR) + "占쏙옙"
+				+ (mThisMonthCalendar.get(Calendar.MONTH) + 1) + "占쏙옙");
 		return calendar;
 	}
 
