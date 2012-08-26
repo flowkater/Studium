@@ -1,63 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="#ffffff"
-    android:minHeight="60dp"
-    android:orientation="vertical" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+   >
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#ffffff"
-        android:minHeight="60dp"
-        android:orientation="horizontal" >
-
-        <!-- 유저 프로필 이미지 -->
+    <RelativeLayout
+        android:id="@+id/user_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
         <ImageView
             android:id="@+id/profile_thumbnail"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/member_byung" />
-        <!-- /유저 프로필 이미지 -->
-        <!-- 유저 스크린네임 -->
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/user_name"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="김병철"
-                android:textColor="#666666"
-                android:textSize="25dp"
-                android:textStyle="bold" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#cccccc"
-        android:minHeight="25dp" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_margin="5dp"
-            android:text="내 스터디 목록"
-            android:textColor="#000000" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/member_byung" />
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/profile_thumbnail"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/slide_menu_arrow"
+            android:layout_toRightOf="@+id/profile_thumbnail"
+            android:text="김병철김병철김병철김병철"
+            android:textColor="#ffffffff" />
+
+        <ImageView
+            android:id="@+id/slide_menu_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/user_name"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/slide_menu_arrow" />
+
+        <TextView
+            android:id="@+id/user_intro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/user_name"
+            android:layout_alignRight="@+id/user_name"
+            android:layout_below="@+id/user_name"
+            android:layout_marginTop="10dp"
+            android:text="ddddxdzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+            android:textColor="#ffffffff" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_layout"
+        android:layout_marginTop="10dp" >
+
+        <ImageView
+            android:id="@+id/my_study_list_img"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/my_study_list_img" />
     </RelativeLayout>
 
 </LinearLayout>

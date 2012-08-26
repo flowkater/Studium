@@ -1,47 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ffffff"
-    android:minHeight="60dp"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+      >
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#ffffff"
-        android:minHeight="50dp"
-        android:orientation="horizontal" >
-
-        <!-- 유저 프로필 이미지 -->
+    <RelativeLayout
+        android:id="@+id/mystudy_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
         <ImageView
             android:id="@+id/mystudy_img"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_margin="10dp"/>
-        <!-- /유저 프로필 이미지 -->
-        <!-- 유저 스크린네임 -->
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:orientation="vertical" >
+            android:src="@drawable/ic_launcher" />
 
-            <TextView
-                android:id="@+id/mystudy_name"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:text="내그룹 이름들"
-                android:textColor="#666666"
-                android:textSize="24dp"
-                android:textStyle="bold" />
-        </LinearLayout>
-    </LinearLayout>
+        <TextView
+            android:id="@+id/mystudy_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/mystudy_img"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@+id/mystudy_img"
+            android:text="내 그룹 이름들 ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ"
+            android:textColor="#ffffffff"
+            android:textSize="25dp" />
+        <!-- android:textStyle="bold" -->
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/mystudy_layout"
+        android:layout_marginTop="10dp" >
+
+        <ImageView
+            android:id="@+id/silde_menu_mystudy_list_divider"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/mystudy_img"
+            android:background="#000000" />
+        <!-- android:scaleType="fitXY" -->
+        <!-- android:src="@drawable/group_list_divider" -->
+    </RelativeLayout>
 
 </LinearLayout>
