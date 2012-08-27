@@ -17,24 +17,18 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:src="@drawable/member_byung" />
-
+
         <TextView
             android:id="@+id/member_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
+            android:layout_toLeftOf="@+id/create_time"
             android:layout_toRightOf="@+id/member_img"
+            android:layout_marginRight="10dp"
             android:text="김병철" />
-
-        <TextView
-            android:id="@+id/group_announce"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="모임" />
-
+        
         <TextView
             android:id="@+id/create_time"
             android:layout_width="wrap_content"

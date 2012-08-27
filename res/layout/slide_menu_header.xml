@@ -12,8 +12,8 @@
 
         <ImageView
             android:id="@+id/profile_thumbnail"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="10dp"
@@ -29,8 +29,9 @@
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/slide_menu_arrow"
             android:layout_toRightOf="@+id/profile_thumbnail"
-            android:text="김병철김병철김병철김병철"
-            android:textColor="#ffffffff" />
+            android:text="김병철"
+            android:textColor="#ffffffff"
+            android:textSize="25sp" />
 
         <ImageView
             android:id="@+id/slide_menu_arrow"
@@ -42,16 +43,16 @@
             android:layout_marginTop="10dp"
             android:src="@drawable/slide_menu_arrow" />
 
-        <TextView
-            android:id="@+id/user_intro"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/user_name"
-            android:layout_alignRight="@+id/user_name"
-            android:layout_below="@+id/user_name"
-            android:layout_marginTop="10dp"
-            android:text="ddddxdzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
-            android:textColor="#ffffffff" />
+<!--         <TextView -->
+<!--             android:id="@+id/user_intro" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_alignLeft="@+id/user_name" -->
+<!--             android:layout_alignRight="@+id/user_name" -->
+<!--             android:layout_below="@+id/user_name" -->
+<!--             android:layout_marginTop="10dp" -->
+<!--             android:text="ddddxdzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz" -->
+<!--             android:textColor="#ffffffff" /> -->
     </RelativeLayout>
 
     <RelativeLayout

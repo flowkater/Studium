@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    >
 
     <ImageView
         android:id="@+id/member_img"
@@ -13,15 +13,17 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:src="@drawable/ic_launcher" />
-
+
     <TextView
         android:id="@+id/member_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/member_img"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/posting_time"
         android:layout_toRightOf="@+id/member_img"
-        android:text="ironok" />
+        android:text="ironokcccccccc" />
 
     <TextView
         android:id="@+id/posting_time"
@@ -56,12 +58,12 @@
 
     <ImageView
         android:id="@+id/comment_img"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         android:layout_alignRight="@+id/feed_content_img"
         android:layout_below="@+id/feed_content_img"
         android:layout_marginTop="10dp"
-        android:src="@android:drawable/ic_menu_edit" />
+        android:src="@drawable/group_show_comment_img" />
 
     <TextView
         android:id="@+id/comment_count"
@@ -69,6 +71,17 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/comment_img"
         android:layout_toLeftOf="@+id/comment_img"
+        android:layout_marginRight="10dp"
         android:text="댓글수 0개" />
+    
+      <ImageView
+            android:id="@+id/group_show_feed_list_divider"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/comment_img"
+            android:layout_marginTop="10dp"
+            android:background="#000000" />
+    
 
 </RelativeLayout>

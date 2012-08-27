@@ -1,45 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
 
-    <ImageView
-        android:id="@+id/member_img"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:src="@android:drawable/sym_def_app_icon" />
+    <RelativeLayout
+        android:id="@+id/post_show_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-    <TextView
-        android:id="@+id/comment_time"
-        android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/member_img"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@android:drawable/sym_def_app_icon" />
+
+        <TextView
+            android:id="@+id/comment_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/member_img"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/comment_content"
+            android:layout_toRightOf="@+id/member_img"
+            android:text="8분전"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/member_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/comment_time"
+            android:layout_below="@+id/comment_time"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/comment_content"
+            android:text="ironok" />
+
+        <TextView
+            android:id="@+id/comment_content"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/comment_time"
+            android:layout_marginLeft="10dp"
+            android:text="TextView" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/member_img"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/member_img"
-        android:text="8분전"
-        android:textSize="10sp" />
+         >
 
-    <TextView
-        android:id="@+id/member_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/comment_time"
-        android:layout_below="@+id/comment_time"
-        android:text="ironok" />
+        <ImageView
+            android:id="@+id/post_show_comment_list_divider"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/post_show_comment"
+            android:layout_marginTop="10dp"
+            android:background="#000000" />
+    </RelativeLayout>
 
-    <TextView
-        android:id="@+id/comment_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/comment_time"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_toRightOf="@+id/member_name"
-        android:text="TextView" />
-
-</RelativeLayout>
+</LinearLayout>

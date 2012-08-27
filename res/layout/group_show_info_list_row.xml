@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="60dp"
+
     android:orientation="horizontal" >
 
     <!-- 유저 프로필 이미지 -->
@@ -17,7 +17,7 @@
     <!-- 유저 스크린네임 -->
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
@@ -26,12 +26,12 @@
 
         <TextView
             android:id="@+id/member_name"
-            android:layout_width="fill_parent"
-            android:layout_height="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="ㅎㅎㅎㅎ"
             android:textColor="#666666"
-            android:textSize="25dp"
-            android:textStyle="bold" />
+            android:textSize="25sp"
+            />
     </LinearLayout>
 
 </LinearLayout>

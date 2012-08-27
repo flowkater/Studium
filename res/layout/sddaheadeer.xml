@@ -26,7 +26,6 @@
             android:layout_alignTop="@+id/group_intro_img"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:textSize="20sp"
             android:layout_toLeftOf="@+id/move_group_icon"
             android:layout_toRightOf="@+id/group_intro_img"
             android:text="TextVfffffffffffffffffffffffffffffffffffffffffffffffffffffiew" />
@@ -65,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/group_goal_icon"
-            android:layout_below="@+id/group_goal"
+            android:layout_below="@+id/group_goal_icon"
             android:layout_marginTop="3dp"
             android:src="@drawable/group_location_icon" />
 
