@@ -56,8 +56,6 @@ public class PostPageActivity extends SherlockActivity implements OnClickListene
 		setContentView(R.layout.post_create);
 		// start header
 		ActionBar bar = getSupportActionBar();
-		bar.setBackgroundDrawable(getResources().getDrawable(
-				R.drawable.actionbar_bitmap));
 		bar.setLogo(R.drawable.title_btn_setting);
 		bar.setCustomView(R.layout.header);
 		bar.setDisplayShowCustomEnabled(true);
@@ -201,7 +199,7 @@ public class PostPageActivity extends SherlockActivity implements OnClickListene
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add("占쌉뤄옙")
+		menu.add("�Է�")
 				.setShowAsAction(
 						MenuItem.SHOW_AS_ACTION_IF_ROOM
 								| MenuItem.SHOW_AS_ACTION_WITH_TEXT);

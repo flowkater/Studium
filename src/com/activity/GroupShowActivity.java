@@ -56,6 +56,8 @@ public class GroupShowActivity extends SlidingFragmentActivity {
 
 		// start header
 		ActionBar bar = getSupportActionBar();
+		bar.setBackgroundDrawable(getResources().getDrawable(
+				R.drawable.actionbar_bitmap));
 		bar.setLogo(R.drawable.title_btn_setting);
 		bar.setCustomView(R.layout.header);
 		bar.setDisplayShowCustomEnabled(true);
