@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+    
+	<RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        
+	     <EditText
+            android:id="@+id/party_message_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            android:hint="모집 메세지를 작성하세요" >
+        </EditText>
+        
+	      <Button
+            android:id="@+id/party_message_write_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/party_message_edit_text"
+            android:layout_alignRight="@+id/party_message_edit_text"
+            android:layout_below="@+id/party_message_edit_text"
+            android:text="작성하기" />
+	      
+	      <Button
+            android:id="@+id/party_message_skip_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/party_message_edit_text"
+            android:layout_alignRight="@+id/party_message_edit_text"
+            android:layout_below="@+id/party_message_write_btn"
+            android:layout_marginTop="10dp"
+            android:text="write skip" />
+	      
+	       </RelativeLayout>
+    
+</LinearLayout>
