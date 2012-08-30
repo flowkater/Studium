@@ -93,7 +93,7 @@ public class FeedFragment extends SherlockFragment implements
 		protected Void doInBackground(Void... params) {
 			mResult = NetHelper.DownloadHtml(Global.ServerUrl + "groups/" + id
 					+ "/posts.json?page=" + mCurrentPage.toString());
-			System.out.println(mResult);
+//			System.out.println(mResult);
 			return null;
 		}
 

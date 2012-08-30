@@ -97,16 +97,11 @@ public class GroupShowActivity extends SlidingFragmentActivity {
 			toggle();
 			return true;
 		}
-		//우현 추가 코드
 		Intent intent = new Intent(this, PostPageActivity.class);
 		//intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY );
 
 		startActivity(intent);
-		//끝
         return true;
-		
-		
-		
 	}
 
 	public static class TabsAdapter extends FragmentStatePagerAdapter implements

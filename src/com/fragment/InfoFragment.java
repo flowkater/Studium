@@ -1,4 +1,5 @@
 package com.fragment;
+
 import java.util.ArrayList;
 
 import org.json.JSONException;
@@ -21,10 +22,12 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.activity.R;
 import com.adapter.GroupMemberAdapter;
+import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.model.User;
+import com.model.Users;
 import com.utils.Global;
 import com.utils.ImageDownloader;
 import com.utils.NetHelper;
@@ -52,32 +55,36 @@ public class InfoFragment extends SherlockFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		System.out.println("InfoFragment");
+
 		Intent in = getActivity().getIntent();
-		id = in.getExtras().getString("id");
+		id = in.getExtras().getString("group_id");
 		mView = inflater.inflate(R.layout.group_show_info_list, container,
 				false);
 		mArrayList = new ArrayList<User>();
 		new GetMemberList().execute();
-		mListView = (PullToRefreshListView) mView.findViewById(R.id.member_list);
+		mListView = (PullToRefreshListView) mView
+				.findViewById(R.id.member_list);
 		mListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 				mArrayList.clear();
+				System.out.println("InfoFragment");
 				new GetMemberList().execute();
 			}
 		});
+
 		mAdapter = new GroupMemberAdapter(mView.getContext(),
 				R.layout.group_show_info_list_row, mArrayList);
 
 		headerview = (RelativeLayout) inflater.inflate(
 				R.layout.group_show_info_header, null);
-		
-		group_image = (ImageView)headerview.findViewById(R.id.group_image);
-		group_name = (TextView)headerview.findViewById(R.id.group_name);
-		group_starttime = (TextView)headerview.findViewById(R.id.group_starttime);
-		group_subject = (TextView)headerview.findViewById(R.id.group_subject);
-		group_goal = (TextView)headerview.findViewById(R.id.group_goal);
-		
+
+		group_image = (ImageView) headerview.findViewById(R.id.group_image);
+		group_name = (TextView) headerview.findViewById(R.id.group_name);
+		group_starttime = (TextView) headerview
+				.findViewById(R.id.group_starttime);
+		group_subject = (TextView) headerview.findViewById(R.id.group_subject);
+		group_goal = (TextView) headerview.findViewById(R.id.group_goal);
+
 		mListView.getRefreshableView().addHeaderView(headerview);
 
 		// setAdapter must be located below addheaderview.
@@ -100,26 +107,25 @@ public class InfoFragment extends SherlockFragment implements
 			try {
 				JSONObject group = new JSONObject(mResult);
 				String image = group.getString("image");
-				if (image !=null) {
-					ImageDownloader.download(Global.ServerUrl + image, group_image);
-				}else{
+				if (image != null) {
+					ImageDownloader.download(Global.ServerUrl + image,
+							group_image);
+				} else {
 					group_image.setImageResource(R.drawable.ic_launcher);
 				}
-				
 				group_name.setText(group.getString("name"));
 				group_starttime.setText(group.getString("created_at"));
 				group_subject.setText(group.getString("subject"));
 				group_goal.setText(group.getString("goal"));
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			// Gson gson = new Gson();
-			// Groups groups = gson.fromJson(mResult, Groups.class);
-			// for (Group group : groups.getGroups()) {
-			// mArrayList.add(group);
-			// }
-			 mListView.onRefreshComplete();
+			Gson gson = new Gson();
+			Users users = gson.fromJson(mResult, Users.class);
+			for (User user : users.getUsers()) {
+				mArrayList.add(user);
+			}
+			mListView.onRefreshComplete();
 			mAdapter.notifyDataSetChanged();
 
 			super.onPostExecute(result);
@@ -128,7 +134,6 @@ public class InfoFragment extends SherlockFragment implements
 
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		// TODO Auto-generated method stub
 
 	}
 
