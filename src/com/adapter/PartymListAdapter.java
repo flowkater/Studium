@@ -2,10 +2,10 @@ package com.adapter;
 
 import java.util.ArrayList;
 
-import org.w3c.dom.Text;
-
 import com.activity.R;
 import com.model.Partymessage;
+import com.utils.Global;
+import com.utils.ImageDownloader;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -40,41 +40,43 @@ public class PartymListAdapter extends ArrayAdapter<Partymessage> {
 			convertView = mInflater.inflate(mResource, null);
 			holder = new ViewHolder();
 
-			holder.group_intro_img = (ImageView) convertView
+			holder.image = (ImageView) convertView
 					.findViewById(R.id.group_intro_img);
-			holder.group_message_body = (TextView) convertView
-					.findViewById(R.id.group_message_body);
-			holder.group_name = (TextView) convertView
+			holder.name = (TextView) convertView
 					.findViewById(R.id.group_name);
-			holder.group_goal = (TextView) convertView
+			holder.goal = (TextView) convertView
 					.findViewById(R.id.group_goal);
-			holder.group_location = (TextView) convertView
+			holder.place = (TextView) convertView
 					.findViewById(R.id.group_location);
-			holder.group_message_body = (TextView) convertView
+			holder.body = (TextView) convertView
 					.findViewById(R.id.group_message_body);
-
+//			holder.time = (TextView) convertView
+//					.findViewById(R.id.group_);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		
-		
-		holder.group_intro_img.setImageBitmap(partymessage.getGroup_img());
-		holder.group_name.setText(partymessage.getGroup_name());
-		holder.group_goal.setText(partymessage.getGroup_goal());
-		holder.group_location.setText(partymessage.getGroup_location());
-		holder.group_message_body.setText(partymessage.getBody());
-		
-		
-
+		if (partymessage != null) {
+			String image = partymessage.getImage();
+			if (image != null) {
+				ImageDownloader.download(Global.ServerUrl+image, holder.image);
+			}else {
+				holder.image.setImageResource(R.drawable.ic_launcher);
+			}
+			holder.name.setText(partymessage.getName());
+			holder.goal.setText(partymessage.getGoal());
+			holder.place.setText(partymessage.getPlace());
+			holder.body.setText(partymessage.getBody());
+		}
 		return convertView;
 	}
 
 	class ViewHolder {
-		ImageView group_intro_img;
-		TextView group_name;
-		TextView group_goal;
-		TextView group_location;
-		TextView group_message_body;
+		ImageView image;
+		TextView name;
+		TextView goal;
+		TextView place;
+		TextView body;
+		TextView time;
 	}
 }

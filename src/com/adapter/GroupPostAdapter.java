@@ -11,9 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.activity.R;
-import com.adapter.GroupMemberAdapter.ViewHolder;
 import com.model.Post;
-import com.model.User;
+import com.utils.Global;
+import com.utils.ImageDownloader;
 
 public class GroupPostAdapter extends ArrayAdapter<Post> {
 	private Context mContext;
@@ -49,22 +49,34 @@ public class GroupPostAdapter extends ArrayAdapter<Post> {
 					.findViewById(R.id.feed_content_img);
 			holder.comment_count = (TextView) convertView
 					.findViewById(R.id.comment_count);
+			holder.posting_time = (TextView) convertView
+					.findViewById(R.id.posting_time);
 
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-
-		holder.member_img.setImageBitmap(post.getMember_img());
-		if (post.getContent_img() != null) {
-			holder.feed_content_img.setImageBitmap(post.getContent_img());
+		if (post != null) {
+			String member_image = post.getMember_image();
+			String content_image = post.getContent_image();
+			if (member_image != null) {
+				ImageDownloader.download(Global.ServerUrl + member_image,
+						holder.member_img);
+			} else {
+				holder.member_img.setImageResource(R.drawable.ic_launcher);
+			}
+			if (content_image != null) {
+				ImageDownloader.download(Global.ServerUrl + content_image,
+						holder.feed_content_img);
+			} else {
+				holder.feed_content_img
+						.setImageResource(R.drawable.ic_launcher);
+			}
+			holder.post_body.setText(post.getBody());
+			holder.member_name.setText(post.getName());
+			holder.comment_count.setText(post.getComment_count());
+			holder.posting_time.setText(post.getTime());
 		}
-		holder.member_name.setText(post.getMember_name());
-		holder.post_body.setText(post.getBody());
-		holder.comment_count.setText(post.getComment_count());
-		
-//		holder.posting_time.setText(text);
-
 		return convertView;
 	}
 

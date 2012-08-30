@@ -3,8 +3,6 @@ package com.fragment;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -52,19 +50,19 @@ public class SlideMenuFragment extends SherlockListFragment implements
 		mListView = getListView();
 
 		// 임의생성
-		BitmapFactory.Options options = new BitmapFactory.Options();
-		options.inSampleSize = 4;
-		Bitmap orgImage = BitmapFactory.decodeResource(getResources(),
-				R.drawable.member_ladygaga, options);
-		Bitmap resize = Bitmap.createScaledBitmap(orgImage, 70, 70, true);
-		mArrayList.add(new Group(resize, "회화스터디", "영어회화 능력향상 ", "6", "10",
-				"미정"));
-		orgImage = BitmapFactory.decodeResource(getResources(),
-				R.drawable.member_jobs, options);
-		resize = Bitmap.createScaledBitmap(orgImage, 70, 70, true);
-		mArrayList.add(new Group(resize, "재무스터디",
-				"스터디 동안에 최소 재무관리 전 범위를 4회독 이상 목표로 하고 있습니다.", "7", "4",
-				"백기 스터디룸  "));
+//		BitmapFactory.Options options = new BitmapFactory.Options();
+//		options.inSampleSize = 4;
+//		Bitmap orgImage = BitmapFactory.decodeResource(getResources(),
+//				R.drawable.member_ladygaga, options);
+//		Bitmap resize = Bitmap.createScaledBitmap(orgImage, 70, 70, true);
+//		mArrayList.add(new Group(resize, "회화스터디", "영어회화 능력향상 ", "6", "10",
+//				"미정"));
+//		orgImage = BitmapFactory.decodeResource(getResources(),
+//				R.drawable.member_jobs, options);
+//		resize = Bitmap.createScaledBitmap(orgImage, 70, 70, true);
+//		mArrayList.add(new Group(resize, "재무스터디",
+//				"스터디 동안에 최소 재무관리 전 범위를 4회독 이상 목표로 하고 있습니다.", "7", "4",
+//				"백기 스터디룸  "));
 
 		mAdapter = new MyStudyListAdapter(getActivity(),
 				R.layout.slide_menu_mystudy_row, mArrayList);

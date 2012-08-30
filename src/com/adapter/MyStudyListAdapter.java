@@ -45,7 +45,6 @@ public class MyStudyListAdapter extends ArrayAdapter<Group> {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		holder.mystudy_img.setImageBitmap(group.getGroup_img());
 		holder.mystudy_name.setText(group.getName());
 
 		return convertView;
