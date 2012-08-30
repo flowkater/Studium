@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.activity.R;
 import com.model.User;
+import com.utils.Global;
+import com.utils.ImageDownloader;
 
 public class GroupMemberAdapter extends ArrayAdapter<User> {
 	private Context mContext;
@@ -46,9 +48,16 @@ public class GroupMemberAdapter extends ArrayAdapter<User> {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-
-		holder.member_name.setText(user.getName());
-
+		if (user!=null) {
+			String image = user.getImage();
+			if (image!=null) {
+				ImageDownloader.download(Global.ServerUrl+image, holder.member_img);
+			}else{
+				holder.member_img.setImageResource(R.drawable.ic_launcher);
+			}
+			holder.member_name.setText(user.getName());
+		}
+		
 		return convertView;
 	}
 

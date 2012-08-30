@@ -67,7 +67,7 @@ public class PostPageActivity extends SherlockActivity implements OnClickListene
 		titlebar_text = (TextView) findViewById(R.id.titlebar_text);
 		titlebar_text.setText("Post#Page");
 
-		// post ȭ��
+		// post 화占쏙옙
 		mButton = (Button) findViewById(R.id.postcreate_img_btn);
 		mPhotoImageView = (ImageView) findViewById(R.id.postcreate_img);
 
@@ -120,7 +120,6 @@ public class PostPageActivity extends SherlockActivity implements OnClickListene
 		}
 		switch (requestCode) {
 		case CROP_FROM_CAMERA: {
-			//
 			final Bundle extras = data.getExtras();
 
 			if (extras != null) {
@@ -128,7 +127,6 @@ public class PostPageActivity extends SherlockActivity implements OnClickListene
 				mPhotoImageView.setImageBitmap(photo);
 			}
 
-			// 임시 파일 삭제
 			File f = new File(mImageCaptureUri.getPath());
 			if (f.exists()) {
 				f.delete();
@@ -201,7 +199,7 @@ public class PostPageActivity extends SherlockActivity implements OnClickListene
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add("占쌉뤄옙")
+		menu.add("�좎뙃琉꾩삕")
 				.setShowAsAction(
 						MenuItem.SHOW_AS_ACTION_IF_ROOM
 								| MenuItem.SHOW_AS_ACTION_WITH_TEXT);

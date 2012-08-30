@@ -1,6 +1,7 @@
 package com.model;
 
 public class Post {
+	private String group_id;
 	private String id;
 	private String body;
 	private String posttype;
@@ -9,6 +10,14 @@ public class Post {
 	private String comment_count;
 	private String content_image;
 	private String member_image;
+	
+	public String getGroup_id() {
+		return group_id;
+	}
+
+	public void setGroup_id(String group_id) {
+		this.group_id = group_id;
+	}
 
 	public String getId() {
 		return id;

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import com.activity.R;
 import com.model.Comment;
+import com.utils.Global;
+import com.utils.ImageDownloader;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -40,15 +42,23 @@ public class PostCommentAdapter extends ArrayAdapter<Comment> {
 			holder.member_image = (ImageView)convertView.findViewById(R.id.member_img);
 			holder.comment_body = (TextView)convertView.findViewById(R.id.comment_content);
 			holder.member_name = (TextView)convertView.findViewById(R.id.member_name);
+			holder.comment_time = (TextView)convertView.findViewById(R.id.comment_time);
 			
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder)convertView.getTag();
 		}
-		
-		holder.member_image.setImageBitmap(comment.getMember_img());
-		holder.comment_body.setText(comment.getBody());
-		holder.member_name.setText(comment.getMember_name());
+		if (comment !=null) {
+			String image = comment.getImage();
+			if (image!=null) {
+				ImageDownloader.download(Global.ServerUrl+image, holder.member_image);
+			}else{
+				holder.member_image.setImageResource(R.drawable.ic_launcher);
+			}
+			holder.comment_body.setText(comment.getBody());
+			holder.member_name.setText(comment.getName());
+			holder.comment_time.setText(comment.getTime());
+		}
 		
 		return convertView;
 	}

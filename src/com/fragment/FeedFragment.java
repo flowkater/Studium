@@ -43,7 +43,7 @@ public class FeedFragment extends SherlockFragment implements
 	private int mPrevTotalItemCount = 0;
 	private Integer mCurrentPage = 1;
 	private RelativeLayout headerview;
-	private String id = "1"; // id
+	private String id; // id
 	private TextView group_name; // headerview group_name
 	private TextView group_goal; // headerview group_goal
 
@@ -93,7 +93,7 @@ public class FeedFragment extends SherlockFragment implements
 		protected Void doInBackground(Void... params) {
 			mResult = NetHelper.DownloadHtml(Global.ServerUrl + "groups/" + id
 					+ "/posts.json?page=" + mCurrentPage.toString());
-//			System.out.println(mResult);
+			// System.out.println(mResult);
 			return null;
 		}
 
@@ -156,8 +156,11 @@ public class FeedFragment extends SherlockFragment implements
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+	public void onItemClick(AdapterView<?> arg0, View v, int position, long arg3) {
+		Post post = mArrayList.get(position-2);
 		Intent in = new Intent(getActivity(), PostShowActivity.class);
+		in.putExtra("post_id", post.getId());
+		in.putExtra("group_id", post.getGroup_id());
 		startActivity(in);
 	}
 

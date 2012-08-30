@@ -1,16 +1,17 @@
 package com.model;
 
 public class User {
+	private String image;
 	private String name;
 
-	public User() {
-		// TODO Auto-generated constructor stub
+	public String getImage() {
+		return image;
 	}
-	
-	public User(String name) {
-		this.name = name;
+
+	public void setImage(String image) {
+		this.image = image;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
