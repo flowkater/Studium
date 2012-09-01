@@ -82,6 +82,4 @@ public class Post {
 	public void setComment_count(String comment_count) {
 		this.comment_count = comment_count;
 	}
-
-
 }

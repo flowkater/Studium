@@ -95,7 +95,6 @@ public class PostShowActivity extends SherlockActivity {
 
 		mListView.getRefreshableView().addHeaderView(headerview);
 		mListView.getRefreshableView().setAdapter(mAdapter);
-		mListView.getRefreshableView().setSelector(android.R.color.transparent);
 		mListView.getRefreshableView().setOnScrollListener(
 				new EndlessScrollListener());
 
@@ -113,6 +112,9 @@ public class PostShowActivity extends SherlockActivity {
 		protected void onPostExecute(Void result) {
 			try {
 				JSONObject post = new JSONObject(mResult);
+				member_name.setText(post.getString("name"));
+				create_time.setText(post.getString("created_at"));
+				post_body.setText(post.getString("body"));
 				String image = post.getString("image");
 				if (image != null) {
 					ImageDownloader.download(Global.ServerUrl + image,
@@ -120,9 +122,6 @@ public class PostShowActivity extends SherlockActivity {
 				} else {
 					member_img.setImageResource(R.drawable.ic_launcher);
 				}
-				member_name.setText(post.getString("name"));
-				create_time.setText(post.getString("created_at"));
-				post_body.setText(post.getString("body"));
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}

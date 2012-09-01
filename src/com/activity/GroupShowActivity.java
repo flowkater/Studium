@@ -23,16 +23,20 @@ import com.fragment.StepFragment;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
 public class GroupShowActivity extends SlidingFragmentActivity {
-	ViewPager mViewPager;
-	TabsAdapter mTabsAdapter;
-	TextView titlebar_text;
-	TextView tabCenter;
-	TextView tabText;
+	private ViewPager mViewPager;
+	private TabsAdapter mTabsAdapter;
+	private TextView titlebar_text;
+	private TextView tabCenter;
+	private TextView tabText;
+	private String group_id;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
+		Intent in = getIntent();
+		group_id = in.getExtras().getString("group_id");
+		
 		mViewPager = new ViewPager(this);
 		mViewPager.setId(R.id.pager);
 		mViewPager.setBackgroundResource(R.drawable.pattern_bitmap);
@@ -94,6 +98,7 @@ public class GroupShowActivity extends SlidingFragmentActivity {
 			return true;
 		}
 		Intent intent = new Intent(this, PostPageActivity.class);
+		intent.putExtra("group_id", group_id);
 		//intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY );
 
 		startActivity(intent);

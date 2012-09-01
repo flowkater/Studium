@@ -1,19 +1,33 @@
 package com.fragment;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.AdapterView.OnItemClickListener;
@@ -40,12 +54,16 @@ public class InfoFragment extends SherlockFragment implements
 	private PullToRefreshListView mListView;
 	private String mResult;
 	private RelativeLayout headerview;
+	private LinearLayout footerview;
 	private String id;
 	private ImageView group_image;
 	private TextView group_name;
 	private TextView group_starttime;
 	private TextView group_subject;
 	private TextView group_goal;
+	private Button JoinButton;
+	private SharedPreferences mPreferences;
+	private String auth_token;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -55,6 +73,9 @@ public class InfoFragment extends SherlockFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		
+		mPreferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
+		auth_token = mPreferences.getString("AuthToken", "");
 
 		Intent in = getActivity().getIntent();
 		id = in.getExtras().getString("group_id");
@@ -77,6 +98,8 @@ public class InfoFragment extends SherlockFragment implements
 
 		headerview = (RelativeLayout) inflater.inflate(
 				R.layout.group_show_info_header, null);
+		footerview = (LinearLayout) inflater.inflate(
+				R.layout.group_show_info_footer, null);
 
 		group_image = (ImageView) headerview.findViewById(R.id.group_image);
 		group_name = (TextView) headerview.findViewById(R.id.group_name);
@@ -85,12 +108,25 @@ public class InfoFragment extends SherlockFragment implements
 		group_subject = (TextView) headerview.findViewById(R.id.group_subject);
 		group_goal = (TextView) headerview.findViewById(R.id.group_goal);
 
+		JoinButton = (Button) footerview.findViewById(R.id.join_button);
+
 		mListView.getRefreshableView().addHeaderView(headerview);
+		mListView.getRefreshableView().addFooterView(footerview);
+
+		JoinButton.setOnClickListener(new JoinClickListener());
 
 		// setAdapter must be located below addheaderview.
 		mListView.getRefreshableView().setAdapter(mAdapter);
 		mListView.getRefreshableView().setOnItemClickListener(this);
 		return mView;
+	}
+
+	class JoinClickListener implements OnClickListener {
+		@Override
+		public void onClick(View v) {
+			System.out.println("Join");
+			new Membershipscreate().execute();
+		}
 	}
 
 	private class GetMemberList extends AsyncTask<Void, Void, Void> {
@@ -106,6 +142,10 @@ public class InfoFragment extends SherlockFragment implements
 		protected void onPostExecute(Void result) {
 			try {
 				JSONObject group = new JSONObject(mResult);
+				group_name.setText(group.getString("name"));
+				group_starttime.setText(group.getString("created_at"));
+				group_subject.setText(group.getString("subject"));
+				group_goal.setText(group.getString("goal"));
 				String image = group.getString("image");
 				if (image != null) {
 					ImageDownloader.download(Global.ServerUrl + image,
@@ -113,21 +153,62 @@ public class InfoFragment extends SherlockFragment implements
 				} else {
 					group_image.setImageResource(R.drawable.ic_launcher);
 				}
-				group_name.setText(group.getString("name"));
-				group_starttime.setText(group.getString("created_at"));
-				group_subject.setText(group.getString("subject"));
-				group_goal.setText(group.getString("goal"));
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 			Gson gson = new Gson();
 			Users users = gson.fromJson(mResult, Users.class);
 			for (User user : users.getUsers()) {
-				mArrayList.add(user);
+				if (!user.getName().equals(""))
+					mArrayList.add(user);
 			}
 			mListView.onRefreshComplete();
 			mAdapter.notifyDataSetChanged();
 
+			super.onPostExecute(result);
+		}
+	}
+
+	private class Membershipscreate extends AsyncTask<Void, Void, Void> {
+		@Override
+		protected Void doInBackground(Void... params) {
+			try {
+				HttpClient httpClient = new DefaultHttpClient();
+				HttpPost postRequest = new HttpPost(
+						Global.ServerUrl+"memberships?auth_token="
+								+ auth_token);
+				MultipartEntity reqEntity = new MultipartEntity(
+						HttpMultipartMode.BROWSER_COMPATIBLE);
+
+				reqEntity.addPart("membership[group_id]",new StringBody(id));
+//				reqEntity.addPart("group[goal]", new StringBody(
+//						"SAT 2400 scroe!!!"));
+//				reqEntity.addPart("group[subject]", new StringBody("SAT 유학"));
+//				reqEntity.addPart("group[place]", new StringBody("미쿡"));
+//				reqEntity.addPart("group[name]", new StringBody("SAT 완전정복"));
+//				reqEntity.addPart("group[introduce]", new StringBody(
+//						"안녕하세요. 우린 미쿰 SAT 준비하는 사람들입니다."));
+				postRequest.setEntity(reqEntity);
+				HttpResponse response = httpClient.execute(postRequest);
+
+				BufferedReader reader = new BufferedReader(
+						new InputStreamReader(
+								response.getEntity().getContent(), "UTF-8"));
+				String sResponse;
+				StringBuilder s = new StringBuilder();
+
+				while ((sResponse = reader.readLine()) != null) {
+					s = s.append(sResponse);
+				}
+				Log.e("my", "Response : " + s);
+			} catch (Exception e) {
+				Log.e("my", e.getClass().getName() + e.getMessage());
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 		}
 	}

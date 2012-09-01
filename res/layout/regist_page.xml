@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/setting_personal_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TableLayout
+        android:id="@+id/regist_page_table"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TableRow
+            android:id="@+id/member_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10.0dp" >
+
+            <TextView
+                android:id="@+id/member_name_text"
+                android:drawablePadding="10.0dp"
+                android:text="이름"
+                android:textSize="15.0sp" />
+
+            <EditText
+                android:id="@+id/member_name_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10" >
+            </EditText>
+        </TableRow>
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1.0dp"
+            android:layout_marginRight="1.0dp" />
+
+        <TableRow
+            android:id="@+id/member_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10.0dp" >
+
+            <TextView
+                android:id="@+id/member_id_text"
+                android:drawablePadding="10.0dp"
+                android:text="ID"
+                android:textSize="15.0sp" />
+
+            <EditText
+                android:id="@+id/member_id_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10" >
+            </EditText>
+        </TableRow>
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1.0dp"
+            android:layout_marginRight="1.0dp" />
+
+        <TableRow
+            android:id="@+id/member_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10.0dip" >
+
+            <TextView
+                android:id="@+id/member_password_text"
+                android:drawablePadding="10.0dp"
+                android:text="비밀번호"
+                android:textSize="15.0sp" />
+
+            <EditText
+                android:id="@+id/member_password_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPassword" >
+            </EditText>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/member_phone_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10.0dip" >
+
+            <TextView
+                android:id="@+id/member_phone_num_text"
+                android:drawablePadding="10.0dp"
+                android:text="핸드폰 번호"
+                android:textSize="15.0sp" />
+
+            <EditText
+                android:id="@+id/member_phone_num_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="phone" >
+            </EditText>
+        </TableRow>
+    </TableLayout>
+
+    <ImageView
+        android:id="@+id/member_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/regist_page_table"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:src="@android:drawable/spinner_background" />
+
+    <Button
+        android:id="@+id/regist_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/member_img"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="가입하기" />
+
+</RelativeLayout>
