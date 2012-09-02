@@ -7,31 +7,26 @@ package com.model;
  * @since 2011.03.08
  */
 public class DayInfo {
-	private String day;
+	private String date;
+	private int day;
 	private boolean inMonth;
 	private String month;
 	private String year;
 	private int bg_color;
 	private int Post_num;
+	private boolean party;
 
 	/**
 	 * 날짜를 반환한다.
 	 * 
 	 * @return day 날짜
 	 */
-	public String getDay() {
-		return day;
-	}
-
 	/**
 	 * 날짜를 저장한다.
 	 * 
 	 * @param day
 	 *            날짜
 	 */
-	public void setDay(String day) {
-		this.day = day;
-	}
 
 	/**
 	 * 이번달의 날짜인지 정보를 반환한다.
@@ -96,6 +91,30 @@ public class DayInfo {
 
 	public void setPost_num(int post_num) {
 		this.Post_num = post_num;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public int getDay() {
+		return day;
+	}
+
+	public void setDay(int day) {
+		this.day = day;
+	}
+
+	public boolean isParty() {
+		return party;
+	}
+
+	public void setParty(boolean party) {
+		this.party = party;
 	}
 
 }

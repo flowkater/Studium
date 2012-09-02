@@ -24,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -32,17 +33,28 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.activity.R;
 import com.adapter.CalendarAdapter;
 import com.model.DayInfo;
+import com.model.Party;
 import com.model.Post;
 import com.utils.SunUtil;
 
 public class StepFragment extends SherlockFragment implements
 OnItemClickListener, OnClickListener {
 	
+	public Party party = new Party("우현-"+"병철-"+"재우", "2300", "광화문 올레스퀘어 2층", "1100", "서버구축-우현이 패기-똥싸기", "0", "2012-9-1");  
+	private String userParty [] = new String [10];
+	private Boolean useruser = false;
+	private String partystring[] = {party.getMember_name(), party.getPartying_time(), party.getLocation(), party.getTime(), party.getTodolist(), party.getComment_count(), party.getDate()};
 	
 	
-	private static final int PICK_FROM_CAMERA = 0;
-	private static final int PICK_FROM_ALBUM = 1;
-	private static final int CROP_FROM_CAMERA = 2;
+	private int WhenDoyougoToStudy []= new int [8];
+	public static int PARTY_MEMBER = 0;
+	public static int PARTYING_TIME = 1;
+	public static int LOCATION = 2;
+	public static int TIME = 3;
+	public static int TODOLIST = 4;
+	public static int COMMENT_COUNT = 5;
+	public static int DATE = 6;
+	
 	
 	private View mView;
 	public static int SUNDAY = 1;
@@ -69,6 +81,7 @@ OnItemClickListener, OnClickListener {
 	DayInfo update;
 	int isUpdate;
 
+	
 	String[][] temp;
 
 	ListView mPostListView;
@@ -84,7 +97,10 @@ OnItemClickListener, OnClickListener {
 			Bundle savedInstanceState) {
 		mView = inflater.inflate(R.layout.step_calender, container,
 				false);
-		
+		WhenDoyougoToStudy[MONDAY]=1;
+		WhenDoyougoToStudy[WEDNSESDAY]=1;
+		WhenDoyougoToStudy[FRIDAY]=1;
+
 		
 		Button bLastMonth = (Button) mView.findViewById(R.id.gv_calendar_activity_b_last);
 		Button bNextMonth = (Button) mView.findViewById(R.id.gv_calendar_activity_b_next);
@@ -106,6 +122,10 @@ OnItemClickListener, OnClickListener {
 
 				mThisMonthCalendar = Calendar.getInstance();
 				mThisMonthCalendar.set(Calendar.DAY_OF_MONTH, 1);
+				
+				//mPostList.add(object);
+				
+				
 				//洹몃━��遺�텇
 				getCalendar(mThisMonthCalendar);
 		
@@ -198,21 +218,33 @@ OnItemClickListener, OnClickListener {
 //			
 //			}
 //		}
+		int lastmonthdays=0;
 		
 		for(int i=0; i<dayOfMonth-1; i++)
 		{
 			
+			lastmonthdays++;
 			int date = lastMonthStartDay+i;
 			
 			day = new DayInfo();
-			day.setDay(Integer.toString(date));
+			day.setDate(Integer.toString(date));
+			
+			int showday=i;
+			
+			if(i>6)
+			{
+				showday=(i%7);
+			}
+			day.setDay(showday);
+			
+			
 			day.setInMonth(false);
 			day.setMonth(mThisMonthCalendar.get(Calendar.MONTH)+"");
 			day.setYear(mThisMonthCalendar.get(Calendar.YEAR)+"");
 			
 			
 			
-			if(isUpdate==1 && Integer.parseInt(getActivity().getIntent().getStringExtra("date"))==Integer.parseInt(day.getDay())
+			if(isUpdate==1 && Integer.parseInt(getActivity().getIntent().getStringExtra("date"))==Integer.parseInt(day.getDate())
 					&& Integer.parseInt(getActivity().getIntent().getStringExtra("month"))==Integer.parseInt(day.getMonth()) 
 					&& Integer.parseInt(getActivity().getIntent().getStringExtra("year"))==Integer.parseInt(day.getYear()))
 			{
@@ -245,18 +277,50 @@ OnItemClickListener, OnClickListener {
 			mDayList.add(day);
 		}
 		System.out.println("this create");
+		
+		/* user party parsing */
+		userParty[0] = party.getDate();
+		String delims = "-";
+		String[] userPartydates = userParty[0].split(delims);
 
 		for(int i=1; i <= thisMonthLastDay; i++)
 		{
 			
 //			System.out.println(index+ "temp    = "+temp[index][2]);
-			day = new DayInfo();
-			day.setDay(Integer.toString(i));
+			day = new DayInfo();day.setDate(Integer.toString(i));
+			int showday=i;
+			
+			if(i>6)
+			{
+				showday=(i%7);
+			}
+			day.setDay(showday);
+			
 			day.setInMonth(true);
 			day.setMonth((mThisMonthCalendar.get(Calendar.MONTH)+1)+"");
 			day.setYear(mThisMonthCalendar.get(Calendar.YEAR)+"");
 			
-			if(isUpdate==1 && Integer.parseInt(getActivity().getIntent().getStringExtra("date"))==Integer.parseInt(day.getDay())
+			int WhatisthedayToday=(day.getDay()+lastmonthdays%7)%7;
+;
+			
+			if(WhenDoyougoToStudy[WhatisthedayToday]==1)
+			{
+				day.setParty(true);
+				
+			}
+			
+			//user party check
+			if( Integer.parseInt(userPartydates[2])==Integer.parseInt(day.getDate())
+					&& Integer.parseInt(userPartydates[1])==Integer.parseInt(day.getMonth()) 
+					&& Integer.parseInt(userPartydates[0])==Integer.parseInt(day.getYear()))
+			{
+				day.setParty(true);
+				useruser=true;
+			
+			}
+			
+			
+			if(isUpdate==1 && Integer.parseInt(getActivity().getIntent().getStringExtra("date"))==Integer.parseInt(day.getDate())
 					&& Integer.parseInt(getActivity().getIntent().getStringExtra("month"))==Integer.parseInt(day.getMonth()) 
 					&& Integer.parseInt(getActivity().getIntent().getStringExtra("year"))==Integer.parseInt(day.getYear()))
 			{
@@ -289,13 +353,21 @@ OnItemClickListener, OnClickListener {
 		for(int i=1; i<42-(thisMonthLastDay+dayOfMonth-1)+1; i++)
 		{
 			day = new DayInfo();
-			day.setDay(Integer.toString(i));
+			day.setDate(Integer.toString(i));
+			
+			int showday=i;
+			
+			if(i>6)
+			{
+				showday=(i%7);
+			}
+			day.setDay(showday);
 			day.setInMonth(false);
 			day.setMonth((mThisMonthCalendar.get(Calendar.MONTH)+2)+"");
 			day.setYear(mThisMonthCalendar.get(Calendar.YEAR)+"");
 			
 	
-			if(isUpdate==1 && Integer.parseInt(getActivity().getIntent().getStringExtra("date"))==Integer.parseInt(day.getDay())
+			if(isUpdate==1 && Integer.parseInt(getActivity().getIntent().getStringExtra("date"))==Integer.parseInt(day.getDate())
 					&& Integer.parseInt(getActivity().getIntent().getStringExtra("month"))==Integer.parseInt(day.getMonth()) 
 					&& Integer.parseInt(getActivity().getIntent().getStringExtra("year"))==Integer.parseInt(day.getYear()))
 			{
@@ -358,31 +430,21 @@ OnItemClickListener, OnClickListener {
 			long arg3) {
 
 		daycl = mDayList.get(position);
-		System.out.println(daycl.getDay() + "                fuck");
-		System.out.println(daycl.getMonth() + "                you");
-		System.out.println(daycl.getYear() + "                LOVE");
-
+		
 		Bundle extras = new Bundle();
-		extras.putString("date", daycl.getDay());
+		extras.putString("date", daycl.getDate());
 		extras.putString("month", daycl.getMonth());
 		extras.putString("year", daycl.getYear());
-		System.out.println(daycl.getDay() + "                fuck");
-		System.out.println(daycl.getMonth() + "                you");
-		System.out.println(daycl.getYear() + "                LOVE");
-
+		extras.putBoolean("isParty", daycl.isParty());
+		if(daycl.isParty()==true && useruser == true)
+			extras.putStringArray("party", partystring);
+		
 		Intent intent = new Intent(getActivity(), calendardialog.class);
 		intent.putExtras(extras);
 
-		System.out.println(daycl.getDay() + "                fuck");
-		System.out.println(daycl.getMonth() + "                you");
-		System.out.println(daycl.getYear() + "                LOVE");
-
 		startActivity(intent);
 
-		System.out.println(daycl.getDay() + "                fuck");
-		System.out.println(daycl.getMonth() + "                you");
-		System.out.println(daycl.getYear() + "                LOVE");
-
+		
 	}
 
 	@Override

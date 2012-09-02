@@ -9,9 +9,7 @@ import java.util.ArrayList;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.StringBody;
+
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.app.AlertDialog;
@@ -20,6 +18,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -68,6 +67,12 @@ public class PostPageActivity extends SherlockActivity implements
 	private String auth_token;
 
 	private Bitmap bm;
+	
+	Bitmap[] image = new Bitmap[6];
+	AlertDialog mDialog;
+	int current_position = 0;
+	int sampled=0;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -290,6 +295,51 @@ public class PostPageActivity extends SherlockActivity implements
 		startActivity(intent);
 
 		return true;
+	}
+	
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		Log.i("doTake", "onSaveInstanceState");
+
+		int[] imgFlag = new int[image.length];
+		//Flag initialize		
+		for (int i = 0; i < imgFlag.length; i++) {
+			imgFlag[i] = 0;
+		}
+		
+		for (int i = 0; i < image.length; i++) {
+			if(image[i] != null){
+				imgFlag[i] = 1;
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				image[i].compress(Bitmap.CompressFormat.JPEG, 80, baos);
+				outState.putByteArray("Bitmap"+i, baos.toByteArray());
+			}
+			outState.putInt("img"+i, imgFlag[i]);
+		}
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		Log.i("doTake", "onRestoreInstanceState");
+
+		int[] imgFlag = new int[image.length];
+		for (int i = 0; i < image.length; i++) {
+			imgFlag[i] = savedInstanceState.getInt("img"+i);
+			if(imgFlag[i]==1){
+				byte[] b = savedInstanceState.getByteArray("Bitmap"+i);
+
+					image[i] = BitmapFactory.decodeByteArray(b, 0, b.length);
+
+				
+			} 
+		}
+		
+		
+		
+		mPhotoImageView.setImageBitmap(image[current_position]);
+		super.onRestoreInstanceState(savedInstanceState);
 	}
 
 }

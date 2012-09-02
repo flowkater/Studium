@@ -96,13 +96,10 @@ public class CalendarAdapter extends BaseAdapter
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-
 		DayInfo day = mDayList.get(position);
-
 
 		DayViewHolde dayViewHolder;
 
-		
 		if(convertView == null)
 		{
 			convertView = mLiInflater.inflate(mResource, null);
@@ -119,7 +116,7 @@ public class CalendarAdapter extends BaseAdapter
 			
 			dayViewHolder = new DayViewHolde();
 
-			dayViewHolder.llBackground = (RelativeLayout)convertView.findViewById(R.id.day_cell_ll_background);
+			dayViewHolder.llBackground = (LinearLayout)convertView.findViewById(R.id.day_cell_ll_background);
 			dayViewHolder.tvDay = (TextView) convertView.findViewById(R.id.day_cell_tv_day);
 			TextView feed_num =(TextView) convertView.findViewById(R.id.number_of_feed);
 			
@@ -135,7 +132,7 @@ public class CalendarAdapter extends BaseAdapter
 
 		if(day != null)
 		{
-			dayViewHolder.tvDay.setText(day.getDate());
+		dayViewHolder.tvDay.setText(day.getDate());
 
 			if(day.isInMonth())
 			{
@@ -170,7 +167,7 @@ public class CalendarAdapter extends BaseAdapter
 
 	public class DayViewHolde
 	{
-		public RelativeLayout llBackground;
+		public LinearLayout llBackground;
 		public TextView tvDay;
 		
 	}
