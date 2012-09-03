@@ -29,67 +29,81 @@ public class LoginActivity extends SherlockActivity {
 	private SharedPreferences mPreferences;
 	private Button signin;
 	private TextView regist;
+	EditText mEmailField;
+	EditText mPasswordField;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getSupportActionBar().hide();
-		
+
 		setContentView(R.layout.login_page);
 
 		mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE); // SharedPreference
 																			// Load
-		
-		regist = (TextView)findViewById(R.id.login_join_button);
+		mEmailField = (EditText) findViewById(R.id.login_id_edit_text);
+		mPasswordField = (EditText) findViewById(R.id.login_pw_edit_text);
+		regist = (TextView) findViewById(R.id.login_join_button);
 		regist.setOnClickListener(new RegistClickListener());
 
-		if (!checkLoginInfo()) { // don't exist user			
-			signin = (Button) findViewById(R.id.login_btn);
-			signin.setOnClickListener(new OnClickListener() {
-				public void onClick(View v) {
-					showDialog(0); //when user click, show dialog
-					t = new Thread() { // Thread
-						public void run() {
-							try {
-								authenticate();
-							} catch (ClientProtocolException e) {
-								e.printStackTrace();
-							} catch (IOException e) {
-								e.printStackTrace();
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						}
-					};
-					t.start();
-				}
-			});
-		} else {
-			Toast.makeText(getApplicationContext(), "Login State!",
-					Toast.LENGTH_LONG).show();
-			/*
-			 * Directly opens the Welcome page, if the username and password is
-			 * already available in the SharedPreferences
-			 */
+		if (getIntent().getStringExtra("email") != null) {
+			
+			
+			mEmailField.setText(getIntent().getStringExtra("email"));
+			mPasswordField.setText(getIntent().getStringExtra("password"));
+			
 
-			// Trying to minimize the number of screens
-			// Intent intent = new Intent(this, MainMenuActivity.class);
-			// startActivity(intent);
-			// finish();
+		} 
+
+			if (!checkLoginInfo()) { // don't exist user
+				signin = (Button) findViewById(R.id.login_btn);
+				signin.setOnClickListener(new OnClickListener() {
+					public void onClick(View v) {
+						showDialog(0); // when user click, show dialog
+						t = new Thread() { // Thread
+							public void run() {
+								try {
+									authenticate();
+								} catch (ClientProtocolException e) {
+									e.printStackTrace();
+								} catch (IOException e) {
+									e.printStackTrace();
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							}
+						};
+						t.start();
+					}
+				});
+			} else {
+				Toast.makeText(getApplicationContext(), "Login State!",
+						Toast.LENGTH_LONG).show();
+				/*
+				 * Directly opens the Welcome page, if the username and password
+				 * is already available in the SharedPreferences
+				 */
+
+				// Trying to minimize the number of screens
+				Intent intent = new Intent(this, GroupIndexActivity.class);
+				startActivity(intent);
+				finish();
+			}
 		}
-	}
 	
-	class RegistClickListener implements OnClickListener{
+
+	class RegistClickListener implements OnClickListener {
 		@Override
 		public void onClick(View v) {
-			Intent in = new Intent(getApplicationContext(),RegisterActivity.class);
+			Intent in = new Intent(getApplicationContext(),
+					RegisterActivity.class);
 			startActivity(in);
 		}
 	}
 
 	@Override
-	protected Dialog onCreateDialog(int id) { //Dialog preference
+	protected Dialog onCreateDialog(int id) { // Dialog preference
 		switch (id) {
 		case 0: {
 			mProgressDialog = new ProgressDialog(this);
@@ -105,7 +119,8 @@ public class LoginActivity extends SherlockActivity {
 	private void authenticate() throws ClientProtocolException, IOException {
 		try {
 			String pin = "";
-			HashMap<String, String> sessionTokens = signIn(); // Login method call
+			HashMap<String, String> sessionTokens = signIn(); // Login method
+																// call
 
 		} catch (Exception e) {
 			// Intent intent = new Intent(getApplicationContext(),
@@ -133,6 +148,12 @@ public class LoginActivity extends SherlockActivity {
 				// finish();
 				Toast.makeText(getApplicationContext(),
 						"Authenticate SUCCESS!", Toast.LENGTH_LONG).show();
+
+				Intent intent = new Intent(LoginActivity.this,
+						GroupIndexActivity.class);
+				startActivity(intent);
+				finish();
+
 			}
 		}
 	};
@@ -141,8 +162,8 @@ public class LoginActivity extends SherlockActivity {
 
 		HashMap<String, String> sessionTokens = null;
 
-		EditText mEmailField = (EditText) findViewById(R.id.login_id_edit_text);
-		EditText mPasswordField = (EditText) findViewById(R.id.login_pw_edit_text);
+		 mEmailField = (EditText) findViewById(R.id.login_id_edit_text);
+		 mPasswordField = (EditText) findViewById(R.id.login_pw_edit_text);
 
 		String email = mEmailField.getText().toString();
 		String password = mPasswordField.getText().toString();

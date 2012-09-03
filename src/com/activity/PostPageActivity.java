@@ -63,8 +63,9 @@ public class PostPageActivity extends SherlockActivity implements
 	private String auth_token;
 
 	private Bitmap bm;
+	private Bitmap resized;
 
-	Bitmap[] image = new Bitmap[6];
+	Bitmap image;
 	AlertDialog mDialog;
 	int current_position = 0;
 	int sampled = 0;
@@ -183,38 +184,6 @@ public class PostPageActivity extends SherlockActivity implements
 
 		startActivityForResult(intent, PICK_FROM_CAMERA);
 		// setDismiss(mDialog);
-
-	}
-
-	private AlertDialog createDialog() {
-		final View innerView = getLayoutInflater().inflate(
-				R.layout.image_crop_row, null);
-		Button camera = (Button) innerView.findViewById(R.id.btn_camera_crop);
-		Button gellary = (Button) innerView.findViewById(R.id.btn_gellary_crop);
-		camera.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				doTakePhotoAction();
-				// setDismiss(mDialog);
-			}
-
-		});
-		gellary.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				doTakeAlbumAction();
-				// setDismiss(mDialog);
-			}
-
-		});
-		AlertDialog.Builder ab = new AlertDialog.Builder(PostPageActivity.this);
-		ab.setTitle("Camera");
-		ab.setView(innerView);
-		return ab.create();
-	}
-
-	private void setDismiss(AlertDialog dialog) {
-		if (dialog != null && dialog.isShowing()) {
-			dialog.dismiss();
-		}
 	}
 
 	/**
@@ -229,55 +198,100 @@ public class PostPageActivity extends SherlockActivity implements
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode != RESULT_OK) {
-			return;
-		}
-		switch (requestCode) {
-		case CROP_FROM_CAMERA: {
-			image[current_position] = (Bitmap) data.getExtras().get("data");
-			break;
-		}
-
-		case PICK_FROM_ALBUM: {
-			if (data.getData() != null) {
-				Log.i("TEST", "data.getData()!=null");
-
-				Cursor c = getContentResolver()
-						.query(Uri.parse(data.getDataString()), null, null,
-								null, null);
-				c.moveToNext();
-				String image_url = c.getString(c
-						.getColumnIndex(MediaStore.MediaColumns.DATA));
-				image[current_position] = BitmapFactory.decodeFile(image_url);
+		if (resultCode == RESULT_OK) {
+			switch (requestCode) {
+			case CROP_FROM_CAMERA: {
+				image = (Bitmap) data.getExtras().get("data");
+				break;
 			}
-			mPhotoImageView.setImageBitmap(image[current_position]);
-			break;
 
-		}
+			case PICK_FROM_ALBUM: {
+				System.out.println("intent data : " + data.getData());
+				if (data.getData() != null) {
+					System.out.println("data.getData()!=null");
+					
 
-		case PICK_FROM_CAMERA: {
-			System.out.println("Fffffffffff");
+					Cursor c = getContentResolver().query(
+							Uri.parse(data.getDataString()), null, null, null,
+							null);
+					c.moveToNext();
+					String image_url = c.getString(c
+							.getColumnIndex(MediaStore.MediaColumns.DATA));
+					image = BitmapFactory.decodeFile(image_url);
+					resized = resizeBitmapImage(image, 500);
+					mPhotoImageView.setImageBitmap(resized);
+					
+					//recycle
+//					image.recycle();
+//					image = null; 
+//					((BitmapDrawable)mPhotoImageView.getDrawable()).getBitmap().recycle();
 
-			mPhotoImageView.setImageURI(mImageCaptureUri);
-			// Intent intent = new Intent("com.android.camera.action.CROP");
-			// intent.setDataAndType(mImageCaptureUri, "image/*");
-			//
-			// intent.putExtra("outputX", 320);
-			// intent.putExtra("outputY", 480);
-			// intent.putExtra("aspectX", 1);
-			// intent.putExtra("aspectY", 1.5);
-			// intent.putExtra("scale", true);
-			// intent.putExtra("return-data", true);
-			// startActivityForResult(intent, CROP_FROM_CAMERA);
+				}
+				break;
 
-			image[current_position] = (Bitmap) data.getExtras().get("data");
+			}
 
-			mPhotoImageView.setImageBitmap(image[current_position]);
+			case PICK_FROM_CAMERA: {
+				System.out.println("Fffffffffff");
 
-			break;
-		}
+				// mPhotoImageView.setImageURI(mImageCaptureUri);
+				// Intent intent = new Intent("com.android.camera.action.CROP");
+				// intent.setDataAndType(mImageCaptureUri, "image/*");
+				//
+				// intent.putExtra("outputX", 320);
+				// intent.putExtra("outputY", 480);
+				// intent.putExtra("aspectX", 1);
+				// intent.putExtra("aspectY", 1.5);
+				// intent.putExtra("scale", true);
+				// intent.putExtra("return-data", true);
+				// startActivityForResult(intent, CROP_FROM_CAMERA);
+
+				image = (Bitmap) data.getExtras().get("data");
+
+				mPhotoImageView.setImageBitmap(image);
+
+				break;
+			}
+			}
 		}
 	}
+	
+
+
+public Bitmap resizeBitmapImage(Bitmap source, int maxResolution)
+{
+        int width = source.getWidth();
+        int height = source.getHeight();
+        int newWidth = width;
+        int newHeight = height;
+        float rate = 0.0f;
+        
+        if(width > height)
+        {
+                if(maxResolution < width)
+                {
+                        rate = maxResolution / (float) width;
+                        newHeight = (int) (height * rate);
+                        newWidth = maxResolution;
+                }
+        }
+        else
+        {
+                if(maxResolution < height)
+                {
+                        rate = maxResolution / (float) height;
+                        newWidth = (int) (width * rate);
+                        newHeight = maxResolution;
+                }
+        }
+        
+     
+        
+        
+        return Bitmap.createScaledBitmap(source,  newWidth, newHeight, true);
+}
+
+
 
 	@Override
 	public void onClick(View v) {
@@ -324,30 +338,29 @@ public class PostPageActivity extends SherlockActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// This uses the imported MenuItem from ActionBarSherlock
 		post_string = post_body.getText().toString();
-		if (image[current_position] != null) {
-			bm = image[current_position];
+		if (image != null) {
+			bm = image;
 		}
 		new Postcreate().execute();
 
 		finish();
 		return true;
 	}
-
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		Log.i("doTake", "onSaveInstanceState");
 
-		int[] imgFlag = new int[image.length];
+		int[] imgFlag = new int[1];
 		// Flag initialize
 		for (int i = 0; i < imgFlag.length; i++) {
 			imgFlag[i] = 0;
 		}
 
-		for (int i = 0; i < image.length; i++) {
-			if (image[i] != null) {
+		for (int i = 0; i < 1; i++) {
+			if (resized != null) {
 				imgFlag[i] = 1;
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				image[i].compress(Bitmap.CompressFormat.JPEG, 80, baos);
+				resized.compress(Bitmap.CompressFormat.JPEG, 80, baos);
 				outState.putByteArray("Bitmap" + i, baos.toByteArray());
 			}
 			outState.putInt("img" + i, imgFlag[i]);
@@ -359,18 +372,18 @@ public class PostPageActivity extends SherlockActivity implements
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		Log.i("doTake", "onRestoreInstanceState");
 
-		int[] imgFlag = new int[image.length];
-		for (int i = 0; i < image.length; i++) {
+		int[] imgFlag = new int[1];
+		for (int i = 0; i <1; i++) {
 			imgFlag[i] = savedInstanceState.getInt("img" + i);
 			if (imgFlag[i] == 1) {
 				byte[] b = savedInstanceState.getByteArray("Bitmap" + i);
 
-				image[i] = BitmapFactory.decodeByteArray(b, 0, b.length);
+				resized = BitmapFactory.decodeByteArray(b, 0, b.length);
 
 			}
 		}
 
-		mPhotoImageView.setImageBitmap(image[current_position]);
+		mPhotoImageView.setImageBitmap(resized);
 		super.onRestoreInstanceState(savedInstanceState);
 	}
 

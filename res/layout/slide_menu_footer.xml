@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:clickable="false"
   >
 
     <ImageView
@@ -35,6 +36,7 @@
         android:layout_below="@+id/preference_and_logout" >
 
         <TableLayout
+            android:clickable="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
