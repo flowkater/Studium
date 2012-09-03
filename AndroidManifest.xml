@@ -33,6 +33,9 @@
             android:label="@string/title_activity_group_index" >
         </activity>
         <activity android:name="PostPageActivity"></activity>
+        <activity android:name="LoginActivity"></activity>
+        <activity android:name="RegisterActivity"></activity>
+        <activity android:name="GroupCreateActivity"></activity>
         <activity android:name="me.croute.calendarexample.activity.calendardialog"></activity>
     </application>
 
