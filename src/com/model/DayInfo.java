@@ -101,6 +101,7 @@ public class DayInfo {
 		this.date = date;
 	}
 
+
 	public int getDay() {
 		return day;
 	}
