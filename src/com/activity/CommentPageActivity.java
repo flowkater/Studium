@@ -1,35 +1,19 @@
 package com.activity;
 
-import java.util.ArrayList;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.adapter.PostCommentAdapter;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.model.Comment;
 
 public class CommentPageActivity extends SherlockActivity {
-	private ArrayList<Comment> mArrayList;
-	private PostCommentAdapter mAdapter;
-	private PullToRefreshListView mListView;
-	private LinearLayout headerview;
-	private TextView post_body;
 	TextView titlebar_text;
 	EditText comment_et;
 	String comment_string;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,15 +35,13 @@ public class CommentPageActivity extends SherlockActivity {
 
 		comment_et = (EditText) findViewById(R.id.post_string);
 
-
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add("입력")
-				.setShowAsAction(
-						MenuItem.SHOW_AS_ACTION_IF_ROOM
-								| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		menu.add("입력").setShowAsAction(
+				MenuItem.SHOW_AS_ACTION_IF_ROOM
+						| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -68,7 +50,7 @@ public class CommentPageActivity extends SherlockActivity {
 		// This uses the imported MenuItem from ActionBarSherlock
 
 		Intent intent = new Intent(this, PostShowActivity.class);
-		 comment_string = comment_et.getText().toString();
+		comment_string = comment_et.getText().toString();
 		Bundle extras = new Bundle();
 		extras.putString("comment_string", comment_string);
 		intent.putExtras(extras);
