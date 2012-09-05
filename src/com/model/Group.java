@@ -9,9 +9,14 @@ public class Group {
 	private String post_count;
 	private String user_count;
 	private String image;
+	private String role;
 	
-	
-	
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
 	public String getId() {
 		return id;
 	}

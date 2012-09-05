@@ -3,6 +3,15 @@ package com.model;
 public class User {
 	private String image;
 	private String name;
+	private String role;
+	
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 
 	public String getImage() {
 		return image;

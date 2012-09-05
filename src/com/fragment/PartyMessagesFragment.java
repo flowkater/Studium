@@ -3,19 +3,21 @@ package com.fragment;
 import java.util.ArrayList;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.Toast;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockFragment;
-import com.activity.LoginActivity;
+import com.activity.GroupShowActivity;
 import com.activity.R;
 import com.adapter.PartymListAdapter;
 import com.google.gson.Gson;
@@ -36,10 +38,16 @@ public class PartyMessagesFragment extends SherlockFragment implements
 	private Integer mCurrentPage = 1;
 	int mPrevTotalItemCount = 0;
 	private String mResult;
+	private SharedPreferences mPreferences;
+	private String auth_token;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		mPreferences = getActivity().getSharedPreferences("CurrentUser",
+				getActivity().MODE_PRIVATE);
+		auth_token = mPreferences.getString("AuthToken", "");
+		
 		mView = inflater.inflate(R.layout.partymessages_list, container, false);
 		mArrayList = new ArrayList<Partymessage>();
 		mListView = (PullToRefreshListView) mView
@@ -66,7 +74,8 @@ public class PartyMessagesFragment extends SherlockFragment implements
 		@Override
 		protected Void doInBackground(Void... params) {
 			mResult = NetHelper.DownloadHtml(Global.ServerUrl
-					+ "groups/partym.json?page=" + mCurrentPage.toString());
+					+ "groups/partym.json?page=" + mCurrentPage.toString()+"&auth_token=" + auth_token);
+			System.out.println(mResult);
 			return null;
 		}
 
@@ -121,8 +130,15 @@ public class PartyMessagesFragment extends SherlockFragment implements
 		}
 	}
 
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-
+	public void onItemClick(AdapterView<?> arg0, View v, int position, long arg3) {
+		Partymessage partym = mArrayList.get(position-1);
+		System.out.println(partym.getId());
+		
+		Intent in = new Intent(getActivity(), GroupShowActivity.class);
+		in.putExtra("group_id", partym.getId());
+		in.putExtra("role", partym.getRole());
+		Toast.makeText(getActivity(), partym.getRole(), Toast.LENGTH_SHORT).show();
+		startActivity(in);
 	}
 
 	@Override

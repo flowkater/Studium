@@ -21,9 +21,11 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.activity.GroupCreateActivity;
+import com.activity.GroupShowActivity;
 import com.activity.LoginActivity;
 import com.activity.R;
 import com.adapter.MyStudyListAdapter;
@@ -40,7 +42,6 @@ public class SlideMenuFragment extends SherlockListFragment implements
 	private MyStudyListAdapter mAdapter;
 	private ListView mListView;
 	private String mResult;
-	private int mPrevTotalItemCount = 0;
 	private LinearLayout headerview;
 	private LinearLayout footerview;
 	private TableRow studycreate;
@@ -66,13 +67,14 @@ public class SlideMenuFragment extends SherlockListFragment implements
 		super.onActivityCreated(savedInstanceState);
 		mArrayList = new ArrayList<Group>();
 		mListView = getListView();
-		
-		mPreferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
+
+		mPreferences = getActivity().getSharedPreferences("CurrentUser",
+				getActivity().MODE_PRIVATE);
 		auth_token = mPreferences.getString("AuthToken", "");
 
 		mAdapter = new MyStudyListAdapter(getActivity(),
 				R.layout.slide_menu_mystudy_row, mArrayList);
-		
+
 		new GetMyStudyList().execute();
 		// header, footer 뷰 설정
 		LayoutInflater inflater = getLayoutInflater(savedInstanceState);
@@ -80,33 +82,34 @@ public class SlideMenuFragment extends SherlockListFragment implements
 				R.layout.slide_menu_header, null);
 		footerview = (LinearLayout) inflater.inflate(
 				R.layout.slide_menu_footer, null);
-		
-		studycreate = (TableRow)footerview.findViewById(R.id.create_study_table);
+
+		studycreate = (TableRow) footerview
+				.findViewById(R.id.create_study_table);
 		studycreate.setOnClickListener(new StudyClickListener());
-		
-		userlogin = (RelativeLayout)headerview.findViewById(R.id.user_layout);
+
+		userlogin = (RelativeLayout) headerview.findViewById(R.id.user_layout);
 		userlogin.setOnClickListener(new LoginClickListener());
-		
-		
-		profile_thumbnail = (ImageView)headerview.findViewById(R.id.profile_thumbnail);
-		user_name = (TextView)headerview.findViewById(R.id.user_name);
-		
+
+		profile_thumbnail = (ImageView) headerview
+				.findViewById(R.id.profile_thumbnail);
+		user_name = (TextView) headerview.findViewById(R.id.user_name);
+
 		mListView.addHeaderView(headerview);
 		mListView.addFooterView(footerview);
 		// header, footer end
 		mListView.setAdapter(mAdapter);
 		mListView.setOnItemClickListener(this);
 	}
-	
-	class LoginClickListener implements OnClickListener{
+
+	class LoginClickListener implements OnClickListener {
 		@Override
 		public void onClick(View arg0) {
 			Intent in = new Intent(getActivity(), LoginActivity.class);
 			startActivity(in);
 		}
 	}
-	
-	class StudyClickListener implements OnClickListener{
+
+	class StudyClickListener implements OnClickListener {
 		@Override
 		public void onClick(View v) {
 			Intent in = new Intent(getActivity(), GroupCreateActivity.class);
@@ -118,7 +121,8 @@ public class SlideMenuFragment extends SherlockListFragment implements
 	private class GetMyStudyList extends AsyncTask<Void, Void, Void> {
 		@Override
 		protected Void doInBackground(Void... params) {
-			mResult = NetHelper.DownloadHtml(Global.ServerUrl + "groups/currentuser.json?auth_token="+ auth_token);
+			mResult = NetHelper.DownloadHtml(Global.ServerUrl
+					+ "groups/currentuser.json?auth_token=" + auth_token);
 			System.out.println(mResult);
 			return null;
 		}
@@ -130,8 +134,9 @@ public class SlideMenuFragment extends SherlockListFragment implements
 				user_name.setText(user.getString("name"));
 				String image = user.getString("image");
 				if (image != null) {
-					ImageDownloader.download(Global.ServerUrl + image, profile_thumbnail);
-				}else{
+					ImageDownloader.download(Global.ServerUrl + image,
+							profile_thumbnail);
+				} else {
 					profile_thumbnail.setImageResource(R.drawable.ic_launcher);
 				}
 			} catch (Exception e) {
@@ -173,8 +178,13 @@ public class SlideMenuFragment extends SherlockListFragment implements
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		// TODO Auto-generated method stub
-
+	public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+			long arg3) {
+		Group group = mArrayList.get(position - 1);
+		Intent in = new Intent(getActivity(), GroupShowActivity.class);
+		in.putExtra("group_id", group.getId());
+		in.putExtra("role", group.getRole());
+		Toast.makeText(getActivity(), group.getRole(), Toast.LENGTH_SHORT).show();
+		startActivity(in);
 	}
 }

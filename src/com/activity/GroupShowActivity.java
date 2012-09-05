@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -12,8 +13,8 @@ import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.app.ActionBar.Tab;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.fragment.FeedFragment;
@@ -26,17 +27,26 @@ public class GroupShowActivity extends SlidingFragmentActivity {
 	private ViewPager mViewPager;
 	private TabsAdapter mTabsAdapter;
 	private TextView titlebar_text;
-	private TextView tabCenter;
-	private TextView tabText;
 	private String group_id;
+	private String auth_token;
+	private SharedPreferences mPreferences;
+
+	// private String mResult;
+	// private String role;
+	// private Bundle info;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		// info = new Bundle();
+		mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
+		auth_token = mPreferences.getString("AuthToken", "");
+
+		// new GetRole().execute();
+
 		Intent in = getIntent();
 		group_id = in.getExtras().getString("group_id");
-		
+
 		mViewPager = new ViewPager(this);
 		mViewPager.setId(R.id.pager);
 		mViewPager.setBackgroundResource(R.drawable.pattern_bitmap);
@@ -65,8 +75,8 @@ public class GroupShowActivity extends SlidingFragmentActivity {
 		bar.setDisplayHomeAsUpEnabled(true);
 		bar.setDisplayHomeAsUpEnabled(false);
 		// end header
-		
-		titlebar_text = (TextView)findViewById(R.id.titlebar_text);
+
+		titlebar_text = (TextView) findViewById(R.id.titlebar_text);
 		titlebar_text.setText("Group#Show");
 
 		mTabsAdapter = new TabsAdapter(this, mViewPager);
@@ -77,7 +87,6 @@ public class GroupShowActivity extends SlidingFragmentActivity {
 				null);
 		mTabsAdapter.addTab(bar.newTab().setText("Info"), InfoFragment.class,
 				null);
-
 	}
 
 	@Override
@@ -99,10 +108,9 @@ public class GroupShowActivity extends SlidingFragmentActivity {
 		}
 		Intent intent = new Intent(this, PostPageActivity.class);
 		intent.putExtra("group_id", group_id);
-		//intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY );
 
 		startActivity(intent);
-        return true;
+		return true;
 	}
 
 	public static class TabsAdapter extends FragmentStatePagerAdapter implements

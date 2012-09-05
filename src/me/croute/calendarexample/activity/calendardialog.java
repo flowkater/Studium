@@ -9,7 +9,7 @@ import com.adapter.ImageAdapter;
 import com.fragment.StepFragment;
 import com.model.CheckString;
 import com.model.ThumbImageInfo;
-
+import com.utils.Global;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -34,7 +34,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class calendardialog extends Activity implements OnItemClickListener, OnClickListener{
+public class calendardialog extends Activity implements OnItemClickListener,
+		OnClickListener {
 	public static int PARTY_MEMBER = 0;
 	public static int PARTYING_TIME = 1;
 	public static int LOCATION = 2;
@@ -44,279 +45,244 @@ public class calendardialog extends Activity implements OnItemClickListener, OnC
 	public static int DATE = 6;
 	public static String delims = "-";
 	int count = 0;
-	
+
 	CheckTodoListAdapter mAdapter;
 
 	ImageAdapter mListAdapter;
-	
-	
-    ArrayList<CheckString> todolist_list= new ArrayList<CheckString>();
-    CheckString check;
+
+	ArrayList<CheckString> todolist_list = new ArrayList<CheckString>();
+	CheckString check;
 	ProgressBar achivebar;
 	int achive_rate;
 	int Num_todoList;
-	int checked=0;
+	int checked = 0;
 	TextView achive_rate_tv;
 	private ArrayList<ThumbImageInfo> mThumbImageInfoList;
 	private GridView mGvImageList;
-	
+	private String role;
+	private String date;
+	private String month;
+	private String year;
+	private boolean party;
 
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
+		// 이전 액티비티로부터 넘어온 데이터를 꺼낸다.
+		Intent in = getIntent();
+		date = in.getStringExtra("date");
+		month = in.getStringExtra("month");
+		year = in.getStringExtra("year");
+		party = in.getBooleanExtra("isParty", false);
+		String partystring[] = in.getStringArrayExtra("party");
+		role = in.getStringExtra("role");
+		
+		// int color = getIntent().getIntExtra("color", Color.WHITE);
 
-		@Override
-	    protected void onCreate(Bundle savedInstanceState)
-	    {
-	        super.onCreate(savedInstanceState);
-	         
-	        // 이전 액티비티로부터 넘어온 데이터를 꺼낸다.
-	        String date = getIntent().getStringExtra("date");
-	        String month = getIntent().getStringExtra("month");
-	        String year = getIntent().getStringExtra("year");
-	        boolean party = getIntent().getBooleanExtra("isParty", false);
-	        String partystring [] = getIntent().getStringArrayExtra("party");
+		if (party) {
+			setContentView(R.layout.meeting_info_page);
+			ListView meeting = (ListView) findViewById(R.id.to_do_list_list);
 
-		    //  int color = getIntent().getIntExtra("color", Color.WHITE);
-	         
-	        
-	        if(party)
-	        {	        	
-		        setContentView(R.layout.meeting_info_page);
-		        ListView meeting = (ListView) findViewById(R.id.to_do_list_list);
-		        
-		        LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		        View header = (View) inflater.inflate(R.layout.meeting_info_page_header, null);
+			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View header = (View) inflater.inflate(
+					R.layout.meeting_info_page_header, null);
 
-		        String[] party_info = getIntent().getStringArrayExtra("party");
+			String[] party_info = getIntent().getStringArrayExtra("party");
 
-		        Num_todoList=party_info[TODOLIST].split(delims).length;
-		        
-	        	CheckString [] fuck = new CheckString [Num_todoList];
-	        	
-	        	
-	        	System.out.println(Num_todoList);
+			Num_todoList = party_info[TODOLIST].split(delims).length;
 
-		        for(int i=0; i<Num_todoList; i++)
-		        {
+			CheckString[] fuck = new CheckString[Num_todoList];
 
-		        	String string = party_info[TODOLIST].split(delims)[i];
-		        	fuck[i] = new CheckString();
-		        	
-		        	fuck[i].setString(string);
+			System.out.println(Num_todoList);
 
-		        	todolist_list.add(fuck[i]);
-		        }
-		        
-		        ListView lv = (ListView)findViewById(R.id.to_do_list_list);
-	        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-		        
-	        
-	        
-	        //thum array
-	        
-		        mThumbImageInfoList = new ArrayList<ThumbImageInfo>();
+			for (int i = 0; i < Num_todoList; i++) {
+				String string = party_info[TODOLIST].split(delims)[i];
+				fuck[i] = new CheckString();
+				fuck[i].setString(string);
+				todolist_list.add(fuck[i]);
+			}
 
-		        
-		        //thumb start
-		        ThumbImageInfo thumbInfo = new ThumbImageInfo();
+			ListView lv = (ListView) findViewById(R.id.to_do_list_list);
+//			if (role.equals(Global.founder)) {
+				lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+//			}
+			// thum array
 
-		        thumbInfo.setId("병철");
-		        thumbInfo.setThum_img("member_byung");
-		        thumbInfo.setCheckedState(false);
-		        
-		        mThumbImageInfoList.add(thumbInfo);
-		        
-		        ThumbImageInfo thumbInfo1 = new ThumbImageInfo();
+			mThumbImageInfoList = new ArrayList<ThumbImageInfo>();
 
-		        thumbInfo.setId("잡스");
-		        thumbInfo.setThum_img("member_jobs");
-		        thumbInfo.setCheckedState(false);
-		        
-		        mThumbImageInfoList.add(thumbInfo1);
-		        
-		        ThumbImageInfo thumbInfo2 = new ThumbImageInfo();
+			// thumb start
+			ThumbImageInfo thumbInfo = new ThumbImageInfo();
 
-		        thumbInfo.setId("레이디 가가");
-		        thumbInfo.setThum_img("member_ladygaga");
-		        thumbInfo.setCheckedState(false);
-		        
-		        mThumbImageInfoList.add(thumbInfo2);
-		        
-		        ThumbImageInfo thumbInfo3 = new ThumbImageInfo();
+			thumbInfo.setId("병철");
+			thumbInfo.setThum_img("member_byung");
+			thumbInfo.setCheckedState(false);
 
-		        thumbInfo.setId("야");
-		        thumbInfo.setThum_img("member_ya");
-		        thumbInfo.setCheckedState(false);
-		        
-		        mThumbImageInfoList.add(thumbInfo3);
-		        
-		        //thum end
-		        
-		        
-		        mGvImageList = (GridView) findViewById(R.id.meeting_entry_grid_view);
-		        //mGvImageList.setOnItemClickListener(this);
-		        mListAdapter = new ImageAdapter (this, R.layout.image_cell, mThumbImageInfoList);
+			mThumbImageInfoList.add(thumbInfo);
 
-//		        mGvImageList.setAdapter(mListAdapter);
-		        
+			ThumbImageInfo thumbInfo1 = new ThumbImageInfo();
 
-		       
-		        mAdapter = new CheckTodoListAdapter(this, R.layout.meeting_info_list_row, todolist_list);
-		        
-		        
-		        //define
-				TextView meeting_location_input_text = (TextView)header.findViewById(R.id.meeting_location_input_text);
-				meeting_location_input_text.setText(partystring[LOCATION]);
-				
-				TextView meeting_time_input_text = (TextView)header.findViewById(R.id.meeting_time_input_text);
-				meeting_time_input_text.setText(partystring[TIME]);
-				
-				achive_rate_tv = (TextView)header.findViewById(R.id.achievement_rate_text);
-				
-				achivebar = (ProgressBar) header.findViewById(R.id.achievement_progress_bar);
-				
-				
-				
-				meeting.addHeaderView(header);
-		        meeting.setAdapter(mAdapter);
-		        
-		        meeting.setOnItemClickListener(new OnItemClickListener() {
+			thumbInfo.setId("잡스");
+			thumbInfo.setThum_img("member_jobs");
+			thumbInfo.setCheckedState(false);
 
-					@Override
-					public void onItemClick(AdapterView<?> arg0, View arg1,
-							int position, long item) {
-						if(position==0)
-						{
-							System.out.println("whatido");
-						}
-						else{
-							System.out.println("what should I do");
+			mThumbImageInfoList.add(thumbInfo1);
 
-							check = todolist_list.get(position-1);
-							CheckBox tv = (CheckBox) arg1.findViewById(R.id.todolist_checkbox);
-							if(check.isCheck()==true)
-							{
-								tv.setChecked(false);
-								checked--;
-								check.setCheck(false);
-								tv.setPaintFlags(Paint.ANTI_ALIAS_FLAG | Paint.DEV_KERN_TEXT_FLAG);
-							}
-							else
-							{
-								tv.setChecked(true);
-								System.out.println("fuck "+ checked);
-								checked++;
-								System.out.println("fuck "+ checked);
+			ThumbImageInfo thumbInfo2 = new ThumbImageInfo();
 
-								check.setCheck(true);
-								tv.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+			thumbInfo.setId("레이디 가가");
+			thumbInfo.setThum_img("member_ladygaga");
+			thumbInfo.setCheckedState(false);
 
-							}
-							System.out.println("fuck "+ checked);
+			mThumbImageInfoList.add(thumbInfo2);
 
-							achive_rate=checked*100/Num_todoList;
-							System.out.println("fuck       "+ achive_rate);
-							
-							achive_rate_tv.setText("목표 달성률 : "+achive_rate+"%");
+			ThumbImageInfo thumbInfo3 = new ThumbImageInfo();
 
-							achivebar.setMax(100);
-							achivebar.setProgress(achive_rate);
-							System.out.println("fuck       "+ achive_rate);
+			thumbInfo.setId("야");
+			thumbInfo.setThum_img("member_ya");
+			thumbInfo.setCheckedState(false);
 
+			mThumbImageInfoList.add(thumbInfo3);
 
+			// thum end
+
+			mGvImageList = (GridView) findViewById(R.id.meeting_entry_grid_view);
+			// mGvImageList.setOnItemClickListener(this);
+			mListAdapter = new ImageAdapter(this, R.layout.image_cell,
+					mThumbImageInfoList);
+
+			// mGvImageList.setAdapter(mListAdapter);
+
+			mAdapter = new CheckTodoListAdapter(this,
+					R.layout.meeting_info_list_row, todolist_list);
+
+			// define
+			TextView meeting_location_input_text = (TextView) header
+					.findViewById(R.id.meeting_location_input_text);
+			meeting_location_input_text.setText(partystring[LOCATION]);
+
+			TextView meeting_time_input_text = (TextView) header
+					.findViewById(R.id.meeting_time_input_text);
+			meeting_time_input_text.setText(partystring[TIME]);
+
+			achive_rate_tv = (TextView) header
+					.findViewById(R.id.achievement_rate_text);
+
+			achivebar = (ProgressBar) header
+					.findViewById(R.id.achievement_progress_bar);
+
+			meeting.addHeaderView(header);
+			meeting.setAdapter(mAdapter);
+
+			meeting.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1,
+						int position, long item) {
+					if (position == 0) {
+						System.out.println("whatido");
+					} else {
+						System.out.println("what should I do");
+
+						check = todolist_list.get(position - 1);
+						CheckBox tv = (CheckBox) arg1
+								.findViewById(R.id.todolist_checkbox);
+						if (check.isCheck() == true) {
+							tv.setChecked(false);
+							checked--;
+							check.setCheck(false);
+							tv.setPaintFlags(Paint.ANTI_ALIAS_FLAG
+									| Paint.DEV_KERN_TEXT_FLAG);
+						} else {
+							tv.setChecked(true);
+							System.out.println("fuck " + checked);
+							checked++;
+							System.out.println("fuck " + checked);
+
+							check.setCheck(true);
+							tv.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 
 						}
+						System.out.println("fuck " + checked);
+
+						achive_rate = checked * 100 / Num_todoList;
+						System.out.println("fuck       " + achive_rate);
+
+						achive_rate_tv.setText("목표 달성률 : " + achive_rate + "%");
+
+						achivebar.setMax(100);
+						achivebar.setProgress(achive_rate);
+						System.out.println("fuck       " + achive_rate);
 					}
-				});
-		  
-		        lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+				}
+			});
+			lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+		} else
+			alert(date, month, year);
+	}
+	String todolist_select;
+	/**
+	 * 자체적으로 만든 알럿다이얼로그 생성 메소드
+	 * 
+	 * @param title
+	 *            타이틀
+	 * @param message
+	 *            메시지
+	 */
+	private void alert(final String date, final String month, final String year) {
+		// 체인형으로 메소드를 사용한다.
+		new AlertDialog.Builder(this)
+		// 색상을 타이틀에 세팅한다.
+				.setTitle("일정")
+				// 설명을 메시지 부분에 세팅한다.
+				.setMessage(year + "년 " + month + "월 " + date + "일")
+				// 취소를 못하도록 막는다.
+				.setCancelable(false)
+				// 확인 버튼을 만든다.
 
-	        }	
-	        else   alert(date, month, year);
+				.setPositiveButton("모임", new DialogInterface.OnClickListener() {
+					/*
+					 * (non-Javadoc)
+					 * 
+					 * @see
+					 * android.content.DialogInterface.OnClickListener#onClick
+					 * (android.content.DialogInterface, int)
+					 */
+					public void onClick(DialogInterface dialog, int which) {
+						System.out.println("fucking!!!!!!!!");
+						Bundle bundle = new Bundle();
+						bundle.putString("color", Color.YELLOW + "");
+						bundle.putString("date", date);
+						bundle.putString("month", month);
+						bundle.putString("year", year);
+						Intent intent = new Intent(getApplicationContext(),
+								GroupShowActivity.class);
+						System.out.println("fucking!!!!!!!!");
 
-	        
-	      
-	    }
-		
-		String todolist_select;
-		
-		
-	        
-	    
-	     
-	    /**
-	     * 자체적으로 만든 알럿다이얼로그 생성 메소드
-	     * 
-	     * @param title 타이틀
-	     * @param message 메시지
-	     */
-	    private void alert(final String date, final String month, final String year)
-	    {
-	        // 체인형으로 메소드를 사용한다.
-	        new AlertDialog.Builder(this)
-	            // 색상을 타이틀에 세팅한다.
-	            .setTitle("일정")
-	            // 설명을 메시지 부분에 세팅한다.
-	            .setMessage(year+"년 "+month+"월 "+ date + "일")
-	            // 취소를 못하도록 막는다.
-	            .setCancelable(false)
-	            // 확인 버튼을 만든다.
-	       
-	            .setPositiveButton("모임", new DialogInterface.OnClickListener()
-	            {
-	                /* (non-Javadoc)
-	                 * @see android.content.DialogInterface.OnClickListener#onClick(android.content.DialogInterface, int)
-	                 */
-	                public void onClick(DialogInterface dialog, int which)
-	                {
-	                	System.out.println("fucking!!!!!!!!");
-	                	Bundle bundle = new Bundle();
-	                	bundle.putString("color", Color.YELLOW+"");
-	                	bundle.putString("date", date);
-	                	bundle.putString("month",  month);
-	                	bundle.putString("year",year);
-	            		Intent intent = new Intent(getApplicationContext(), GroupShowActivity.class);
-	                	System.out.println("fucking!!!!!!!!");
+						intent.putExtras(bundle);
 
-	            		intent.putExtras(bundle);
-	          	    
+						System.out.println("fucking!!!!!!!!");
 
-	                	System.out.println("fucking!!!!!!!!");
+						// 확인버튼이 클릭되면 다이얼로그를 종료한다.
+						dialog.dismiss();
+						System.out.println("fucking!!!!!!!!");
 
-	                    // 확인버튼이 클릭되면 다이얼로그를 종료한다.
-	                    dialog.dismiss();
-	                	System.out.println("fucking!!!!!!!!");
+						// 액티비티를 종료한다.
+						finish();
+						System.out.println("fucking!!!!!!!!");
 
-	                    // 액티비티를 종료한다.
-	                    finish();
-	                	System.out.println("fucking!!!!!!!!");
-
-	                    startActivity(intent);
-	                	System.out.println("fucking!!!!!!!!");
-
-	                }
-	            })
-	            		
-	            		
-	            		
-	            .show();
-	    }
-
-
-
-		@Override
-		public void onClick(View arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-
-
-		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-				long arg3) {
-			// TODO Auto-generated method stub
-			
-		}
-	 
+						startActivity(intent);
+						System.out.println("fucking!!!!!!!!");
+					}
+				}).show();
 	}
 
+	@Override
+	public void onClick(View arg0) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		// TODO Auto-generated method stub
+	}
+}

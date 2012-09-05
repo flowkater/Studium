@@ -3,12 +3,14 @@ package com.fragment;
 import java.util.ArrayList;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.Toast;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -36,10 +38,15 @@ public class GroupListFragment extends SherlockFragment implements
 	private String mResult;
 	int mPrevTotalItemCount = 0;
 	private Integer mCurrentPage = 1;
+	private SharedPreferences mPreferences;
+	private String auth_token;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		mPreferences = getActivity().getSharedPreferences("CurrentUser",
+				getActivity().MODE_PRIVATE);
+		auth_token = mPreferences.getString("AuthToken", "");
 		mView = inflater.inflate(R.layout.group_list, container, false);
 		mArrayList = new ArrayList<Group>();
 		mListView = (PullToRefreshListView) mView.findViewById(R.id.group_list);			
@@ -63,7 +70,7 @@ public class GroupListFragment extends SherlockFragment implements
 	private class GetGroupList extends AsyncTask<Void, Void, Void> {
 		@Override
 		protected Void doInBackground(Void... params) {
-			mResult = NetHelper.DownloadHtml(Global.ServerUrl + "groups.json?page=" + mCurrentPage.toString());
+			mResult = NetHelper.DownloadHtml(Global.ServerUrl + "groups.json?page=" + mCurrentPage.toString() + "&auth_token=" + auth_token);
 			return null;
 		}
 
@@ -118,13 +125,12 @@ public class GroupListFragment extends SherlockFragment implements
 	}
 
 	public void onItemClick(AdapterView<?> arg0, View v, int position, long arg3) {
-//		Bundle extras = new Bundle();
 		Group group = mArrayList.get(position-1);
 		System.out.println(group.getId());
-//		extras.putString("id", group.getId());
-		
 		Intent in = new Intent(getActivity(), GroupShowActivity.class);
 		in.putExtra("group_id", group.getId());
+		in.putExtra("role", group.getRole());
+		Toast.makeText(getActivity(), group.getRole(), Toast.LENGTH_SHORT).show();
 		startActivity(in);
 	}
 

@@ -50,7 +50,8 @@ public class InfoFragment extends SherlockFragment implements
 		OnItemClickListener {
 	private View mView;
 	private GroupMemberAdapter mAdapter;
-	private ArrayList<User> mArrayList;
+	private ArrayList<User> mArrayMemberList;
+	private ArrayList<User> mArrayWaitingList;
 	private PullToRefreshListView mListView;
 	private String mResult;
 	private RelativeLayout headerview;
@@ -64,6 +65,7 @@ public class InfoFragment extends SherlockFragment implements
 	private Button JoinButton;
 	private SharedPreferences mPreferences;
 	private String auth_token;
+	private String role;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -73,33 +75,34 @@ public class InfoFragment extends SherlockFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
-		mPreferences = getActivity().getSharedPreferences("CurrentUser", getActivity().MODE_PRIVATE);
+		mPreferences = getActivity().getSharedPreferences("CurrentUser",
+				getActivity().MODE_PRIVATE);
 		auth_token = mPreferences.getString("AuthToken", "");
 
 		Intent in = getActivity().getIntent();
 		id = in.getExtras().getString("group_id");
+		role = in.getExtras().getString("role");
 		mView = inflater.inflate(R.layout.group_show_info_list, container,
 				false);
-		mArrayList = new ArrayList<User>();
+		mArrayMemberList = new ArrayList<User>();
+		mArrayWaitingList = new ArrayList<User>();
+
 		new GetMemberList().execute();
 		mListView = (PullToRefreshListView) mView
 				.findViewById(R.id.member_list);
 		mListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-				mArrayList.clear();
+				mArrayMemberList.clear();
 				System.out.println("InfoFragment");
 				new GetMemberList().execute();
 			}
 		});
 
 		mAdapter = new GroupMemberAdapter(mView.getContext(),
-				R.layout.group_show_info_list_row, mArrayList);
+				R.layout.group_show_info_list_row, mArrayMemberList);
 
 		headerview = (RelativeLayout) inflater.inflate(
 				R.layout.group_show_info_header, null);
-		footerview = (LinearLayout) inflater.inflate(
-				R.layout.group_show_info_footer, null);
 
 		group_image = (ImageView) headerview.findViewById(R.id.group_image);
 		group_name = (TextView) headerview.findViewById(R.id.group_name);
@@ -107,18 +110,31 @@ public class InfoFragment extends SherlockFragment implements
 				.findViewById(R.id.group_starttime);
 		group_subject = (TextView) headerview.findViewById(R.id.group_subject);
 		group_goal = (TextView) headerview.findViewById(R.id.group_goal);
-
-		JoinButton = (Button) footerview.findViewById(R.id.join_button);
-
 		mListView.getRefreshableView().addHeaderView(headerview);
-		mListView.getRefreshableView().addFooterView(footerview);
 
-		JoinButton.setOnClickListener(new JoinClickListener());
-
+		if (role.equals(Global.founder)) {
+			
+		} else if (role.equals(Global.member)) {
+			
+		} else if(role.equals(Global.waiting)){
+			
+		}else {
+			footerview = (LinearLayout) inflater.inflate(
+					R.layout.group_show_info_footer, null);
+			JoinButton = (Button) footerview.findViewById(R.id.join_button);
+			mListView.getRefreshableView().addFooterView(footerview);
+			JoinButton.setOnClickListener(new JoinClickListener());
+		}
 		// setAdapter must be located below addheaderview.
 		mListView.getRefreshableView().setAdapter(mAdapter);
 		mListView.getRefreshableView().setOnItemClickListener(this);
+		
 		return mView;
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 	}
 
 	class JoinClickListener implements OnClickListener {
@@ -157,10 +173,14 @@ public class InfoFragment extends SherlockFragment implements
 				e.printStackTrace();
 			}
 			Gson gson = new Gson();
-			Users users = gson.fromJson(mResult, Users.class);
-			for (User user : users.getUsers()) {
-				if (!user.getName().equals(""))
-					mArrayList.add(user);
+			Users members = gson.fromJson(mResult, Users.class);
+			
+			for (User member : members.getUsers()) {
+				if(member.getRole().equals(Global.waiting)){
+					mArrayWaitingList.add(member);
+				}else{
+					mArrayMemberList.add(member);
+				}
 			}
 			mListView.onRefreshComplete();
 			mAdapter.notifyDataSetChanged();
@@ -174,20 +194,11 @@ public class InfoFragment extends SherlockFragment implements
 		protected Void doInBackground(Void... params) {
 			try {
 				HttpClient httpClient = new DefaultHttpClient();
-				HttpPost postRequest = new HttpPost(
-						Global.ServerUrl+"memberships?auth_token="
-								+ auth_token);
+				HttpPost postRequest = new HttpPost(Global.ServerUrl
+						+ "memberships?auth_token=" + auth_token);
 				MultipartEntity reqEntity = new MultipartEntity(
 						HttpMultipartMode.BROWSER_COMPATIBLE);
-
-				reqEntity.addPart("membership[group_id]",new StringBody(id));
-//				reqEntity.addPart("group[goal]", new StringBody(
-//						"SAT 2400 scroe!!!"));
-//				reqEntity.addPart("group[subject]", new StringBody("SAT 유학"));
-//				reqEntity.addPart("group[place]", new StringBody("미쿡"));
-//				reqEntity.addPart("group[name]", new StringBody("SAT 완전정복"));
-//				reqEntity.addPart("group[introduce]", new StringBody(
-//						"안녕하세요. 우린 미쿰 SAT 준비하는 사람들입니다."));
+				reqEntity.addPart("membership[group_id]", new StringBody(id));
 				postRequest.setEntity(reqEntity);
 				HttpResponse response = httpClient.execute(postRequest);
 
@@ -218,10 +229,7 @@ public class InfoFragment extends SherlockFragment implements
 
 	}
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-	}
+	
 
 	@Override
 	public void onStart() {

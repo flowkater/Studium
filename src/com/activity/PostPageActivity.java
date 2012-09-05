@@ -91,7 +91,7 @@ public class PostPageActivity extends SherlockActivity implements
 		bar.setDisplayHomeAsUpEnabled(false);
 		// end header
 		titlebar_text = (TextView) findViewById(R.id.titlebar_text);
-		titlebar_text.setText("Post#Page");
+		titlebar_text.setText("Write Post");
 
 		// post
 		post_body = (EditText) findViewById(R.id.post_string);
@@ -107,13 +107,13 @@ public class PostPageActivity extends SherlockActivity implements
 		@Override
 		protected Void doInBackground(Void... params) {
 			try {
-				
-//				if (bm != null) {
+				ByteArrayBody bab = null;
+				if (bm != null) {
 					ByteArrayOutputStream bos = new ByteArrayOutputStream();
 					bm.compress(CompressFormat.JPEG, 75, bos);
 					byte[] data = bos.toByteArray();
-					ByteArrayBody bab = new ByteArrayBody(data, "post_image.jpg");
-//				}
+					bab = new ByteArrayBody(data, "post_image.jpg");
+				}
 
 				HttpClient httpClient = new DefaultHttpClient();
 				HttpPost postRequest = new HttpPost(Global.ServerUrl
