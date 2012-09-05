@@ -29,6 +29,7 @@
             android:label="@string/title_activity_group_index" >
         </activity>
         <activity android:name="PostPageActivity"></activity>
+        <activity android:name="CommentPageActivity"></activity>
         <activity android:name="LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
