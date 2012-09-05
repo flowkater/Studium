@@ -48,13 +48,14 @@
 
     <ImageView
         android:id="@+id/feed_content_img"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignLeft="@+id/post_body"
-        android:layout_alignRight="@+id/post_body"
+        android:layout_width="100dip"
+        android:layout_height="100dip"
+        android:layout_marginLeft="20dip"
         android:layout_below="@+id/post_body"
         android:layout_marginTop="10dp"
-        android:scaleType="fitStart" />
+        android:scaleType="fitCenter"
+        
+         />
 
     <ImageView
         android:id="@+id/comment_img"

@@ -1,5 +1,6 @@
 package me.croute.calendarexample.activity;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import com.activity.GroupShowActivity;
@@ -16,20 +17,27 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.GridLayout.LayoutParams;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -45,6 +53,8 @@ public class calendardialog extends Activity implements OnItemClickListener,
 	public static int DATE = 6;
 	public static String delims = "-";
 	int count = 0;
+	public static int members=4;
+	public static int listnum=3;
 
 	CheckTodoListAdapter mAdapter;
 
@@ -53,6 +63,7 @@ public class calendardialog extends Activity implements OnItemClickListener,
 	ArrayList<CheckString> todolist_list = new ArrayList<CheckString>();
 	CheckString check;
 	ProgressBar achivebar;
+	ProgressBar attendance_bar;
 	int achive_rate;
 	int Num_todoList;
 	int checked = 0;
@@ -64,6 +75,9 @@ public class calendardialog extends Activity implements OnItemClickListener,
 	private String month;
 	private String year;
 	private boolean party;
+	boolean [] backup_attand = new boolean [members];
+	boolean [] backup_listnum = new boolean [listnum];
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +91,7 @@ public class calendardialog extends Activity implements OnItemClickListener,
 		party = in.getBooleanExtra("isParty", false);
 		String partystring[] = in.getStringArrayExtra("party");
 		role = in.getStringExtra("role");
-		
+
 		// int color = getIntent().getIntExtra("color", Color.WHITE);
 
 		if (party) {
@@ -85,8 +99,14 @@ public class calendardialog extends Activity implements OnItemClickListener,
 			ListView meeting = (ListView) findViewById(R.id.to_do_list_list);
 
 			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View header = (View) inflater.inflate(
+			final View header = (View) inflater.inflate(
 					R.layout.meeting_info_page_header, null);
+			final RelativeLayout scr = (RelativeLayout) header
+					.findViewById(R.id.setting_personal_layout);
+			attendance_bar = (ProgressBar) header
+					.findViewById(R.id.attend_progress_bar);
+			attandance_tv = (TextView) header
+					.findViewById(R.id.attend_rate_text);
 
 			String[] party_info = getIntent().getStringArrayExtra("party");
 
@@ -104,9 +124,9 @@ public class calendardialog extends Activity implements OnItemClickListener,
 			}
 
 			ListView lv = (ListView) findViewById(R.id.to_do_list_list);
-//			if (role.equals(Global.founder)) {
-				lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-//			}
+			// if (role.equals(Global.founder)) {
+			lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+			// }
 			// thum array
 
 			mThumbImageInfoList = new ArrayList<ThumbImageInfo>();
@@ -122,36 +142,48 @@ public class calendardialog extends Activity implements OnItemClickListener,
 
 			ThumbImageInfo thumbInfo1 = new ThumbImageInfo();
 
-			thumbInfo.setId("잡스");
-			thumbInfo.setThum_img("member_jobs");
-			thumbInfo.setCheckedState(false);
+			thumbInfo1.setId("잡스");
+			thumbInfo1.setThum_img("member_jobs");
+			thumbInfo1.setCheckedState(false);
 
 			mThumbImageInfoList.add(thumbInfo1);
 
 			ThumbImageInfo thumbInfo2 = new ThumbImageInfo();
 
-			thumbInfo.setId("레이디 가가");
-			thumbInfo.setThum_img("member_ladygaga");
-			thumbInfo.setCheckedState(false);
+			thumbInfo2.setId("레이디 가가");
+			thumbInfo2.setThum_img("member_ladygaga");
+			thumbInfo2.setCheckedState(false);
 
 			mThumbImageInfoList.add(thumbInfo2);
 
 			ThumbImageInfo thumbInfo3 = new ThumbImageInfo();
 
-			thumbInfo.setId("야");
-			thumbInfo.setThum_img("member_ya");
-			thumbInfo.setCheckedState(false);
+			thumbInfo3.setId("야");
+			thumbInfo3.setThum_img("member_ya");
+			thumbInfo3.setCheckedState(false);
 
 			mThumbImageInfoList.add(thumbInfo3);
 
+			System.out.println(mThumbImageInfoList.get(0).getId());
+
 			// thum end
 
-			mGvImageList = (GridView) findViewById(R.id.meeting_entry_grid_view);
-			// mGvImageList.setOnItemClickListener(this);
-			mListAdapter = new ImageAdapter(this, R.layout.image_cell,
-					mThumbImageInfoList);
+			mGvImageList = (GridView) header
+					.findViewById(R.id.meeting_entry_grid_view);
+			mGvImageList.setOnItemClickListener(this);
+			mListAdapter = new ImageAdapter(calendardialog.this,
+					R.layout.image_cell, mThumbImageInfoList);
 
-			// mGvImageList.setAdapter(mListAdapter);
+			mGvImageList.setAdapter(mListAdapter);
+
+			mGvImageList.setOnTouchListener(new OnTouchListener() {
+				@Override
+				public boolean onTouch(View arg0, MotionEvent arg1) {
+					// TODO Auto-generated method stub
+					scr.requestDisallowInterceptTouchEvent(true);
+					return false;
+				}
+			});
 
 			mAdapter = new CheckTodoListAdapter(this,
 					R.layout.meeting_info_list_row, todolist_list);
@@ -192,11 +224,13 @@ public class calendardialog extends Activity implements OnItemClickListener,
 							check.setCheck(false);
 							tv.setPaintFlags(Paint.ANTI_ALIAS_FLAG
 									| Paint.DEV_KERN_TEXT_FLAG);
+							backup_listnum[position - 1] = false;
 						} else {
 							tv.setChecked(true);
 							System.out.println("fuck " + checked);
 							checked++;
 							System.out.println("fuck " + checked);
+							backup_listnum[position - 1] = true;
 
 							check.setCheck(true);
 							tv.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
@@ -219,7 +253,7 @@ public class calendardialog extends Activity implements OnItemClickListener,
 		} else
 			alert(date, month, year);
 	}
-	String todolist_select;
+
 	/**
 	 * 자체적으로 만든 알럿다이얼로그 생성 메소드
 	 * 
@@ -281,8 +315,63 @@ public class calendardialog extends Activity implements OnItemClickListener,
 		// TODO Auto-generated method stub
 	}
 
+	ThumbImageInfo thumb;
+	int attandance_check = 0;
+	TextView attandance_tv;
+
 	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		// TODO Auto-generated method stub
+	public void onItemClick(AdapterView<?> parent, View v, int position,
+			long arg3) {
+		CheckBox cb = (CheckBox) v.findViewById(R.id.chkImage);
+		thumb = mThumbImageInfoList.get(position);
+		if (thumb.getCheckedState() == true) {
+			thumb.setCheckedState(false);
+			backup_attand[position]=false;
+			
+			attandance_check--;
+			cb.setChecked(false);
+
+		} else {
+			thumb.setCheckedState(true);
+			backup_attand[position]=true;
+			cb.setChecked(true);
+			attandance_check++;
+
+		}
+
+		int attendance_rate = attandance_check * 100 / members;
+
+		attendance_bar.setMax(100);
+		attendance_bar.setProgress(attendance_rate);
+
+		attandance_tv.setText("출석률 : " + attendance_rate + "%");
+
 	}
+	
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		Log.i("doTake", "onSaveInstanceState");
+
+		outState.putBooleanArray("attand", backup_attand);
+		outState.putBooleanArray("list", backup_listnum);
+		
+		super.onSaveInstanceState(outState);
+	}
+
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		Log.i("doTake", "onRestoreInstanceState");
+
+		boolean []temp1 = savedInstanceState.getBooleanArray("attand");
+		boolean []temp2 = savedInstanceState.getBooleanArray("list");
+		
+		for(int i=0; i<listnum; i++)
+			todolist_list.get(i).setCheck(temp2[i]);
+		for(int i=0; i<members; i++)
+			mThumbImageInfoList.get(i).setCheckedState(temp1[i]);
+		
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+
 }

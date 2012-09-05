@@ -1,21 +1,22 @@
 package com.adapter;
 
-import java.io.File;
+
 import java.util.ArrayList;
 
 import com.activity.R;
-import com.adapter.CheckTodoListAdapter.ViewHolder;
+import com.model.DayInfo;
 import com.model.ThumbImageInfo;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class ImageAdapter extends BaseAdapter {
 	static final int VISIBLE = 0x00000000;
@@ -49,30 +50,44 @@ public class ImageAdapter extends BaseAdapter {
 		return position;
 	}
 
-	@SuppressWarnings("unchecked")
+	
+	ImageViewHolder holder;
 	public View getView(int position, View convertView, ViewGroup parent) {
-		
+		ThumbImageInfo thumb = mThumbImageInfoList.get(position);
 
 		if (convertView == null) {
 		
 			convertView = mLiInflater.inflate(mCellLayout, null);
-			ImageViewHolder holder = new ImageViewHolder();
+			holder = new ImageViewHolder();
 
 			holder.ivImage = (ImageView) convertView.findViewById(R.id.ivImage);
-			holder.chkImage = (CheckBox) convertView
-					.findViewById(R.id.chkImage);
+			holder.chkImage = (CheckBox) convertView.findViewById(R.id.chkImage);
 			holder.ivImage.setImageResource(R.drawable.member_byung);
+			holder.username = (TextView) convertView.findViewById(R.id.username);
+			holder.username.setText(thumb.getId());
+			holder.chkImage.setChecked(thumb.getCheckedState());
+			
+			if(position % 3 == 2)
+			{
+				convertView.setLayoutParams(new GridView.LayoutParams(getCellWidthDP()+getRestCellWidthDP(), getCellHeightDP(2)));
+			}
+			else
+			{
+				convertView.setLayoutParams(new GridView.LayoutParams(getCellWidthDP(), getCellHeightDP(2)));	
+			}
 
 
 			convertView.setTag(holder);
+			
+			
 //			String st = "R.drawable."+ mThumbImageInfoList.get(position).getId();
 			
 		}
 
 
 		else {
-			ImageViewHolder holder = (ImageViewHolder) convertView.getTag();
 			holder = (ImageViewHolder) convertView.getTag();
+		
 
 		}
 
@@ -83,7 +98,31 @@ public class ImageAdapter extends BaseAdapter {
 	{
 	  ImageView ivImage;
 	  CheckBox chkImage;
-	  String username;
+	  TextView username;
+	}
+	
+	private int getCellWidthDP()
+	{
+		int width = mContext.getResources().getDisplayMetrics().widthPixels;
+		int cellWidth = width/3;
+		
+		return cellWidth;
+	}
+	
+	private int getRestCellWidthDP()
+	{
+		int width = mContext.getResources().getDisplayMetrics().widthPixels;
+		int cellWidth = width%3;
+		
+		return cellWidth;
+	}
+	
+	private int getCellHeightDP(int num)
+	{
+		int width = mContext.getResources().getDisplayMetrics().widthPixels;
+		int cellHeight = width/num;
+		
+		return cellHeight;
 	}
 }
 

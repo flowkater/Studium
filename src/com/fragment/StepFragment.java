@@ -355,8 +355,7 @@ public class StepFragment extends SherlockFragment implements
 	}
 
 	private void initCalendarAdapter() {
-		mCalendarAdapter = new CalendarAdapter(getActivity(), R.layout.day,
-				mDayList);
+		mCalendarAdapter = new CalendarAdapter(getActivity(), R.layout.day, mDayList);
 		mGvCalendar.setAdapter(mCalendarAdapter);
 	}
 

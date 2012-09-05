@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/stud_bg1"
     android:orientation="horizontal" >
 
     <RelativeLayout
@@ -11,33 +12,36 @@
         <EditText
             android:id="@+id/post_string"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="200dip"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_margin="10dp"
-            android:hint="글을 입력하세요" >
+            android:background="@drawable/edittext_bg"
+            android:gravity="top"
+            android:hint="글을 입력하세요"
+            android:padding="10dip" >
+
+            <requestFocus />
         </EditText>
-
+
         <Button
             android:id="@+id/postcreate_img_btn"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/post_string"
-            android:layout_alignRight="@+id/post_string"
             android:layout_below="@+id/post_string"
+            android:layout_centerHorizontal="true"
+            
             android:text="사진 올리기" />
 
         <ImageView
             android:id="@+id/postcreate_img"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/postcreate_img_btn"
+            android:layout_width="200dip"
+            android:layout_height="200dip"
             android:layout_below="@+id/postcreate_img_btn"
             android:layout_marginTop="10dp"
-            android:scaleType="fitCenter"
-            android:background="#dddddd"
-             />
-        
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/stud_bg1"
+            android:scaleType="fitCenter" />
     </RelativeLayout>
 
     <!-- <LinearLayout -->

@@ -3,6 +3,7 @@ package com.adapter;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,20 @@ public class CheckTodoListAdapter extends ArrayAdapter<CheckString> {
 			holder.string.setClickable(false);
 
 			convertView.setTag(holder);
+			
+			if (user.isCheck() == true) {
+			
+				
+				holder.string.setPaintFlags(Paint.ANTI_ALIAS_FLAG
+						| Paint.DEV_KERN_TEXT_FLAG);
+				
+			} else {
+				
+				//holder.string.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+
+			}
+			
+			
 			} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
