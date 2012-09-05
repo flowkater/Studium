@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/setting_personal_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/stud_bg1" >
 
     <TextView
         android:id="@+id/insert_meeting_sub_info_text"
@@ -33,8 +34,11 @@
         android:layout_below="@+id/textView1"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
+        android:background="@drawable/edittext_bg"
         android:ems="10"
-        android:hint="모임 장소를 입력하세요" >
+        android:hint="모임 장소를 입력하세요"
+        android:padding="10dip"
+        android:singleLine="true" >
     </EditText>
 
     <TextView

@@ -70,7 +70,7 @@ public class GroupPostAdapter extends ArrayAdapter<Post> {
 						holder.feed_content_img);
 			} else {
 				holder.feed_content_img
-						.setImageResource(R.drawable.ic_launcher);
+						.setImageResource(R.drawable.ic_none);
 			}
 			holder.post_body.setText(post.getBody());
 			holder.member_name.setText(post.getName());

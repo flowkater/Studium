@@ -44,7 +44,6 @@ public class RegisterActivity extends SherlockActivity implements
 	private EditText mPasswordEditText;
 	private EditText mPhoneEditText;
 	private ImageView mMember_img;
-	private Button mRegistButton;
 	private String name;
 	private String email;
 	private String password;
@@ -66,19 +65,19 @@ public class RegisterActivity extends SherlockActivity implements
 		getSupportActionBar().hide();
 		setContentView(R.layout.regist_page);
 
-		mNameEditText = (EditText) findViewById(R.id.member_name_edit_text);
-		mNameEditText.setHint("다른 사람에게 보여줄 이름이에요!");
+//		mNameEditText = (EditText) findViewById(R.id.member_name_edit_text);
+//		mNameEditText.setHint("다른 사람에게 보여줄 이름이에요!");
 		mEmailEditText = (EditText) findViewById(R.id.member_id_edit_text);
 		mEmailEditText.setHint("로그인할 때 필요한 ID에요! 꼭 Email형식으로!");
 		mPasswordEditText = (EditText) findViewById(R.id.member_password_edit_text);
 		mPasswordEditText.setHint("비밀번호는 6자이상!");
-		mPhoneEditText = (EditText) findViewById(R.id.member_phone_num_edit_text);
-		mRegistButton = (Button) findViewById(R.id.regist_btn);
-		mMember_img = (ImageView) findViewById(R.id.member_img);
+//		mPhoneEditText = (EditText) findViewById(R.id.member_phone_num_edit_text);
+//		mRegistButton = (Button) findViewById(R.id.regist_btn);
+//		mMember_img = (ImageView) findViewById(R.id.member_img);
 
-		mMember_img.setOnClickListener(this);
+//		mMember_img.setOnClickListener(this);
 
-		mRegistButton.setOnClickListener(new RegisterClickListener());
+//		mRegistButton.setOnClickListener(new RegisterClickListener());
 
 		super.onCreate(savedInstanceState);
 	}
@@ -86,7 +85,7 @@ public class RegisterActivity extends SherlockActivity implements
 	class RegisterClickListener implements OnClickListener {
 		@Override
 		public void onClick(View v) {
-			name = mNameEditText.getText().toString();
+//			name = mNameEditText.getText().toString();
 			email = mEmailEditText.getText().toString();
 			password = mPasswordEditText.getText().toString();
 

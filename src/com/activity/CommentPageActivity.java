@@ -67,7 +67,7 @@ public class CommentPageActivity extends SherlockActivity {
 			try {
 				HttpClient httpClient = new DefaultHttpClient();
 				HttpPost postRequest = new HttpPost(Global.ServerUrl + "posts/"
-						+ post_id + "/comments?auth_token="+ auth_token);
+						+ post_id + "/comments.json?auth_token="+ auth_token);
 
 				MultipartEntity reqEntity = new MultipartEntity(
 						HttpMultipartMode.BROWSER_COMPATIBLE);

@@ -18,7 +18,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/member_byung" />
+             />
 
         <TextView
             android:id="@+id/user_name"
@@ -29,7 +29,7 @@
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/slide_menu_arrow"
             android:layout_toRightOf="@+id/profile_thumbnail"
-            android:text="김병철"
+            
             android:textColor="#ffffffff"
             android:textSize="25sp" />
 

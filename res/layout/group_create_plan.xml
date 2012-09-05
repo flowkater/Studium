@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/stud_bg1" >
+
+        <TextView
+            android:id="@+id/group_create_plan_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/sub_object"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dip"
+            android:text="스터디그룹 계획 작성" />
+
+        <TextView
+            android:id="@+id/plan_start_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/group_create_plan_title"
+            android:layout_marginLeft="10dip"
+            android:layout_marginTop="10dip"
+            android:text="시작일" />
+
+        <DatePicker
+            android:id="@+id/plan_start_date_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/plan_start_text"
+            android:layout_below="@+id/plan_start_text"
+            android:layout_marginTop="10dip" />
+
+        <TextView
+            android:id="@+id/plan_end_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/plan_start_date_picker"
+            android:layout_below="@+id/plan_start_date_picker"
+            android:layout_marginTop="15dip"
+            android:text="종료일" />
+
+        <DatePicker
+            android:id="@+id/plan_end_date_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/plan_end_text"
+            android:layout_below="@+id/plan_end_text"
+            android:layout_marginTop="10dip" />
+
+        <LinearLayout
+            android:id="@+id/week_select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/plan_end_date_picker"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/plan_end_date_picker"
+            android:layout_marginRight="10dip"
+            android:layout_marginTop="20dip"
+            android:background="@drawable/favorite_room_tab_bg" >
+
+            <Button
+                android:id="@+id/sun_btn"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="30dip"
+                android:layout_weight="1"
+                android:background="#888888"
+                android:onClick="mOnClick"
+                android:text="일" />
+
+            <Button
+                android:id="@+id/mon_btn"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="30dip"
+                android:layout_weight="1"
+                android:background="#888888"
+                android:onClick="mOnClick"
+                android:text="월" />
+
+            <Button
+                android:id="@+id/tue_btn"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="30dip"
+                android:layout_weight="1"
+                android:background="#888888"
+                android:onClick="mOnClick"
+                android:text="화" />
+
+            <Button
+                android:id="@+id/wed_btn"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="30dip"
+                android:layout_weight="1"
+                android:background="#888888"
+                android:onClick="mOnClick"
+                android:text="수" />
+
+            <Button
+                android:id="@+id/thu_btn"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="30dip"
+                android:layout_weight="1"
+                android:background="#888888"
+                android:onClick="mOnClick"
+                android:text="목" />
+
+            <Button
+                android:id="@+id/fri_btn"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="30dip"
+                android:layout_weight="1"
+                android:background="#888888"
+                android:onClick="mOnClick"
+                android:text="금" />
+
+            <Button
+                android:id="@+id/sat_btn"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="30dip"
+                android:layout_weight="1"
+                android:background="#888888"
+                android:onClick="mOnClick"
+                android:text="토" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/todolist_edit_text"
+            android:layout_width="230dip"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/week_select"
+            android:layout_below="@+id/week_select"
+            android:layout_marginTop="20dip"
+            android:background="@drawable/edittext_bg"
+            android:hint="해야 할 일 추가하기"
+            android:padding="10dip"
+            android:singleLine="true" />
+
+        <Button
+            android:id="@+id/todolist_plus_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/todolist_edit_text"
+            android:layout_alignBottom="@+id/todolist_edit_text"
+            android:layout_alignRight="@+id/week_select"
+            android:background="@drawable/plus_btn" />
+    </RelativeLayout>
+
+</ScrollView>

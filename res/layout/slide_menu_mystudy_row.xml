@@ -3,8 +3,7 @@
     android:id="@+id/mystudy_row"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-      >
+    android:orientation="vertical" >
 
     <RelativeLayout
         android:id="@+id/mystudy_layout"
@@ -18,8 +17,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_launcher" />
+            android:layout_marginTop="10dp" />
 
         <TextView
             android:id="@+id/mystudy_name"
@@ -30,7 +28,6 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@+id/mystudy_img"
-            android:text="내 그룹 이름들 ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ"
             android:textColor="#ffffffff"
             android:textSize="25dp" />
         <!-- android:textStyle="bold" -->

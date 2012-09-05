@@ -59,7 +59,7 @@ public class GroupCreateActivity extends SherlockActivity{
 		group_location_edit_text = (EditText)findViewById(R.id.group_location_edit_text);
 		group_img = (ImageView)findViewById(R.id.group_img);
 		
-		group_create_btn = (Button)findViewById(R.id.group_create_btn);
+//		group_create_btn = (Button)findViewById(R.id.group_create_btn);
 		
 		group_img.setOnClickListener(new OnClickListener() {
 			@Override
@@ -68,16 +68,16 @@ public class GroupCreateActivity extends SherlockActivity{
 			}
 		});
 		
-		group_create_btn.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				name = group_name_edit_text.getText().toString();
-				goal = group_goal_edit_text.getText().toString();
-				location = group_location_edit_text.getText().toString();
-				new Groupcreate().execute();
-			}
-		});
+//		group_create_btn.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				name = group_name_edit_text.getText().toString();
+//				goal = group_goal_edit_text.getText().toString();
+//				location = group_location_edit_text.getText().toString();
+//				new Groupcreate().execute();
+//			}
+//		});
 	}
 	
 	class Groupcreate extends AsyncTask<Void, Void, Void>{

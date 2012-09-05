@@ -68,7 +68,7 @@ public class GroupIndexActivity extends SlidingFragmentActivity  {
 		
 		mTabsAdapter.addTab(bar.newTab().setText("모집메시지"), PartyMessagesFragment.class, null);
 		mTabsAdapter.addTab(bar.newTab().setText("그룹"), GroupListFragment.class, null);
-		
+		bar.setStackedBackgroundDrawable(getResources().getDrawable(R.drawable.stud_bg1));
 	}
 
 	@Override

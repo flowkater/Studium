@@ -3,91 +3,126 @@
     android:id="@+id/setting_personal_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:background="@drawable/stud_bg1" >
 
+    <TextView
+        android:id="@+id/group_create_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dip"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/sub_object"
+        android:gravity="center_vertical"
+        android:text="스터디그룹 기본 정보 작성" />
     <TableLayout
         android:id="@+id/group_create_table"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/group_create_title"
+        android:layout_margin="10dip" >
 
         <TableRow
-            android:id="@+id/table_group_name"
+            android:id="@+id/table_group_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            
-            android:gravity="center_vertical"
-            android:padding="10.0dp" >
+            android:gravity="center_vertical" >
 
             <TextView
-                android:id="@+id/group_name_text"
-                android:drawablePadding="10.0dp"
-                android:text="그룹 이름"
-                android:textSize="15.0sp" />
-
-            <EditText
-                android:id="@+id/group_name_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                
-                android:ems="10" >
-            </EditText>
-        </TableRow>
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="2.0dp"
-            android:layout_marginRight="2.0dp" />
-
-        <TableRow
-            android:id="@+id/table_group_goal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-          
-            android:gravity="center_vertical"
-            android:padding="10.0dp" >
-
-            <TextView
-                android:id="@+id/group_goal_text"
-                android:drawablePadding="10.0dp"
-                android:text="그룹 목표"
-                android:textSize="15.0sp" />
-
-            <EditText
-                android:id="@+id/group_goal_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                
-                android:ems="10" >
-            </EditText>
-        </TableRow>
-
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="2.0dp"
-            android:layout_marginRight="2.0dp" />
-
-        <TableRow
-            android:id="@+id/table_group_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:gravity="center_vertical"
-            android:padding="10.0dip" >
-
-            <TextView
-                android:id="@+id/group_location_text"
-                android:drawablePadding="10.0dp"
-                android:text="지역"
+                android:id="@+id/group_category_text"
+                android:text="카테고리"
                 android:textSize="15.0sp" />
 
             <EditText
                 android:id="@+id/group_location_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                
-                android:ems="10" >
+                android:layout_marginLeft="10dip"
+                android:background="@drawable/edittext_bg"
+                android:ems="10"
+                android:hint="카테고리를 입력하세요"
+                android:singleLine="true"
+                android:layout_marginTop="10dip"
+                android:layout_marginBottom="10dip"
+                android:padding="10dip" >
+            </EditText>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/table_group_goal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:id="@+id/group_goal_text"
+                android:text="스터디 목표"
+                android:textSize="15.0sp" />
+
+            <EditText
+                android:id="@+id/group_goal_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="100dip"
+                android:layout_marginLeft="10dip"
+                android:background="@drawable/edittext_bg"
+                android:ems="10"
+                android:gravity="top"
+                android:hint="스터디 목표를 입력하세요"
+                  android:layout_marginTop="10dip"
+                android:layout_marginBottom="10dip"
+                android:padding="10dip" >
+            </EditText>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/table_group_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:id="@+id/group_name_text"
+                android:text="스터디 이름"
+                android:textSize="15.0sp" />
+
+            <EditText
+                android:id="@+id/group_name_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:background="@drawable/edittext_bg"
+                android:ems="10"
+                android:hint="스터디 이름을 입력하세요"
+                android:singleLine="true"
+                  android:layout_marginTop="10dip"
+                android:layout_marginBottom="10dip"
+                android:padding="10dip" >
+            </EditText>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/table_group_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:id="@+id/group_location_text"
+                android:text="스터디 장소"
+                android:textSize="15.0sp" />
+
+            <EditText
+                android:id="@+id/group_location_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:background="@drawable/edittext_bg"
+                android:ems="10"
+                android:hint="스터디 장소를 입력하세요"
+                android:singleLine="true"
+                  android:layout_marginTop="10dip"
+                android:layout_marginBottom="10dip"
+                android:padding="10dip" >
             </EditText>
         </TableRow>
     </TableLayout>
@@ -98,16 +133,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/group_create_table"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:src="@android:drawable/spinner_background" />
+        
+        android:src="@drawable/photo_frm" />
 
-    <Button
-        android:id="@+id/group_create_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/group_img"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:text="생성하기" />
 
 </RelativeLayout>

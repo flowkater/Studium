@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical" >
 
     <RelativeLayout
@@ -17,7 +17,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/ic_launcher" />
+            />
 
         <TextView
             android:id="@+id/group_name"
@@ -29,7 +29,7 @@
             android:textSize="20sp"
             android:layout_toLeftOf="@+id/move_group_icon"
             android:layout_toRightOf="@+id/group_intro_img"
-            android:text="TextVfffffffffffffffffffffffffffffffffffffffffffffffffffffiew" />
+            />
 
         <ImageView
             android:id="@+id/move_group_icon"
@@ -58,7 +58,7 @@
             android:layout_alignTop="@+id/group_goal_icon"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/group_goal_icon"
-            android:text="TextView" />
+            />
 
         <ImageView
             android:id="@+id/group_location_icon"
@@ -77,7 +77,7 @@
             android:layout_alignTop="@+id/group_location_icon"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/group_location_icon"
-            android:text="TextView" />
+            />
     </RelativeLayout>
 
     <RelativeLayout
@@ -94,7 +94,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:text="TextVddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddiew" />
+          />
 
         <ImageView
             android:id="@+id/group_message_divider"
@@ -103,7 +103,7 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/group_message_body"
             android:layout_marginTop="10dp"
-            android:background="#000000" />
+            android:background="@drawable/divider5" />
     </RelativeLayout>
 
 </LinearLayout>

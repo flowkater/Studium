@@ -1,33 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- 유저 프로필 이미지 -->
+
+<!-- 유저 스크린네임 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dip"
+    android:orientation="horizontal"
+    android:padding="5dip"
+    android:background="@drawable/stud_bg1" >
+
+    <!-- <TextView -->
+    <!-- android:id="@+id/todolist_string" -->
+    <!-- android:layout_width="0dip" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:text="ㅎㅎㅎㅎ" -->
+    <!-- android:layout_weight="14" -->
 
 
-    <!-- 유저 프로필 이미지 -->
+    <!-- android:textColor="#666666" -->
+    <!-- android:textSize="25sp" /> -->
 
- 
-    <!-- 유저 스크린네임 -->
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="60dip"
-        android:orientation="horizontal"
-        android:padding="5dip"
-         >
-
-<!--         <TextView -->
-<!--             android:id="@+id/todolist_string" -->
-<!--             android:layout_width="0dip" -->
-<!--             android:layout_height="wrap_content" -->
-<!--             android:text="ㅎㅎㅎㅎ" -->
-<!--            	android:layout_weight="14" -->
-            
-<!--             android:textColor="#666666" -->
-<!--             android:textSize="25sp" /> -->
-
-        <CheckBox
-            android:id="@+id/todolist_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-             
-            android:text="fuckyou"/>
+    <CheckBox
+        android:id="@+id/todolist_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="fuckyou" />
 
 </LinearLayout>

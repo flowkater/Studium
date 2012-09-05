@@ -43,16 +43,16 @@
         android:layout_alignParentTop="true"
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
-        android:src="@android:drawable/ic_media_play" />
+        android:src="@drawable/navigation_next" />
 
       <ImageView
         android:id="@+id/sub_divider"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/group_goal"
         android:layout_marginTop="10dp"
-        android:background="#ffffff"
+        android:background="@drawable/divider5"
          />
     <ImageView
         android:id="@+id/people_count_image"
@@ -61,7 +61,7 @@
         android:layout_alignLeft="@+id/group_image"
         android:layout_below="@+id/sub_divider"
         android:layout_marginTop="10dp"
-        android:src="@android:drawable/ic_menu_myplaces" />
+        android:src="@drawable/people_count_image" />
 
     <TextView
         android:id="@+id/people_count"
@@ -80,7 +80,7 @@
         android:layout_alignTop="@+id/people_count"
         android:layout_marginLeft="20dp"
         android:layout_toRightOf="@+id/people_count"
-        android:src="@android:drawable/ic_menu_edit" />
+        android:src="@drawable/feed_count_image" />
 
     <TextView
         android:id="@+id/feed_count"
@@ -99,7 +99,7 @@
         android:layout_alignTop="@+id/feed_count"
         android:layout_marginLeft="20dp"
         android:layout_toRightOf="@+id/feed_count"
-        android:src="@android:drawable/ic_menu_mapmode" />
+        android:src="@drawable/location_image" />
 
     <TextView
         android:id="@+id/location"
@@ -115,7 +115,7 @@
     <ImageView
         android:id="@+id/group_list_divider"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="0.2dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/location"
         android:layout_marginTop="10dp"

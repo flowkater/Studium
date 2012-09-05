@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@drawable/stud_bg1" >
     
 	<RelativeLayout
         android:layout_width="match_parent"
@@ -11,31 +12,27 @@
 	     <EditText
             android:id="@+id/party_message_edit_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="200dip"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
-            android:layout_margin="10dp"
+            android:layout_margin="20dp"
+            android:padding="10dip"
+            android:background="@drawable/edittext_bg"
+            android:gravity="top"
             android:hint="모집 메세지를 작성하세요" >
+             <requestFocus />
         </EditText>
         
-	      <Button
-            android:id="@+id/party_message_write_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/party_message_edit_text"
-            android:layout_alignRight="@+id/party_message_edit_text"
-            android:layout_below="@+id/party_message_edit_text"
-            android:text="작성하기" />
-	      
+	    	      
 	      <Button
             android:id="@+id/party_message_skip_btn"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/party_message_edit_text"
-            android:layout_alignRight="@+id/party_message_edit_text"
-            android:layout_below="@+id/party_message_write_btn"
-            android:layout_marginTop="10dp"
-            android:text="write skip" />
+            android:layout_centerHorizontal="true"
+            
+            android:layout_below="@+id/party_message_edit_text"
+            
+            android:text="skip write" />
 	      
 	       </RelativeLayout>
     

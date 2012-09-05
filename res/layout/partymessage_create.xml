@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="@drawable/stud_bg1">
+
+    <TextView
+        android:id="@+id/partymessage_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dip"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/sub_object"
+        android:gravity="center_vertical"
+        android:text="모집메시지 작성" />
+
+    <EditText
+        android:id="@+id/partymessage_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="200dip"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/partymessage_title"
+        android:layout_marginLeft="20dip"
+        android:layout_marginTop="20dip"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dip"
+        android:background="@drawable/edittext_bg"
+        android:padding="10dip"
+        android:ems="10"
+        android:hint="모집메시지를 작성하세요" 
+        android:gravity="top">
+
+        <requestFocus />
+    </EditText>
+
+</RelativeLayout>

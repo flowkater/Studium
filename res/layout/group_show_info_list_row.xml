@@ -2,36 +2,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical" >
 
-    android:orientation="horizontal" >
-
-    <!-- 유저 프로필 이미지 -->
-
-    <ImageView
-        android:id="@+id/member_img"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="10dp"
-        android:background="#E44044" />
-    <!-- /유저 프로필 이미지 -->
-    <!-- 유저 스크린네임 -->
-
-    <LinearLayout
+    <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical" >
+        android:layout_height="wrap_content" >
 
-        <TextView
-            android:id="@+id/member_name"
+        <TableRow
+            android:id="@+id/tableRow1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ㅎㅎㅎㅎ"
-            android:textColor="#666666"
-            android:textSize="25sp"
-            />
-    </LinearLayout>
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/member_img"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="20dp" >
+            </ImageView>
+
+            <TextView
+                android:id="@+id/member_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="ㅎㅎㅎㅎ"
+                android:textColor="#666666"
+                android:textSize="20sp" >
+            </TextView>
+        </TableRow>
+    </TableLayout>
 
 </LinearLayout>

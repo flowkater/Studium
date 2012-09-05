@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@drawable/stud_bg1">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -16,7 +17,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/member_byung" />
+             />
 
         <TextView
             android:id="@+id/member_name"
@@ -27,7 +28,7 @@
             android:layout_toLeftOf="@+id/create_time"
             android:layout_toRightOf="@+id/member_img"
             android:layout_marginRight="10dp"
-            android:text="김병철" />
+            />
         
         <TextView
             android:id="@+id/create_time"
@@ -36,7 +37,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:text="2012/8/17 3:00pm" />
+            />
     </RelativeLayout>
 
     <TextView
@@ -44,6 +45,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="숙제들 꼭 해주시고요.Deposit 안내신분들 오늘까지 꼭 내주세요 안내시면 총무나가요^^ 늦으면 벌금 분당 200원 안오시면 만원알죠? ㅎㅎ 월요일날 뵙겠습니다." />
+      />
 
 </LinearLayout>
