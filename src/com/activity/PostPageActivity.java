@@ -379,7 +379,6 @@ public Bitmap resizeBitmapImage(Bitmap source, int maxResolution)
 				byte[] b = savedInstanceState.getByteArray("Bitmap" + i);
 
 				resized = BitmapFactory.decodeByteArray(b, 0, b.length);
-
 			}
 		}
 

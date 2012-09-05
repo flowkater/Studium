@@ -181,4 +181,12 @@ public class PostShowActivity extends SherlockActivity {
 								| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 		return super.onCreateOptionsMenu(menu);
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent = new Intent(this, CommentPageActivity.class);
+		intent.putExtra("post_id", post_id);
+		startActivity(intent);
+		return true;
+	}
 }
