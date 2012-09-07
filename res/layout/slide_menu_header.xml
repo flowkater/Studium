@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-   >
+    android:orientation="vertical" 
+    android:background="@drawable/small_gray_bg">
 
     <RelativeLayout
         android:id="@+id/user_layout"
@@ -18,7 +18,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-             />
+            android:src="@drawable/photo_frm" />
 
         <TextView
             android:id="@+id/user_name"
@@ -27,11 +27,12 @@
             android:layout_alignTop="@+id/profile_thumbnail"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="10dip"
             android:layout_toLeftOf="@+id/slide_menu_arrow"
             android:layout_toRightOf="@+id/profile_thumbnail"
-            
+            android:text="sdkj"
             android:textColor="#ffffffff"
-            android:textSize="25sp" />
+            android:textSize="15sp" />
 
         <ImageView
             android:id="@+id/slide_menu_arrow"
@@ -39,20 +40,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/user_name"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
             android:src="@drawable/slide_menu_arrow" />
-
-<!--         <TextView -->
-<!--             android:id="@+id/user_intro" -->
-<!--             android:layout_width="wrap_content" -->
-<!--             android:layout_height="wrap_content" -->
-<!--             android:layout_alignLeft="@+id/user_name" -->
-<!--             android:layout_alignRight="@+id/user_name" -->
-<!--             android:layout_below="@+id/user_name" -->
-<!--             android:layout_marginTop="10dp" -->
-<!--             android:text="ddddxdzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz" -->
-<!--             android:textColor="#ffffffff" /> -->
     </RelativeLayout>
 
     <RelativeLayout

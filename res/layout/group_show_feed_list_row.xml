@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="wrap_content"
+    android:background="@drawable/post_bg2" >
 
     <ImageView
         android:id="@+id/member_img"
@@ -11,9 +11,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-         />
-
+        android:layout_marginTop="10dp" />
+
     <TextView
         android:id="@+id/member_name"
         android:layout_width="match_parent"
@@ -22,8 +21,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@+id/posting_time"
-        android:layout_toRightOf="@+id/member_img"
-        />
+        android:layout_toRightOf="@+id/member_img" />
 
     <TextView
         android:id="@+id/posting_time"
@@ -33,7 +31,6 @@
         android:layout_alignBottom="@+id/member_name"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
-       
         android:textSize="10sp" />
 
     <TextView
@@ -43,8 +40,7 @@
         android:layout_alignLeft="@+id/member_name"
         android:layout_alignRight="@+id/posting_time"
         android:layout_below="@+id/member_name"
-        android:layout_marginTop="10dp"
-        />
+        android:layout_marginTop="10dp" />
 
     <ImageView
         android:id="@+id/feed_content_img"
@@ -56,32 +52,32 @@
         android:layout_marginTop="10dp"
         android:scaleType="fitStart" />
 
-    <ImageView
-        android:id="@+id/comment_img"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_alignRight="@+id/feed_content_img"
-        android:layout_below="@+id/feed_content_img"
-        android:layout_marginTop="10dp"
-        android:src="@drawable/group_show_comment_img" />
-
     <TextView
         android:id="@+id/comment_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/comment_img"
-        android:layout_toLeftOf="@+id/comment_img"
+        android:layout_alignRight="@+id/feed_content_img"
+        android:layout_below="@+id/feed_content_img"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:text="댓글수 0개" />
-    
-      <ImageView
-            android:id="@+id/group_show_feed_list_divider"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/comment_img"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/divider5" />
-    
+
+    <ImageView
+        android:id="@+id/comment_img"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_alignTop="@+id/comment_count"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/comment_count"
+        android:src="@drawable/group_show_comment_img" />
+
+    <ImageView
+        android:id="@+id/group_show_feed_list_divider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/comment_img"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/divider5" />
 
 </RelativeLayout>

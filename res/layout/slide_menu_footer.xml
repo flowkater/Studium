@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
+   android:background="@drawable/small_gray_bg"
   >
 
     <ImageView
@@ -45,9 +46,13 @@
                 android:layout_height="wrap_content" >
                 <ImageView 
                     android:id="@+id/create_study_icon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="10dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:src="@drawable/create_group_icon"
                     />
                 <TextView
                     android:id="@+id/create_study_text"
@@ -57,10 +62,16 @@
                     android:layout_marginTop="10dp" 
                     android:text="스터디 만들기"
                     android:textColor="#ffffff"
-                    android:textSize="25sp"
+                    
                     />
             </TableRow>
 
+            <ImageView
+                android:id="@+id/silde_menu_mystudy_list_divider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/line" />
+            
             <TableRow
                 android:id="@+id/search_study_table"
                 android:layout_width="match_parent"
@@ -68,9 +79,12 @@
 
                 <ImageView
                     android:id="@+id/search_study_icon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="10dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="5dp"
                     android:src="@drawable/search_study_icon" />
 
                 <TextView
@@ -81,14 +95,14 @@
                     android:layout_marginTop="10dp"
                     android:text="스터디 검색"
                     android:textColor="#ffffffff"
-                    android:textSize="25sp" />
+                     />
             </TableRow>
 
             <ImageView
                 android:id="@+id/silde_menu_mystudy_list_divider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/divider4" />
+                android:background="@drawable/line" />
 
             <TableRow
                 android:id="@+id/preference_table"
@@ -97,9 +111,12 @@
 
                 <ImageView
                     android:id="@+id/preference_icon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="10dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="5dp"
                     android:src="@drawable/preference_icon" />
 
                 <TextView
@@ -110,14 +127,14 @@
                     android:layout_marginTop="10dp"
                     android:text="환경설정"
                     android:textColor="#ffffffff"
-                    android:textSize="25sp" />
+                     />
             </TableRow>
 
             <ImageView
                 android:id="@+id/silde_menu_mystudy_list_divider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/divider4" />
+                android:background="@drawable/line" />
 
             <TableRow
                 android:id="@+id/logout_table"
@@ -126,10 +143,13 @@
 
                 <ImageView
                     android:id="@+id/logout_icon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_margin="10dp"
-                    android:src="@drawable/logout_icon" />
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:src="@drawable/logout_icon2" />
 
                 <TextView
                     android:id="@+id/logout_text"
@@ -139,7 +159,7 @@
                     android:layout_marginTop="10dp"
                     android:text="로그아웃"
                     android:textColor="#ffffffff"
-                    android:textSize="25sp" />
+                     />
             </TableRow>
         </TableLayout>
     </RelativeLayout>

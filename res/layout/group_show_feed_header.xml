@@ -16,7 +16,9 @@
         android:layout_toLeftOf="@+id/group_meeting_date_btn"
         android:background="@drawable/stud_post1"
         android:gravity="center_horizontal|center_vertical"
-        android:padding="10dip" />
+        android:padding="10dip"
+        android:textSize="25sp"
+         />
 
     <TextView
         android:id="@+id/group_goal"

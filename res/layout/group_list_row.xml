@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content" 
+    android:background="@drawable/post_bg2">
 
     <ImageView
         android:id="@+id/group_image"
@@ -115,11 +116,11 @@
     <ImageView
         android:id="@+id/group_list_divider"
         android:layout_width="match_parent"
-        android:layout_height="0.2dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/location"
         android:layout_marginTop="10dp"
-        android:background="#000000"
+        android:background="@drawable/divider2"
          />
 
 </RelativeLayout>

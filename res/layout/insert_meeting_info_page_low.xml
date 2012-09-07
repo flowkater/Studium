@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/stud_bg1" >
+    android:background="@drawable/small_main_bg"
+     >
 
     <EditText
         android:id="@+id/insert_todolist_edit_text"
