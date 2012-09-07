@@ -3,9 +3,8 @@ package com.fragment;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import me.croute.calendarexample.activity.calendardialog;
-
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -17,12 +16,15 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.activity.MeetingCreateActivity;
+import com.activity.MeetingShowActivity;
 import com.activity.R;
 import com.adapter.CalendarAdapter;
 import com.model.DayInfo;
@@ -40,7 +42,9 @@ public class StepFragment extends SherlockFragment implements
 			party.getPartying_time(), party.getLocation(), party.getTime(),
 			party.getTodolist(), party.getComment_count(), party.getDate() };
 
-	private int WhenDoyougoToStudy[] = new int[8];
+	// it is setting of meeting day
+	// private int WhenDoyougoToStudy[] = new int[8];
+
 	public static int PARTY_MEMBER = 0;
 	public static int PARTYING_TIME = 1;
 	public static int LOCATION = 2;
@@ -50,6 +54,8 @@ public class StepFragment extends SherlockFragment implements
 	public static int DATE = 6;
 
 	private View mView;
+	boolean mMeeting;
+
 	public static int SUNDAY = 1;
 	public static int MONDAY = 2;
 	public static int TUESDAY = 3;
@@ -86,21 +92,26 @@ public class StepFragment extends SherlockFragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		mView = inflater.inflate(R.layout.step_calender, container, false);
-		WhenDoyougoToStudy[MONDAY] = 1;
-		WhenDoyougoToStudy[WEDNSESDAY] = 1;
-		WhenDoyougoToStudy[FRIDAY] = 1;
-		
+		// LayoutInflater lf = (LayoutInflater)
+		// getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+		// it is setting of meeting day
+		// WhenDoyougoToStudy[MONDAY] = 1;
+		// WhenDoyougoToStudy[WEDNSESDAY] = 1;
+		// WhenDoyougoToStudy[FRIDAY] = 1;
 
 		Button bLastMonth = (Button) mView
 				.findViewById(R.id.gv_calendar_activity_b_last);
 		Button bNextMonth = (Button) mView
 				.findViewById(R.id.gv_calendar_activity_b_next);
+		Button create_meeting = (Button) mView.findViewById(R.id.add_meeting);
 
 		mTvCalendarTitle = (TextView) mView
 				.findViewById(R.id.gv_calendar_activity_tv_title);
 		mGvCalendar = (GridView) mView
 				.findViewById(R.id.gv_calendar_activity_gv_calendar);
 
+		create_meeting.setOnClickListener(this);
 		bLastMonth.setOnClickListener(this);
 		bNextMonth.setOnClickListener(this);
 		mGvCalendar.setOnItemClickListener(this);
@@ -119,6 +130,7 @@ public class StepFragment extends SherlockFragment implements
 		// mPostList.add(object);
 
 		getCalendar(mThisMonthCalendar);
+
 		return mView;
 	}
 
@@ -147,8 +159,8 @@ public class StepFragment extends SherlockFragment implements
 
 		lastMonthStartDay -= (dayOfMonth - 1) - 1;
 
-		mTvCalendarTitle.setText(mThisMonthCalendar.get(Calendar.YEAR) + "��"
-				+ (mThisMonthCalendar.get(Calendar.MONTH) + 1) + "��");
+		mTvCalendarTitle.setText(mThisMonthCalendar.get(Calendar.YEAR) + "년"
+				+ (mThisMonthCalendar.get(Calendar.MONTH) + 1) + "월");
 
 		DayInfo day;
 
@@ -222,11 +234,11 @@ public class StepFragment extends SherlockFragment implements
 			day.setMonth((mThisMonthCalendar.get(Calendar.MONTH) + 1) + "");
 			day.setYear(mThisMonthCalendar.get(Calendar.YEAR) + "");
 
-			int WhatisthedayToday = (day.getDay() + lastmonthdays % 7) % 7;
+			// int WhatisthedayToday = (day.getDay() + lastmonthdays % 7) % 7;
 
-			if (WhenDoyougoToStudy[WhatisthedayToday] == 1) {
-				day.setParty(true);
-			}
+			// if (WhenDoyougoToStudy[WhatisthedayToday] == 1) {
+			// day.setParty(true);
+			// }
 
 			// user party check
 			if (Integer.parseInt(userPartydates[2]) == Integer.parseInt(day
@@ -326,17 +338,22 @@ public class StepFragment extends SherlockFragment implements
 			long arg3) {
 
 		daycl = mDayList.get(position);
-
+		Intent intent;
 		Bundle extras = new Bundle();
 		extras.putString("date", daycl.getDate());
 		extras.putString("month", daycl.getMonth());
 		extras.putString("year", daycl.getYear());
 		extras.putBoolean("isParty", daycl.isParty());
+		extras.putBoolean("making", mMeeting);
+		// extras.putBoolean("mMeeting", mMeeting);
 		if (daycl.isParty() == true && useruser == true)
 			extras.putStringArray("party", partystring);
 
-		Intent intent = new Intent(getActivity(), calendardialog.class);
-		intent.putExtras(extras);
+		if (mMeeting) {
+			intent = new Intent(getActivity(), MeetingCreateActivity.class);
+		} else
+			intent = new Intent(getActivity(), MeetingShowActivity.class);
+			intent.putExtras(extras);
 
 		startActivity(intent);
 
@@ -352,10 +369,17 @@ public class StepFragment extends SherlockFragment implements
 			mThisMonthCalendar = getNextMonth(mThisMonthCalendar);
 			getCalendar(mThisMonthCalendar);
 		}
+		if (R.id.add_meeting == v.getId()) {
+			Toast.makeText(getActivity().getApplicationContext(),
+					"이제 모임 날짜를 클릭해주세용 !", Toast.LENGTH_SHORT).show();
+			mMeeting = true;
+
+		}
 	}
 
 	private void initCalendarAdapter() {
-		mCalendarAdapter = new CalendarAdapter(getActivity(), R.layout.day, mDayList);
+		mCalendarAdapter = new CalendarAdapter(getActivity(), R.layout.day,
+				mDayList);
 		mGvCalendar.setAdapter(mCalendarAdapter);
 	}
 

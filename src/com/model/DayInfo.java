@@ -15,6 +15,7 @@ public class DayInfo {
 	private int bg_color;
 	private int Post_num;
 	private boolean party;
+	
 
 	/**
 	 * 날짜를 반환한다.

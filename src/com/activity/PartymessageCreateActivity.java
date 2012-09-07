@@ -66,7 +66,7 @@ public class PartymessageCreateActivity extends SherlockActivity {
 		bar.setDisplayHomeAsUpEnabled(true);
 		// end header
 		titlebar_text = (TextView) findViewById(R.id.titlebar_text);
-		titlebar_text.setText("모집메시지쓰기");
+		titlebar_text.setText("BlahBlah");
 
 		partym_body = (EditText) findViewById(R.id.partymessage_edit_text);
 	}

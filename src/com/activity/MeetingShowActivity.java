@@ -1,9 +1,9 @@
-package me.croute.calendarexample.activity;
+package com.activity;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
-import com.activity.GroupShowActivity;
+import com.actionbarsherlock.app.SherlockActivity;
 import com.activity.R;
 import com.adapter.CheckTodoListAdapter;
 import com.adapter.ImageAdapter;
@@ -28,12 +28,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.GridLayout.LayoutParams;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -42,7 +45,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class calendardialog extends Activity implements OnItemClickListener,
+public class MeetingShowActivity extends SherlockActivity implements OnItemClickListener,
 		OnClickListener {
 	public static int PARTY_MEMBER = 0;
 	public static int PARTYING_TIME = 1;
@@ -53,8 +56,8 @@ public class calendardialog extends Activity implements OnItemClickListener,
 	public static int DATE = 6;
 	public static String delims = "-";
 	int count = 0;
-	public static int members=4;
-	public static int listnum=3;
+	public static int members = 4;
+	public static int listnum = 3;
 
 	CheckTodoListAdapter mAdapter;
 
@@ -75,9 +78,9 @@ public class calendardialog extends Activity implements OnItemClickListener,
 	private String month;
 	private String year;
 	private boolean party;
-	boolean [] backup_attand = new boolean [members];
-	boolean [] backup_listnum = new boolean [listnum];
-
+	private boolean mMeeting;
+	boolean[] backup_attand = new boolean[members];
+	boolean[] backup_listnum = new boolean[listnum];
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -89,10 +92,11 @@ public class calendardialog extends Activity implements OnItemClickListener,
 		month = in.getStringExtra("month");
 		year = in.getStringExtra("year");
 		party = in.getBooleanExtra("isParty", false);
+		mMeeting = in.getBooleanExtra("making", false);
 		String partystring[] = in.getStringArrayExtra("party");
 		role = in.getStringExtra("role");
 
-		// int color = getIntent().getIntExtra("color", Color.WHITE);
+		
 
 		if (party) {
 			setContentView(R.layout.meeting_info_page);
@@ -171,7 +175,7 @@ public class calendardialog extends Activity implements OnItemClickListener,
 			mGvImageList = (GridView) header
 					.findViewById(R.id.meeting_entry_grid_view);
 			mGvImageList.setOnItemClickListener(this);
-			mListAdapter = new ImageAdapter(calendardialog.this,
+			mListAdapter = new ImageAdapter(MeetingShowActivity.this,
 					R.layout.image_cell, mThumbImageInfoList);
 
 			mGvImageList.setAdapter(mListAdapter);
@@ -326,14 +330,14 @@ public class calendardialog extends Activity implements OnItemClickListener,
 		thumb = mThumbImageInfoList.get(position);
 		if (thumb.getCheckedState() == true) {
 			thumb.setCheckedState(false);
-			backup_attand[position]=false;
-			
+			backup_attand[position] = false;
+
 			attandance_check--;
 			cb.setChecked(false);
 
 		} else {
 			thumb.setCheckedState(true);
-			backup_attand[position]=true;
+			backup_attand[position] = true;
 			cb.setChecked(true);
 			attandance_check++;
 
@@ -347,15 +351,14 @@ public class calendardialog extends Activity implements OnItemClickListener,
 		attandance_tv.setText("Ãâ¼®·ü : " + attendance_rate + "%");
 
 	}
-	
-	
+
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		Log.i("doTake", "onSaveInstanceState");
 
 		outState.putBooleanArray("attand", backup_attand);
 		outState.putBooleanArray("list", backup_listnum);
-		
+
 		super.onSaveInstanceState(outState);
 	}
 
@@ -363,14 +366,14 @@ public class calendardialog extends Activity implements OnItemClickListener,
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		Log.i("doTake", "onRestoreInstanceState");
 
-		boolean []temp1 = savedInstanceState.getBooleanArray("attand");
-		boolean []temp2 = savedInstanceState.getBooleanArray("list");
-		
-		for(int i=0; i<listnum; i++)
+		boolean[] temp1 = savedInstanceState.getBooleanArray("attand");
+		boolean[] temp2 = savedInstanceState.getBooleanArray("list");
+
+		for (int i = 0; i < listnum; i++)
 			todolist_list.get(i).setCheck(temp2[i]);
-		for(int i=0; i<members; i++)
+		for (int i = 0; i < members; i++)
 			mThumbImageInfoList.get(i).setCheckedState(temp1[i]);
-		
+
 		super.onRestoreInstanceState(savedInstanceState);
 	}
 

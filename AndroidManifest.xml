@@ -8,38 +8,40 @@
         android:targetSdkVersion="15" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:screenOrientation="portrait"
         android:theme="@style/Theme.Sherlock.Light" >
-        <activity android:name="com.activity.LoginActivity" >
+        <activity
+            android:name=".GroupIndexActivity"
+            android:label="@string/title_activity_group_index" >
+            
+        </activity>
+        <activity
+            android:name=".GroupShowActivity"
+            android:label="@string/title_activity_group_index" >
+        </activity>
+        <activity
+            android:name=".PostShowActivity"
+            android:label="@string/title_activity_group_index" >
+        </activity>
+        <activity android:name="PostPageActivity"></activity>
+        <activity android:name="CommentPageActivity"></activity>
+        <activity android:name="LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.activity.GroupIndexActivity" >
-        </activity>
-        <activity android:name="com.activity.GroupShowActivity" >
-        </activity>
-        <activity android:name="com.activity.PostShowActivity" >
-        </activity>
-        <activity android:name="com.activity.PostPageActivity" >
-        </activity>
-        <activity android:name="com.activity.CommentPageActivity" >
-        </activity>
-        <activity android:name="com.activity.RegisterActivity" >
-        </activity>
-        <activity android:name="com.activity.PartymessageCreateActivity" >
-        </activity>
-        <activity android:name="com.activity.GroupCreateActivity" >
-        </activity>
-        <activity android:name="me.croute.calendarexample.activity.calendardialog" >
-        </activity>
+        <activity android:name="RegisterActivity"></activity>
+        <activity android:name="GroupCreateActivity"></activity>
+        <activity android:name=".MeetingShowActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name="MeetingCreateActivity" android:screenOrientation="portrait">  </activity>
+        
     </application>
 </manifest>
