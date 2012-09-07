@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -22,9 +23,11 @@ import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.activity.GroupCreateActivity;
+import com.activity.GroupIndexActivity;
 import com.activity.GroupShowActivity;
 import com.activity.LoginActivity;
 import com.activity.R;
@@ -45,7 +48,10 @@ public class SlideMenuFragment extends SherlockListFragment implements
 	private LinearLayout headerview;
 	private LinearLayout footerview;
 	private TableRow studycreate;
-	private RelativeLayout userlogin;
+	private TableRow studysearch;
+	private TableRow preference;
+	private TableRow logout;
+	private RelativeLayout userlayout;
 	private SharedPreferences mPreferences;
 	private String auth_token;
 	private ImageView profile_thumbnail;
@@ -82,10 +88,23 @@ public class SlideMenuFragment extends SherlockListFragment implements
 				R.layout.slide_menu_header, null);
 		footerview = (LinearLayout) inflater.inflate(
 				R.layout.slide_menu_footer, null);
+		
+		userlayout = (RelativeLayout) headerview.findViewById(R.id.user_layout);
+		userlayout.setOnClickListener(new UserClickListener());
 
 		studycreate = (TableRow) footerview
 				.findViewById(R.id.create_study_table);
-		studycreate.setOnClickListener(new StudyClickListener());
+		studycreate.setOnClickListener(new StudyCreateClickListener());
+
+		studysearch = (TableRow) footerview
+				.findViewById(R.id.search_study_table);
+		studysearch.setOnClickListener(new StudySearchClickListener());
+
+		preference = (TableRow) footerview.findViewById(R.id.preference_table);
+		preference.setOnClickListener(new PreferenceClickListener());
+
+		logout = (TableRow) footerview.findViewById(R.id.logout_table);
+		logout.setOnClickListener(new LogoutClickListener());
 
 		profile_thumbnail = (ImageView) headerview
 				.findViewById(R.id.profile_thumbnail);
@@ -97,11 +116,48 @@ public class SlideMenuFragment extends SherlockListFragment implements
 		mListView.setAdapter(mAdapter);
 		mListView.setOnItemClickListener(this);
 	}
+	
+	class UserClickListener implements OnClickListener{
+		@Override
+		public void onClick(View arg0) {
+			// user info
+		}
+	}
 
-	class StudyClickListener implements OnClickListener {
+	class StudyCreateClickListener implements OnClickListener {
 		@Override
 		public void onClick(View v) {
 			Intent in = new Intent(getActivity(), GroupCreateActivity.class);
+			startActivity(in);
+		}
+	}
+
+	class StudySearchClickListener implements OnClickListener {
+		@Override
+		public void onClick(View arg0) {
+			Intent in = new Intent(getActivity(), GroupIndexActivity.class);
+			startActivity(in);
+		}
+	}
+
+	class PreferenceClickListener implements OnClickListener {
+		@Override
+		public void onClick(View v) {
+			// preference
+		}
+	}
+
+	class LogoutClickListener implements OnClickListener {
+		@Override
+		public void onClick(View v) {
+			Editor ed = mPreferences.edit();
+			ed.remove("UserName");
+			ed.remove("PassWord");
+			ed.remove("AuthToken");
+			ed.commit();
+			getActivity().finish();
+
+			Intent in = new Intent(getActivity(), LoginActivity.class);
 			startActivity(in);
 		}
 	}
@@ -126,7 +182,7 @@ public class SlideMenuFragment extends SherlockListFragment implements
 					ImageDownloader.download(Global.ServerUrl + image,
 							profile_thumbnail);
 				} else {
-					profile_thumbnail.setImageResource(R.drawable.ic_launcher);
+					profile_thumbnail.setImageResource(R.drawable.photo_frm);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -134,7 +190,9 @@ public class SlideMenuFragment extends SherlockListFragment implements
 			Gson gson = new Gson();
 			Groups groups = gson.fromJson(mResult, Groups.class);
 			for (Group group : groups.getGroups()) {
-				mArrayList.add(group);
+				if (group.getName()!=null) {
+					mArrayList.add(group);
+				}
 			}
 			mAdapter.notifyDataSetChanged();
 			super.onPostExecute(result);

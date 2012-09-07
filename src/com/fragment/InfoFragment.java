@@ -113,22 +113,24 @@ public class InfoFragment extends SherlockFragment implements
 		mListView.getRefreshableView().addHeaderView(headerview);
 
 		if (role.equals(Global.founder)) {
-			
+			mListView.getRefreshableView().setAdapter(mAdapter);
+			mListView.getRefreshableView().setOnItemClickListener(this);
 		} else if (role.equals(Global.member)) {
-			
+			mListView.getRefreshableView().setAdapter(mAdapter);
+			mListView.getRefreshableView().setOnItemClickListener(this);
 		} else if(role.equals(Global.waiting)){
-			
+			mListView.getRefreshableView().setAdapter(mAdapter);
+//			mListView.getRefreshableView().setOnItemClickListener(this);
 		}else {
 			footerview = (LinearLayout) inflater.inflate(
 					R.layout.group_show_info_footer, null);
 			JoinButton = (Button) footerview.findViewById(R.id.join_button);
 			mListView.getRefreshableView().addFooterView(footerview);
 			JoinButton.setOnClickListener(new JoinClickListener());
+			mListView.getRefreshableView().setAdapter(mAdapter);
+//			mListView.getRefreshableView().setOnItemClickListener(this);
 		}
 		// setAdapter must be located below addheaderview.
-		mListView.getRefreshableView().setAdapter(mAdapter);
-		mListView.getRefreshableView().setOnItemClickListener(this);
-		
 		return mView;
 	}
 	
@@ -228,8 +230,6 @@ public class InfoFragment extends SherlockFragment implements
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 
 	}
-
-	
 
 	@Override
 	public void onStart() {

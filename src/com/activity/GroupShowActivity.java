@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
@@ -22,6 +23,7 @@ import com.fragment.InfoFragment;
 import com.fragment.SlideMenuFragment;
 import com.fragment.StepFragment;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
+import com.utils.Global;
 
 public class GroupShowActivity extends SlidingFragmentActivity {
 	private ViewPager mViewPager;
@@ -29,6 +31,7 @@ public class GroupShowActivity extends SlidingFragmentActivity {
 	private TextView titlebar_text;
 	private String group_id;
 	private String auth_token;
+	private String role;
 	private SharedPreferences mPreferences;
 
 	// private String mResult;
@@ -46,6 +49,7 @@ public class GroupShowActivity extends SlidingFragmentActivity {
 
 		Intent in = getIntent();
 		group_id = in.getExtras().getString("group_id");
+		role = in.getExtras().getString("role");
 
 		mViewPager = new ViewPager(this);
 		mViewPager.setId(R.id.pager);
@@ -93,16 +97,36 @@ public class GroupShowActivity extends SlidingFragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add("write")
-				.setIcon(R.drawable.title_btn_geo)
-				.setShowAsAction(
-						MenuItem.SHOW_AS_ACTION_IF_ROOM
-								| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		if (role.equals(Global.founder)) {
+			menu.add("write")
+			.setIcon(R.drawable.title_btn_geo)
+			.setShowAsAction(
+					MenuItem.SHOW_AS_ACTION_IF_ROOM
+							| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+			menu.add("setting")
+			.setIcon(R.drawable.title_btn_setting)
+			.setShowAsAction(
+					MenuItem.SHOW_AS_ACTION_IF_ROOM
+							| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		}else if(role.equals(Global.member)){
+			menu.add("write")
+			.setIcon(R.drawable.title_btn_geo)
+			.setShowAsAction(
+					MenuItem.SHOW_AS_ACTION_IF_ROOM
+							| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		}else{
+			menu.add("Join")
+			.setShowAsAction(
+					MenuItem.SHOW_AS_ACTION_IF_ROOM
+							| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		}
+		
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Toast.makeText(getApplicationContext(), item.getItemId()+"", Toast.LENGTH_SHORT).show();
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			toggle();
