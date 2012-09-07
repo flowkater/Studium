@@ -12,23 +12,7 @@
         android:layout_height="wrap_content"
         android:scaleType="fitXY"
         android:src="@drawable/preference_and_logout" />
-    <!-- <RelativeLayout -->
-    <!-- android:layout_width="match_parent" -->
-    <!-- android:layout_height="wrap_content" -->
 
-
-    <!-- > -->
-
-
-    <!-- <TextView -->
-    <!-- android:layout_width="wrap_content" -->
-    <!-- android:layout_height="wrap_content" -->
-    <!-- android:layout_alignParentLeft="true" -->
-    <!-- android:layout_alignParentTop="true" -->
-    <!-- android:layout_margin="5dp" -->
-    <!-- android:text="설정 및 로그아웃" -->
-    <!-- android:textColor="#000000" /> -->
-    <!-- </RelativeLayout> -->
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -163,5 +147,4 @@
             </TableRow>
         </TableLayout>
     </RelativeLayout>
-
 </LinearLayout>
