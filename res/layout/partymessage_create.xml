@@ -4,16 +4,6 @@
     android:layout_height="match_parent" 
     android:background="@drawable/stud_bg1">
 
-    <TextView
-        android:id="@+id/partymessage_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="10dip"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/sub_object"
-        android:gravity="center_vertical"
-        android:text="모집메시지 작성" />
 
     <EditText
         android:id="@+id/partymessage_edit_text"

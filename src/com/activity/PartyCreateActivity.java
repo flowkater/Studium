@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -17,7 +16,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -45,11 +43,11 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.utils.Global;
 
-public class PostPageActivity extends SherlockActivity implements
+public class PartyCreateActivity extends SherlockActivity implements
 		OnClickListener {
-	private ProgressDialog mProgressDialog;
 	private EditText post_body;
 	private TextView titlebar_text;
+	private EditText post_et;
 	private String post_string;
 
 	private SharedPreferences mPreferences;
@@ -119,16 +117,14 @@ public class PostPageActivity extends SherlockActivity implements
 
 				HttpClient httpClient = new DefaultHttpClient();
 				HttpPost postRequest = new HttpPost(Global.ServerUrl
-						+ "groups/" + group_id + "/posts.json?auth_token="
+						+ "groups/" + group_id + "/posts?auth_token="
 						+ auth_token);
 
 				MultipartEntity reqEntity = new MultipartEntity(
 						HttpMultipartMode.BROWSER_COMPATIBLE);
 
-				reqEntity.addPart("post[body]", new StringBody(post_string,
-						Charset.forName("UTF-8")));
-				reqEntity.addPart("post[posttype]",
-						new StringBody("1", Charset.forName("UTF-8")));
+				reqEntity.addPart("post[body]", new StringBody(post_string));
+				reqEntity.addPart("post[posttype]", new StringBody("1"));
 				if (bab != null) {
 					reqEntity.addPart("post[pictures_attributes][0][image]",
 							bab);
@@ -148,12 +144,10 @@ public class PostPageActivity extends SherlockActivity implements
 				}
 				Log.e("my", "Response : " + s);
 			} catch (Exception e) {
-				removeDialog(0);
 				Log.e("my", e.getClass().getName() + e.getMessage());
 				Toast.makeText(getApplicationContext(), "Error!",
 						Toast.LENGTH_SHORT).show();
 			}
-			removeDialog(0);
 			return null;
 		}
 
@@ -208,7 +202,9 @@ public class PostPageActivity extends SherlockActivity implements
 
 			case PICK_FROM_CAMERA: {
 				image = (Bitmap) data.getExtras().get("data");
+
 				mPhotoImageView.setImageBitmap(image);
+
 				break;
 			}
 			}
@@ -235,7 +231,6 @@ public class PostPageActivity extends SherlockActivity implements
 				newHeight = maxResolution;
 			}
 		}
-
 		return Bitmap.createScaledBitmap(source, newWidth, newHeight, true);
 	}
 
@@ -282,7 +277,7 @@ public class PostPageActivity extends SherlockActivity implements
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		showDialog(0);
+		// This uses the imported MenuItem from ActionBarSherlock
 		post_string = post_body.getText().toString();
 		if (image != null) {
 			bm = image;
@@ -328,22 +323,9 @@ public class PostPageActivity extends SherlockActivity implements
 				resized = BitmapFactory.decodeByteArray(b, 0, b.length);
 			}
 		}
+
 		mPhotoImageView.setImageBitmap(resized);
 		super.onRestoreInstanceState(savedInstanceState);
-	}
-	
-	@Override
-	protected Dialog onCreateDialog(int id) { // Dialog preference
-		switch (id) {
-			case 0: {
-				mProgressDialog = new ProgressDialog(this);
-				mProgressDialog.setMessage("Please wait...");
-				mProgressDialog.setIndeterminate(true);
-				mProgressDialog.setCancelable(true);
-				return mProgressDialog;
-			}
-		}
-		return null;
 	}
 
 }

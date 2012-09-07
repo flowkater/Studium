@@ -21,7 +21,6 @@ import android.view.View.OnClickListener;
 import android.widget.*;
 
 public class LoginActivity extends SherlockActivity {
-	private final String mainActivityTag = "LogInActivity";
 	private JSONObject jObject;
 	private ProgressDialog mProgressDialog;
 	String loginmessage = null;
@@ -48,50 +47,47 @@ public class LoginActivity extends SherlockActivity {
 		regist.setOnClickListener(new RegistClickListener());
 
 		if (getIntent().getStringExtra("email") != null) {
-			
-			
+
 			mEmailField.setText(getIntent().getStringExtra("email"));
 			mPasswordField.setText(getIntent().getStringExtra("password"));
-			
 
-		} 
-
-			if (!checkLoginInfo()) { // don't exist user
-				signin = (Button) findViewById(R.id.login_btn);
-				signin.setOnClickListener(new OnClickListener() {
-					public void onClick(View v) {
-						showDialog(0); // when user click, show dialog
-						t = new Thread() { // Thread
-							public void run() {
-								try {
-									authenticate();
-								} catch (ClientProtocolException e) {
-									e.printStackTrace();
-								} catch (IOException e) {
-									e.printStackTrace();
-								} catch (Exception e) {
-									e.printStackTrace();
-								}
-							}
-						};
-						t.start();
-					}
-				});
-			} else {
-				Toast.makeText(getApplicationContext(), "Login State!",
-						Toast.LENGTH_LONG).show();
-				/*
-				 * Directly opens the Welcome page, if the username and password
-				 * is already available in the SharedPreferences
-				 */
-
-				// Trying to minimize the number of screens
-				Intent intent = new Intent(this, GroupIndexActivity.class);
-				startActivity(intent);
-				finish();
-			}
 		}
-	
+
+		if (!checkLoginInfo()) { // don't exist user
+			signin = (Button) findViewById(R.id.login_btn);
+			signin.setOnClickListener(new OnClickListener() {
+				public void onClick(View v) {
+					showDialog(0); // when user click, show dialog
+					t = new Thread() { // Thread
+						public void run() {
+							try {
+								authenticate();
+							} catch (ClientProtocolException e) {
+								e.printStackTrace();
+							} catch (IOException e) {
+								e.printStackTrace();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					};
+					t.start();
+				}
+			});
+		} else {
+			Toast.makeText(getApplicationContext(), "Login State!",
+					Toast.LENGTH_LONG).show();
+			/*
+			 * Directly opens the Welcome page, if the username and password is
+			 * already available in the SharedPreferences
+			 */
+
+			// Trying to minimize the number of screens
+			Intent intent = new Intent(this, GroupIndexActivity.class);
+			startActivity(intent);
+			finish();
+		}
+	}
 
 	class RegistClickListener implements OnClickListener {
 		@Override
@@ -121,15 +117,9 @@ public class LoginActivity extends SherlockActivity {
 			String pin = "";
 			HashMap<String, String> sessionTokens = signIn(); // Login method
 																// call
-
 		} catch (Exception e) {
-			// Intent intent = new Intent(getApplicationContext(),
-			// LoginError.class);
-			// intent.putExtra("LoginMessage", "Unable to login");
-			// startActivity(intent);
-
 			removeDialog(0);
-			Toast.makeText(getApplicationContext(), "Authenticate Fail!",
+			Toast.makeText(getApplicationContext(), "Login Error!",
 					Toast.LENGTH_LONG).show();
 		}
 	}
@@ -140,12 +130,6 @@ public class LoginActivity extends SherlockActivity {
 			String loginmsg = (String) msg.obj;
 			if (loginmsg.equals("SUCCESS")) {
 				removeDialog(0);
-				// Intent intent = new Intent(getApplicationContext(),
-				// WorkoutDetailsListActivity.class);
-				// //Intent intent = new Intent(getApplicationContext(),
-				// MainMenuActivity.class);
-				// startActivity(intent);
-				// finish();
 				Toast.makeText(getApplicationContext(),
 						"Authenticate SUCCESS!", Toast.LENGTH_LONG).show();
 
@@ -153,7 +137,6 @@ public class LoginActivity extends SherlockActivity {
 						GroupIndexActivity.class);
 				startActivity(intent);
 				finish();
-
 			}
 		}
 	};
@@ -162,8 +145,8 @@ public class LoginActivity extends SherlockActivity {
 
 		HashMap<String, String> sessionTokens = null;
 
-		 mEmailField = (EditText) findViewById(R.id.login_id_edit_text);
-		 mPasswordField = (EditText) findViewById(R.id.login_pw_edit_text);
+		mEmailField = (EditText) findViewById(R.id.login_id_edit_text);
+		mPasswordField = (EditText) findViewById(R.id.login_pw_edit_text);
 
 		String email = mEmailField.getText().toString();
 		String password = mPasswordField.getText().toString();
@@ -197,17 +180,9 @@ public class LoginActivity extends SherlockActivity {
 			e.printStackTrace();
 		}
 		ParsedLoginDataSet parsedLoginDataSet = new ParsedLoginDataSet(); // ?
-		// ParsedLoginDataSet parsedLoginDataSet =
-		// myLoginHandler.getParsedLoginData();
 		try {
 
-			/*
-			 * if (response == null) { System.out.println("response is null " +
-			 * response); Exception e = new Exception(); throw e; }
-			 */
 			sessionTokens = parseToken(response);
-			// now = Long.valueOf(System.currentTimeMillis());
-			// mSignInDbHelper.createSession(mEmailField.getText().toString(),mAuthToken,now);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -224,12 +199,8 @@ public class LoginActivity extends SherlockActivity {
 			myMessage.obj = "SUCCESS";
 			handler.sendMessage(myMessage);
 		} else {
-			// Intent intent = new Intent(getApplicationContext(),
-			// LoginError.class);
-			// intent.putExtra("LoginMessage", "Invalid Login");
-			// startActivity(intent);
 			removeDialog(0);
-			Toast.makeText(getApplicationContext(), "Login Parse Error!",
+			Toast.makeText(getApplicationContext(), "Login Error!",
 					Toast.LENGTH_LONG).show();
 		}
 
@@ -247,13 +218,6 @@ public class LoginActivity extends SherlockActivity {
 			String attributeToken = sessionObject.getString("auth_token");
 			sessionTokens.put("error", attributeError);
 			sessionTokens.put("auth_token", attributeToken);
-
-			// String attributeConsumerKey =
-			// sessionObject.getString("consumer_key");
-			// String attributeConsumerSecret = sessionObject
-			// .getString("consumer_secret");
-			// sessionTokens.put("consumer_key", attributeConsumerKey);
-			// sessionTokens.put("consumer_secret", attributeConsumerSecret);
 		} else {
 			sessionTokens.put("error", "Error");
 		}

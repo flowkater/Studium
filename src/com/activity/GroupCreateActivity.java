@@ -45,7 +45,6 @@ public class GroupCreateActivity extends SherlockActivity{
 		bar.setCustomView(R.layout.header);
 		bar.setDisplayShowCustomEnabled(true);
 		bar.setDisplayHomeAsUpEnabled(true);
-		bar.setDisplayHomeAsUpEnabled(false);
 		// end header
 		
 		mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);

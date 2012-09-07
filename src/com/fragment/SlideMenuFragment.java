@@ -87,9 +87,6 @@ public class SlideMenuFragment extends SherlockListFragment implements
 				.findViewById(R.id.create_study_table);
 		studycreate.setOnClickListener(new StudyClickListener());
 
-		userlogin = (RelativeLayout) headerview.findViewById(R.id.user_layout);
-		userlogin.setOnClickListener(new LoginClickListener());
-
 		profile_thumbnail = (ImageView) headerview
 				.findViewById(R.id.profile_thumbnail);
 		user_name = (TextView) headerview.findViewById(R.id.user_name);
@@ -99,14 +96,6 @@ public class SlideMenuFragment extends SherlockListFragment implements
 		// header, footer end
 		mListView.setAdapter(mAdapter);
 		mListView.setOnItemClickListener(this);
-	}
-
-	class LoginClickListener implements OnClickListener {
-		@Override
-		public void onClick(View arg0) {
-			Intent in = new Intent(getActivity(), LoginActivity.class);
-			startActivity(in);
-		}
 	}
 
 	class StudyClickListener implements OnClickListener {
@@ -184,7 +173,8 @@ public class SlideMenuFragment extends SherlockListFragment implements
 		Intent in = new Intent(getActivity(), GroupShowActivity.class);
 		in.putExtra("group_id", group.getId());
 		in.putExtra("role", group.getRole());
-		Toast.makeText(getActivity(), group.getRole(), Toast.LENGTH_SHORT).show();
+		Toast.makeText(getActivity(), group.getRole(), Toast.LENGTH_SHORT)
+				.show();
 		startActivity(in);
 	}
 }
