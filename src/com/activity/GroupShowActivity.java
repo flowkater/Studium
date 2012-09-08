@@ -92,7 +92,7 @@ public class GroupShowActivity extends SlidingFragmentActivity {
 		mTabsAdapter.addTab(bar.newTab().setText("Info"), InfoFragment.class,
 				null);
 		
-		bar.setStackedBackgroundDrawable(getResources().getDrawable(R.drawable.stud_bg1));
+		bar.setStackedBackgroundDrawable(getResources().getDrawable(R.drawable.tap_3_menu));
 	}
 
 	@Override

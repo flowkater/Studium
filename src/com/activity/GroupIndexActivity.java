@@ -66,9 +66,9 @@ public class GroupIndexActivity extends SlidingFragmentActivity  {
 		
 		mTabsAdapter = new TabsAdapter(this, mViewPager);
 		
-		mTabsAdapter.addTab(bar.newTab().setText("¸ğÁı¸Ş½ÃÁö"), PartyMessagesFragment.class, null);
-		mTabsAdapter.addTab(bar.newTab().setText("±×·ì"), GroupListFragment.class, null);
-		bar.setStackedBackgroundDrawable(getResources().getDrawable(R.drawable.stud_bg1));
+		mTabsAdapter.addTab(bar.newTab().setText("ê·¸ë£¹ ë©”ì‹œì§€"), PartyMessagesFragment.class, null);
+		mTabsAdapter.addTab(bar.newTab().setText("ê·¸ë£¹ ëª©ë¡"), GroupListFragment.class, null);
+		bar.setStackedBackgroundDrawable(getResources().getDrawable(R.drawable.tap_2_menu));
 	}
 
 	@Override
