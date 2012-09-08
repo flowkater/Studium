@@ -151,7 +151,7 @@ public class InfoFragment extends SherlockFragment implements
 		@Override
 		protected Void doInBackground(Void... params) {
 			mResult = NetHelper.DownloadHtml(Global.ServerUrl + "groups/" + id
-					+ ".json");
+					+ ".json?auth_token="+auth_token);
 			System.out.println(mResult);
 			return null;
 		}

@@ -6,7 +6,9 @@ import java.util.Calendar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,20 +29,19 @@ import com.activity.MeetingCreateActivity;
 import com.activity.MeetingShowActivity;
 import com.activity.R;
 import com.adapter.CalendarAdapter;
+import com.google.gson.Gson;
 import com.model.DayInfo;
 import com.model.Party;
+import com.model.Partys;
 import com.model.Post;
+import com.utils.Global;
+import com.utils.NetHelper;
 
 public class StepFragment extends SherlockFragment implements
 		OnItemClickListener, OnClickListener {
 
-	public Party party = new Party("우현-" + "병철-" + "재우", "2300",
-			"광화문 올레스퀘어 2층", "1100", "서버구축-우현이 패기-똥싸기", "0", "2012-9-1");
 	private String userParty[] = new String[10];
 	private Boolean useruser = false;
-	private String partystring[] = { party.getMember_name(),
-			party.getPartying_time(), party.getLocation(), party.getTime(),
-			party.getTodolist(), party.getComment_count(), party.getDate() };
 
 	// it is setting of meeting day
 	// private int WhenDoyougoToStudy[] = new int[8];
@@ -82,6 +83,14 @@ public class StepFragment extends SherlockFragment implements
 
 	ListView mPostListView;
 	ArrayList<Post> mPostList = new ArrayList<Post>();
+	
+	private SharedPreferences mPreferences;
+	private String auth_token;
+	private String group_id;
+	
+	private String mResult;
+	
+	private ArrayList<Party> mParties = new ArrayList<Party>();
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -91,6 +100,13 @@ public class StepFragment extends SherlockFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		new GetPartyList().execute();
+		mPreferences = getActivity().getSharedPreferences("CurrentUser",
+				getActivity().MODE_PRIVATE);
+		auth_token = mPreferences.getString("AuthToken", "");
+
+		Intent in = getActivity().getIntent();
+		group_id = in.getExtras().getString("group_id");
 		mView = inflater.inflate(R.layout.step_calender, container, false);
 		// LayoutInflater lf = (LayoutInflater)
 		// getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -215,9 +231,9 @@ public class StepFragment extends SherlockFragment implements
 		System.out.println("this create");
 
 		/* user party parsing */
-		userParty[0] = party.getDate();
+//		userParty[0] = party.getDate();
 		String delims = "-";
-		String[] userPartydates = userParty[0].split(delims);
+//		String[] userPartydates = userParty[0].split(delims);
 
 		for (int i = 1; i <= thisMonthLastDay; i++) {
 
@@ -241,16 +257,16 @@ public class StepFragment extends SherlockFragment implements
 			// }
 
 			// user party check
-			if (Integer.parseInt(userPartydates[2]) == Integer.parseInt(day
-					.getDate())
-					&& Integer.parseInt(userPartydates[1]) == Integer
-							.parseInt(day.getMonth())
-					&& Integer.parseInt(userPartydates[0]) == Integer
-							.parseInt(day.getYear())) {
-				day.setParty(true);
-				useruser = true;
-
-			}
+//			if (Integer.parseInt(userPartydates[2]) == Integer.parseInt(day
+//					.getDate())
+//					&& Integer.parseInt(userPartydates[1]) == Integer
+//							.parseInt(day.getMonth())
+//					&& Integer.parseInt(userPartydates[0]) == Integer
+//							.parseInt(day.getYear())) {
+//				day.setParty(true);
+//				useruser = true;
+//
+//			}
 			if (isUpdate == 1
 					&& Integer.parseInt(getActivity().getIntent()
 							.getStringExtra("date")) == Integer.parseInt(day
@@ -345,17 +361,19 @@ public class StepFragment extends SherlockFragment implements
 		extras.putString("year", daycl.getYear());
 		extras.putBoolean("isParty", daycl.isParty());
 		extras.putBoolean("making", mMeeting);
+		extras.putString("group_id", group_id);
+		extras.putString("auth_token",auth_token);
 		// extras.putBoolean("mMeeting", mMeeting);
 		if (daycl.isParty() == true && useruser == true)
-			extras.putStringArray("party", partystring);
+//			extras.putStringArray("party", partystring);
 
 		if (mMeeting) {
 			intent = new Intent(getActivity(), MeetingCreateActivity.class);
 		} else
 			intent = new Intent(getActivity(), MeetingShowActivity.class);
-			intent.putExtras(extras);
+//			intent.putExtras(extras);
 
-		startActivity(intent);
+//		startActivity(intent);
 
 	}
 
@@ -381,6 +399,29 @@ public class StepFragment extends SherlockFragment implements
 		mCalendarAdapter = new CalendarAdapter(getActivity(), R.layout.day,
 				mDayList);
 		mGvCalendar.setAdapter(mCalendarAdapter);
+	}
+	
+	private class GetPartyList extends AsyncTask<Void, Void, Void>{
+		@Override
+		protected Void doInBackground(Void... params) {
+			mResult = NetHelper.DownloadHtml(Global.ServerUrl + "groups/" + group_id
+					+ "/parties.json?auth_token="+auth_token);
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			Gson gson = new Gson();
+			Partys partys = gson.fromJson(mResult, Partys.class);
+			for (Party party : partys.getPartys()) {
+				System.out.println(party.getPlace());
+				System.out.println(party.getUsers().get(0).getName());
+				System.out.println(party.getTodolists().get(0).getList());
+				mParties.add(party);
+			}
+			//UI Thread
+			super.onPostExecute(result);
+		}
 	}
 
 	@Override

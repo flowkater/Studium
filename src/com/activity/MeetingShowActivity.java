@@ -1,24 +1,19 @@
 package com.activity;
 
-import java.io.ByteArrayOutputStream;
+
 import java.util.ArrayList;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.activity.R;
 import com.adapter.CheckTodoListAdapter;
 import com.adapter.ImageAdapter;
-import com.fragment.StepFragment;
 import com.model.CheckString;
 import com.model.ThumbImageInfo;
-import com.utils.Global;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -28,21 +23,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.GridLayout.LayoutParams;
-import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class MeetingShowActivity extends SherlockActivity implements OnItemClickListener,
@@ -278,15 +265,7 @@ public class MeetingShowActivity extends SherlockActivity implements OnItemClick
 				// 확인 버튼을 만든다.
 
 				.setPositiveButton("모임", new DialogInterface.OnClickListener() {
-					/*
-					 * (non-Javadoc)
-					 * 
-					 * @see
-					 * android.content.DialogInterface.OnClickListener#onClick
-					 * (android.content.DialogInterface, int)
-					 */
 					public void onClick(DialogInterface dialog, int which) {
-						System.out.println("fucking!!!!!!!!");
 						Bundle bundle = new Bundle();
 						bundle.putString("color", Color.YELLOW + "");
 						bundle.putString("date", date);
@@ -294,22 +273,14 @@ public class MeetingShowActivity extends SherlockActivity implements OnItemClick
 						bundle.putString("year", year);
 						Intent intent = new Intent(getApplicationContext(),
 								GroupShowActivity.class);
-						System.out.println("fucking!!!!!!!!");
 
 						intent.putExtras(bundle);
 
-						System.out.println("fucking!!!!!!!!");
-
 						// 확인버튼이 클릭되면 다이얼로그를 종료한다.
 						dialog.dismiss();
-						System.out.println("fucking!!!!!!!!");
-
 						// 액티비티를 종료한다.
 						finish();
-						System.out.println("fucking!!!!!!!!");
-
 						startActivity(intent);
-						System.out.println("fucking!!!!!!!!");
 					}
 				}).show();
 	}
