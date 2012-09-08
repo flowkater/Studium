@@ -16,7 +16,8 @@
         android:label="@string/app_name"
         android:screenOrientation="portrait"
         android:theme="@style/Theme.Sherlock.Light" >
-        <activity android:name="com.activity.LoginActivity"
+        <activity
+            android:name="com.activity.LoginActivity"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,34 +25,50 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.activity.GroupIndexActivity"
+        <activity
+            android:name="com.activity.GroupIndexActivity"
             android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="com.activity.GroupShowActivity"
+        <activity
+            android:name="com.activity.GroupShowActivity"
             android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="com.activity.PostShowActivity"
+        <activity
+            android:name="com.activity.PostShowActivity"
             android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="com.activity.PostPageActivity"
+        <activity
+            android:name="com.activity.PostPageActivity"
             android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="com.activity.CommentPageActivity"
+        <activity
+            android:name="com.activity.CommentPageActivity"
             android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="com.activity.RegisterActivity"
+        <activity
+            android:name="com.activity.RegisterActivity"
             android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="com.activity.PartymessageCreateActivity"
+        <activity
+            android:name="com.activity.PartymessageCreateActivity"
             android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="com.activity.GroupCreateActivity"
+        <activity
+            android:name="com.activity.GroupCreateActivity"
             android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="me.croute.calendarexample.activity.calendardialog"
+        <activity
+            android:name="com.activity.GroupCreate2Activity"
             android:screenOrientation="portrait" >
         </activity>
-<activity android:name=".MeetingShowActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name="MeetingCreateActivity" android:screenOrientation="portrait">  </activity>
+        <activity
+            android:name=".MeetingShowActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="MeetingCreateActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
+
 </manifest>

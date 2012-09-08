@@ -1,36 +1,24 @@
 package com.activity;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.DefaultHttpClient;
-
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.*;
-import android.util.Log;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.*;
 
 import com.actionbarsherlock.app.*;
-import com.utils.Global;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 
 public class GroupCreateActivity extends SherlockActivity{
 	private TextView titlebar_text;
 	private EditText group_name_edit_text;
 	private EditText group_goal_edit_text;
 	private EditText group_location_edit_text;
-	private String name;
-	private String goal;
-	private String location;
+	private EditText group_category_edit_text;
 	private ImageView group_img;
-	private Button group_create_btn;
 	private SharedPreferences mPreferences;
 	private String auth_token;
 
@@ -56,9 +44,9 @@ public class GroupCreateActivity extends SherlockActivity{
 		group_name_edit_text = (EditText)findViewById(R.id.group_name_edit_text);
 		group_goal_edit_text = (EditText)findViewById(R.id.group_goal_edit_text);
 		group_location_edit_text = (EditText)findViewById(R.id.group_location_edit_text);
+		group_category_edit_text = (EditText)findViewById(R.id.group_category_edit_text);
 		group_img = (ImageView)findViewById(R.id.group_img);
 		
-//		group_create_btn = (Button)findViewById(R.id.group_create_btn);
 		
 		group_img.setOnClickListener(new OnClickListener() {
 			@Override
@@ -66,68 +54,34 @@ public class GroupCreateActivity extends SherlockActivity{
 				
 			}
 		});
-		
-//		group_create_btn.setOnClickListener(new OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				name = group_name_edit_text.getText().toString();
-//				goal = group_goal_edit_text.getText().toString();
-//				location = group_location_edit_text.getText().toString();
-//				new Groupcreate().execute();
-//			}
-//		});
 	}
 	
-	class Groupcreate extends AsyncTask<Void, Void, Void>{
-		@Override
-		protected Void doInBackground(Void... params) {
-			try {
-//				ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//				bm.compress(CompressFormat.JPEG, 75, bos);
-//				byte[] data = bos.toByteArray();
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add("Next")
+				.setShowAsAction(
+						MenuItem.SHOW_AS_ACTION_IF_ROOM
+								| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		return super.onCreateOptionsMenu(menu);
+	}
 
-				HttpClient httpClient = new DefaultHttpClient();
-				HttpPost postRequest = new HttpPost(
-						Global.ServerUrl+"groups?auth_token=" + auth_token);
-				// HttpPost("http://192.168.0.12:3000/posts.json");
-//				ByteArrayBody bab = new ByteArrayBody(data, "forest.jpg");
-				MultipartEntity reqEntity = new MultipartEntity(
-						HttpMultipartMode.BROWSER_COMPATIBLE);
-				// reqEntity.addPart("post[post_image]", bab);
-				// reqEntity.addPart("post[pictures_attributes][image]", bab);
-//				reqEntity.addPart("post[pictures_attributes][0][image]", bab);
-//				reqEntity.addPart("post[pictures_attributes][1][image]", bab);
-//				reqEntity.addPart("post[pictures_attributes][2][image]", bab);
-				
-				reqEntity.addPart("group[goal]", new StringBody(goal));
-//				reqEntity.addPart("group[subject]", new StringBody("SAT 유학"));
-				reqEntity.addPart("group[place]", new StringBody(location));
-				reqEntity.addPart("group[name]", new StringBody(name));
-//				reqEntity.addPart("group[introduce]", new StringBody("안녕하세요. 우린 미쿰 SAT 준비하는 사람들입니다."));
-				postRequest.setEntity(reqEntity);
-				HttpResponse response = httpClient.execute(postRequest);
-
-				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(
-								response.getEntity().getContent(), "UTF-8"));
-				String sResponse;
-				StringBuilder s = new StringBuilder();
-
-				while ((sResponse = reader.readLine()) != null) {
-					s = s.append(sResponse);
-				}
-				Log.e("my", "Response : " + s);
-			} catch (Exception e) {
-				Log.e("my", e.getClass().getName() + e.getMessage());
-			}
-			return null;
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			return true;
 		}
-
-		@Override
-		protected void onPostExecute(Void result) {
-			super.onPostExecute(result);
-		}
+		Intent in = new Intent(getApplication(),GroupCreate2Activity.class);
+		in.putExtra("auth_token", auth_token);
+		in.putExtra("group_name", group_name_edit_text.getText().toString());
+		in.putExtra("group_goal", group_goal_edit_text.getText().toString());
+		in.putExtra("group_location", group_location_edit_text.getText().toString());
+		in.putExtra("group_category", group_category_edit_text.getText().toString());
+		
+		finish();
+		startActivity(in);
+		return super.onOptionsItemSelected(item);
 	}
 }
 

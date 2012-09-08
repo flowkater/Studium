@@ -1,5 +1,6 @@
 package com.model;
 
+import java.util.ArrayList;
 
 public class Party {
 	private String member_name;
@@ -9,6 +10,8 @@ public class Party {
 	private String todolist;
 	private String comment_count;
 	private String date;
+	private ArrayList<User> users;
+	private ArrayList<Todolist> todolists;
 
 	public Party() {
 		// TODO Auto-generated constructor stub
@@ -26,9 +29,25 @@ public class Party {
 
 	}
 
-	
+	public ArrayList<User> getUsers() {
+		return users;
+	}
 
-	
+
+	public void setUsers(ArrayList<User> users) {
+		this.users = users;
+	}
+
+
+	public ArrayList<Todolist> getTodolists() {
+		return todolists;
+	}
+
+
+	public void setTodolists(ArrayList<Todolist> todolists) {
+		this.todolists = todolists;
+	}
+
 
 	public String getMember_name() {
 		return member_name;

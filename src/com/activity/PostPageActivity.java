@@ -2,7 +2,6 @@ package com.activity;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 
@@ -28,7 +27,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -67,8 +65,8 @@ public class PostPageActivity extends SherlockActivity implements
 	private Bitmap bm;
 	private Bitmap resized;
 
-	Bitmap image;
-	AlertDialog mDialog;
+	private Bitmap image;
+	private AlertDialog mDialog;
 	int current_position = 0;
 	int sampled = 0;
 
