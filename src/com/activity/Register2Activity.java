@@ -87,6 +87,22 @@ public class Register2Activity extends SherlockActivity implements
 		super.onCreate(savedInstanceState);
 	}
 
+	public void mOnClick(View v) {
+
+		switch (v.getId()) {
+		case R.id.radio_btn_man:
+			Toast.makeText(getApplicationContext(), "Man clicked", 3000).show();
+
+			break;
+
+		case R.id.radio_btn_woman:
+			Toast.makeText(getApplicationContext(), "Woman clicked", 3000).show();
+
+			break;
+		}
+
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add("Join").setShowAsAction(

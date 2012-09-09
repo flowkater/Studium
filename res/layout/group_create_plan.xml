@@ -35,7 +35,8 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/plan_start_text"
             android:layout_below="@+id/plan_start_text"
-            android:layout_marginTop="10dip" />
+            android:layout_marginTop="10dip" 
+            android:calendarViewShown="false"/>
 
         <TextView
             android:id="@+id/plan_end_text"
@@ -52,7 +53,8 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/plan_end_text"
             android:layout_below="@+id/plan_end_text"
-            android:layout_marginTop="10dip" />
+            android:layout_marginTop="10dip"
+            android:calendarViewShown="false" />
 
         <LinearLayout
             android:id="@+id/week_select"
