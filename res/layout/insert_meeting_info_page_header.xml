@@ -3,11 +3,12 @@
     android:id="@+id/setting_personal_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    
     android:orientation="vertical" >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="match_parent" >
 
         <TextView
             android:id="@+id/insert_meeting_sub_info_text"
@@ -62,44 +63,43 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/textView2"
+            android:layout_alignRight="@+id/meeting_location_edit_text"
             android:layout_below="@+id/textView2"
-            android:text="TextView" />
+            android:layout_marginTop="20dp"
+            android:text="12월 31일 오후 12시 30분 ddd d ddd"
+            android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/todolist_sub_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/time_show"
-        android:layout_marginTop="17dp"
-        android:background="@drawable/sub_object"
-        android:gravity="center_vertical"
-        android:paddingLeft="10dip"
-        android:paddingRight="10dip"
-        android:text="숙제, 해야할일" />
-
-    <Button
-        android:id="@+id/time_set_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/time_show"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/textView2"
-        android:text="설정"
-        android:textSize="10sp" />
-
-    <Button
-        android:id="@+id/plus_todolist"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/todolist_sub_text"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/todolist_sub_text"
-        android:text="추가"
-        android:textSize="10sp" />
+        <TextView
+            android:id="@+id/todolist_sub_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/time_show"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/sub_object"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:text="숙제, 해야할일" />
 
+        <Button
+            android:id="@+id/time_set_btn"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/meeting_location_edit_text"
+            android:layout_alignTop="@+id/textView2"
+            android:text="시간 설정" />
+
+        <Button
+            android:id="@+id/plus_todolist"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="36dp"
+            android:layout_height="24dp"
+            android:layout_alignRight="@+id/meeting_location_edit_text"
+            android:layout_alignTop="@+id/todolist_sub_text"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/plus_btn" />
     </RelativeLayout>
-
 
 </LinearLayout>

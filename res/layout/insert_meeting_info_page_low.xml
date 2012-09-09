@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/small_main_bg"
+    
      >
 
     <EditText
@@ -13,7 +13,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dip"
-        android:ems="10" >
+        android:ems="10" 
+        android:background="@drawable/edittext_bg"
+        android:padding="10dip"
+        android:singleLine="true"
+        android:hint="해야 할 일을 입력하세요">
 
         
     </EditText>

@@ -7,7 +7,7 @@
     android:layout_height="60dip"
     android:orientation="horizontal"
     android:padding="5dip"
-    android:background="@drawable/small_main_bg" >
+    android:background="@drawable/pattern_main_bg" >
 
     <!-- <TextView -->
     <!-- android:id="@+id/todolist_string" -->
