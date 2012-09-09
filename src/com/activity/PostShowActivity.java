@@ -46,6 +46,7 @@ public class PostShowActivity extends SherlockActivity {
 	private String mResult;
 	private String post_id; // post_id
 	private String group_id; // group_id;
+	private String role;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +64,8 @@ public class PostShowActivity extends SherlockActivity {
 		bar.setCustomView(R.layout.header);
 		bar.setDisplayShowCustomEnabled(true);
 		bar.setDisplayHomeAsUpEnabled(true);
-		bar.setDisplayHomeAsUpEnabled(false);
 		// end header
+		
 		titlebar_text = (TextView) findViewById(R.id.titlebar_text);
 		titlebar_text.setText("Post#Show");
 
@@ -174,7 +175,7 @@ public class PostShowActivity extends SherlockActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add("search")
+		menu.add("write")
 				.setIcon(R.drawable.title_btn_geo)
 				.setShowAsAction(
 						MenuItem.SHOW_AS_ACTION_IF_ROOM
@@ -184,9 +185,18 @@ public class PostShowActivity extends SherlockActivity {
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent intent = new Intent(this, CommentPageActivity.class);
-		intent.putExtra("post_id", post_id);
-		startActivity(intent);
-		return true;
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			return true;
+		}
+		if (item.getTitle().equals("write")) {
+			Intent intent = new Intent(this, CommentPageActivity.class);
+			intent.putExtra("post_id", post_id);
+			intent.putExtra("group_id", group_id);
+			startActivity(intent);
+			return true;
+		}
+		return false;
 	}
 }

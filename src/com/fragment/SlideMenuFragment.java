@@ -128,6 +128,7 @@ public class SlideMenuFragment extends SherlockListFragment implements
 		@Override
 		public void onClick(View v) {
 			Intent in = new Intent(getActivity(), GroupCreateActivity.class);
+			in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(in);
 		}
 	}
@@ -136,6 +137,7 @@ public class SlideMenuFragment extends SherlockListFragment implements
 		@Override
 		public void onClick(View arg0) {
 			Intent in = new Intent(getActivity(), GroupIndexActivity.class);
+			in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(in);
 		}
 	}

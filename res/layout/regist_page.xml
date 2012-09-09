@@ -23,25 +23,26 @@
         android:layout_marginTop="20dip" >
 
         <TableRow
-            android:id="@+id/member_id"
+            android:id="@+id/member_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:padding="10.0dp" >
 
             <TextView
-                android:id="@+id/member_id_text"
+                android:id="@+id/member_email_text"
                 android:drawablePadding="10.0dp"
-                android:text="ID"
+                android:text="Email"
                 android:textSize="15.0sp" />
 
             <EditText
-                android:id="@+id/member_id_edit_text"
+                android:id="@+id/member_email_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dip"
                 android:background="@drawable/edittext_bg"
                 android:ems="10"
+                android:inputType="textEmailAddress"
                 android:hint="e-mail주소를 입력하세요"
                 android:padding="10dip"
                 android:singleLine="true" >

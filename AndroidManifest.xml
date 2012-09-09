@@ -50,6 +50,10 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="com.activity.Register2Activity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.activity.PartymessageCreateActivity"
             android:screenOrientation="portrait" >
         </activity>
@@ -62,11 +66,11 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".MeetingShowActivity"
+            android:name="com.activity.MeetingShowActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="MeetingCreateActivity"
+            android:name="com.activity.MeetingCreateActivity"
             android:screenOrientation="portrait" >
         </activity>
     </application>

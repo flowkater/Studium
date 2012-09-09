@@ -73,6 +73,7 @@ public class GroupCreateActivity extends SherlockActivity{
 			return true;
 		}
 		Intent in = new Intent(getApplication(),GroupCreate2Activity.class);
+		in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		in.putExtra("auth_token", auth_token);
 		in.putExtra("group_name", group_name_edit_text.getText().toString());
 		in.putExtra("group_goal", group_goal_edit_text.getText().toString());

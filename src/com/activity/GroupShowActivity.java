@@ -151,6 +151,7 @@ public class GroupShowActivity extends SlidingFragmentActivity {
 		}
 		Intent intent = new Intent(this, PostPageActivity.class);
 		intent.putExtra("group_id", group_id);
+		intent.putExtra("role",role);
 
 		startActivity(intent);
 		return true;

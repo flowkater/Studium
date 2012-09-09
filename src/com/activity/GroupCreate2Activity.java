@@ -108,12 +108,17 @@ public class GroupCreate2Activity extends SherlockActivity{
 				removeDialog(0);
 				Log.e("my", e.getClass().getName() + e.getMessage());
 			}
-			removeDialog(0);
 			return null;
 		}
 
 		@Override
 		protected void onPostExecute(Void result) {
+			finish();
+			Intent in = new Intent(getApplicationContext(),
+					GroupIndexActivity.class);
+			in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(in);
+			removeDialog(0);
 			super.onPostExecute(result);
 		}
 	}
@@ -128,12 +133,17 @@ public class GroupCreate2Activity extends SherlockActivity{
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		showDialog(0);
-		
-		new Groupcreate().execute();
-
-		finish();
-		return true;
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			return true;
+		}
+		if (item.getTitle().equals("write")) {
+			showDialog(0);
+			new Groupcreate().execute();
+			return true;
+		}
+		return false;
 	}
 	
 	@Override
