@@ -15,7 +15,6 @@ import android.view.View.OnClickListener;
 import android.widget.*;
 import android.app.AlertDialog;
 
-
 import com.actionbarsherlock.app.*;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -51,23 +50,23 @@ public class GroupCreateActivity extends SherlockActivity implements
 		bar.setDisplayShowCustomEnabled(true);
 		bar.setDisplayHomeAsUpEnabled(true);
 		// end header
-		
+
 		mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
 		auth_token = mPreferences.getString("AuthToken", "");
-		
-		titlebar_text = (TextView)findViewById(R.id.titlebar_text);
+
+		titlebar_text = (TextView) findViewById(R.id.titlebar_text);
 		titlebar_text.setText("Group#Create");
-	
-		group_name_edit_text = (EditText)findViewById(R.id.group_name_edit_text);
-		group_goal_edit_text = (EditText)findViewById(R.id.group_goal_edit_text);
-		group_location_edit_text = (EditText)findViewById(R.id.group_location_edit_text);
-		group_category_edit_text = (EditText)findViewById(R.id.group_category_edit_text);
-		group_img = (ImageView)findViewById(R.id.group_img);
-		
+
+		group_name_edit_text = (EditText) findViewById(R.id.group_name_edit_text);
+		group_goal_edit_text = (EditText) findViewById(R.id.group_goal_edit_text);
+		group_location_edit_text = (EditText) findViewById(R.id.group_location_edit_text);
+		group_category_edit_text = (EditText) findViewById(R.id.group_category_edit_text);
+		group_img = (ImageView) findViewById(R.id.group_img);
+
 		group_img.setOnClickListener(new ImageView.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				 {
+				{
 					DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
@@ -89,7 +88,8 @@ public class GroupCreateActivity extends SherlockActivity implements
 						}
 					};
 
-					new AlertDialog.Builder(GroupCreateActivity.this).setTitle("select the image")
+					new AlertDialog.Builder(GroupCreateActivity.this)
+							.setTitle("select the image")
 							.setPositiveButton("take picture", cameraListener)
 							.setNeutralButton("album", albumListener)
 							.setNegativeButton("cancel", cancelListener).show();
@@ -115,19 +115,34 @@ public class GroupCreateActivity extends SherlockActivity implements
 			finish();
 			return true;
 		}
-		Intent in = new Intent(getApplication(), GroupCreate2Activity.class);
-		in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		in.putExtra("auth_token", auth_token);
-		in.putExtra("group_name", group_name_edit_text.getText().toString());
-		in.putExtra("group_goal", group_goal_edit_text.getText().toString());
-		in.putExtra("group_location", group_location_edit_text.getText()
-				.toString());
-		in.putExtra("group_category", group_category_edit_text.getText()
-				.toString());
+		if (group_name_edit_text.length() < 3) {
+			Toast.makeText(getApplicationContext(), "스터디이름은 3자리 이상!",
+					Toast.LENGTH_LONG).show();
+			return true;
+		} else if (group_goal_edit_text.length() < 3) {
+			Toast.makeText(getApplicationContext(), "스터디목표는 3자리 이상!",
+					Toast.LENGTH_LONG).show();
+			return true;
+		} else if (group_location_edit_text.length() < 3) {
+			Toast.makeText(getApplicationContext(), "스터디장소는 3자리 이상!",
+					Toast.LENGTH_LONG).show();
+			return true;
+		} else {
 
-		finish();
-		startActivity(in);
-		return super.onOptionsItemSelected(item);
+			Intent in = new Intent(getApplication(), GroupCreate2Activity.class);
+			in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			in.putExtra("auth_token", auth_token);
+			in.putExtra("group_name", group_name_edit_text.getText().toString());
+			in.putExtra("group_goal", group_goal_edit_text.getText().toString());
+			in.putExtra("group_location", group_location_edit_text.getText()
+					.toString());
+			in.putExtra("group_category", group_category_edit_text.getText()
+					.toString());
+
+			finish();
+			startActivity(in);
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	private void doTakePhotoAction() {

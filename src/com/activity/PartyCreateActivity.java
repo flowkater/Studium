@@ -2,8 +2,8 @@ package com.activity;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -15,19 +15,23 @@ import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,31 +43,43 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.utils.Global;
 
-public class Register2Activity extends SherlockActivity implements
+public class PartyCreateActivity extends SherlockActivity implements
 		OnClickListener {
+	private EditText post_body;
+	private TextView titlebar_text;
+	private EditText post_et;
+	private String post_string;
+
+	private SharedPreferences mPreferences;
+
 	private static final int PICK_FROM_CAMERA = 0;
 	private static final int PICK_FROM_ALBUM = 1;
 	private static final int CROP_FROM_CAMERA = 2;
+	private static final int REQUEST_CODE = 3;
 	private Uri mImageCaptureUri;
-	private Bitmap resized;
-	private Bitmap image;
-	private AlertDialog mDialog;
-	private String email;
-	private String password;
+	private ImageView mPhotoImageView;
+	private Button mButton;
+	private String group_id;
+	private String auth_token;
 
-	private TextView titlebar_text;
-	private EditText member_name_edit_text;
-	private EditText member_phone_num_edit_text;
-
-	private String name;
-	private String phone;
-	private String male;
 	private Bitmap bm;
-	private ImageView user_img;
+	private Bitmap resized;
+
+	Bitmap image;
+	AlertDialog mDialog;
+	int current_position = 0;
+	int sampled = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		setContentView(R.layout.regist_page2);
+		super.onCreate(savedInstanceState);
+		mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
+		auth_token = mPreferences.getString("AuthToken", "");
+
+		Intent in = getIntent();
+		group_id = in.getExtras().getString("group_id");
+
+		setContentView(R.layout.post_create);
 		// start header
 		ActionBar bar = getSupportActionBar();
 		bar.setBackgroundDrawable(getResources().getDrawable(
@@ -72,100 +88,22 @@ public class Register2Activity extends SherlockActivity implements
 		bar.setCustomView(R.layout.header);
 		bar.setDisplayShowCustomEnabled(true);
 		bar.setDisplayHomeAsUpEnabled(true);
-		titlebar_text = (TextView) findViewById(R.id.titlebar_text);
-		titlebar_text.setText("Register2");
+		bar.setDisplayHomeAsUpEnabled(false);
 		// end header
+		titlebar_text = (TextView) findViewById(R.id.titlebar_text);
+		titlebar_text.setText("Write Post");
 
-		member_name_edit_text = (EditText) findViewById(R.id.member_name_edit_text);
-		member_phone_num_edit_text = (EditText) findViewById(R.id.member_phone_num_edit_text);
+		// post
+		post_body = (EditText) findViewById(R.id.post_string);
 
-		Intent in = getIntent();
-		email = in.getStringExtra("email");
-		password = in.getStringExtra("password");
-		
-		user_img = (ImageView)findViewById(R.id.member_img);
-		
-		user_img.setOnClickListener(new ImageView.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				 {
-					DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							doTakePhotoAction();
-						}
-					};
+		mButton = (Button) findViewById(R.id.postcreate_img_btn);
+		mPhotoImageView = (ImageView) findViewById(R.id.postcreate_img);
 
-					DialogInterface.OnClickListener albumListener = new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							doTakeAlbumAction();
-						}
-					};
-
-					DialogInterface.OnClickListener cancelListener = new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-						}
-					};
-
-					new AlertDialog.Builder(Register2Activity.this).setTitle("select the image")
-							.setPositiveButton("take picture", cameraListener)
-							.setNeutralButton("album", albumListener)
-							.setNegativeButton("cancel", cancelListener).show();
-				}
-			}
-		}
-
-		);
-
-		super.onCreate(savedInstanceState);
-	}
-	
-
-	public void mOnClick(View v) {
-
-		switch (v.getId()) {
-		case R.id.radio_btn_man:
-			Toast.makeText(getApplicationContext(), "Man clicked", 3000).show();
-
-			break;
-
-		case R.id.radio_btn_woman:
-			Toast.makeText(getApplicationContext(), "Woman clicked", 3000).show();
-
-			break;
-		}
-
+		mButton.setOnClickListener(this);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add("Join").setShowAsAction(
-				MenuItem.SHOW_AS_ACTION_IF_ROOM
-						| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			finish();
-			return true;
-		}
-		if (item.getTitle().equals("Join")) {
-			name = member_name_edit_text.getText().toString();
-			phone = member_phone_num_edit_text.getText().toString();
-			new Usercreate().execute();
-			finish();
-			return true;
-		}
-		return true;
-	}
-
-	class Usercreate extends AsyncTask<Void, Void, Void> {
+	// Post Create Server Module
+	private class Postcreate extends AsyncTask<Void, Void, Void> {
 		@Override
 		protected Void doInBackground(Void... params) {
 			try {
@@ -174,26 +112,22 @@ public class Register2Activity extends SherlockActivity implements
 					ByteArrayOutputStream bos = new ByteArrayOutputStream();
 					bm.compress(CompressFormat.JPEG, 75, bos);
 					byte[] data = bos.toByteArray();
-					bab = new ByteArrayBody(data, "user_image.jpg");
+					bab = new ByteArrayBody(data, "post_image.jpg");
 				}
 
 				HttpClient httpClient = new DefaultHttpClient();
-				HttpPost postRequest = new HttpPost(Global.ServerUrl + "users");
+				HttpPost postRequest = new HttpPost(Global.ServerUrl
+						+ "groups/" + group_id + "/posts?auth_token="
+						+ auth_token);
+
 				MultipartEntity reqEntity = new MultipartEntity(
 						HttpMultipartMode.BROWSER_COMPATIBLE);
 
-				reqEntity.addPart("user[email]",
-						new StringBody(email, Charset.forName("UTF-8")));
-				reqEntity.addPart("user[password]", new StringBody(password,
-						Charset.forName("UTF-8")));
-				reqEntity.addPart("user[password_confirmation]",
-						new StringBody(password, Charset.forName("UTF-8")));
-				reqEntity.addPart("user[name]",
-						new StringBody(name, Charset.forName("UTF-8")));
-				reqEntity.addPart("user[gender]", new StringBody("male",
-						Charset.forName("UTF-8")));
+				reqEntity.addPart("post[body]", new StringBody(post_string));
+				reqEntity.addPart("post[posttype]", new StringBody("1"));
 				if (bab != null) {
-					reqEntity.addPart("user[avatar]", bab);
+					reqEntity.addPart("post[pictures_attributes][0][image]",
+							bab);
 				}
 
 				postRequest.setEntity(reqEntity);
@@ -211,6 +145,8 @@ public class Register2Activity extends SherlockActivity implements
 				Log.e("my", "Response : " + s);
 			} catch (Exception e) {
 				Log.e("my", e.getClass().getName() + e.getMessage());
+				Toast.makeText(getApplicationContext(), "Error!",
+						Toast.LENGTH_SHORT).show();
 			}
 			return null;
 		}
@@ -258,21 +194,16 @@ public class Register2Activity extends SherlockActivity implements
 							.getColumnIndex(MediaStore.MediaColumns.DATA));
 					image = BitmapFactory.decodeFile(image_url);
 					resized = resizeBitmapImage(image, 500);
-					user_img.setImageBitmap(resized);
-
+					mPhotoImageView.setImageBitmap(resized);
 				}
 				break;
 
 			}
 
 			case PICK_FROM_CAMERA: {
-				System.out.println("Fffffffffff");
-
 				image = (Bitmap) data.getExtras().get("data");
 
-				resized = resizeBitmapImage(image, 800);
-
-				user_img.setImageBitmap(resized);
+				mPhotoImageView.setImageBitmap(image);
 
 				break;
 			}
@@ -300,7 +231,6 @@ public class Register2Activity extends SherlockActivity implements
 				newHeight = maxResolution;
 			}
 		}
-
 		return Bitmap.createScaledBitmap(source, newWidth, newHeight, true);
 	}
 
@@ -334,7 +264,28 @@ public class Register2Activity extends SherlockActivity implements
 	}
 
 	public void setImage() {
-		user_img.setImageURI(mImageCaptureUri);
+		mPhotoImageView.setImageURI(mImageCaptureUri);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add("write").setShowAsAction(
+				MenuItem.SHOW_AS_ACTION_IF_ROOM
+						| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// This uses the imported MenuItem from ActionBarSherlock
+		post_string = post_body.getText().toString();
+		if (image != null) {
+			bm = image;
+		}
+		new Postcreate().execute();
+
+		finish();
+		return true;
 	}
 
 	@Override
@@ -370,11 +321,11 @@ public class Register2Activity extends SherlockActivity implements
 				byte[] b = savedInstanceState.getByteArray("Bitmap" + i);
 
 				resized = BitmapFactory.decodeByteArray(b, 0, b.length);
-
 			}
 		}
 
-		user_img.setImageBitmap(resized);
+		mPhotoImageView.setImageBitmap(resized);
 		super.onRestoreInstanceState(savedInstanceState);
 	}
+
 }
