@@ -19,7 +19,10 @@
         <activity
             android:name="com.activity.LoginActivity"
             android:screenOrientation="portrait" >
-
+        </activity>
+        <activity
+            android:name="com.activity.UserInfoActivity"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.activity.GroupIndexActivity"

@@ -30,6 +30,7 @@ import com.activity.GroupIndexActivity;
 import com.activity.GroupShowActivity;
 import com.activity.LoginActivity;
 import com.activity.R;
+import com.activity.UserInfoActivity;
 import com.adapter.MyStudyListAdapter;
 import com.google.gson.Gson;
 import com.model.Group;
@@ -48,7 +49,6 @@ public class SlideMenuFragment extends SherlockListFragment implements
 	private LinearLayout footerview;
 	private TableRow studycreate;
 	private TableRow studysearch;
-	private TableRow preference;
 	private TableRow logout;
 	private RelativeLayout userlayout;
 	private SharedPreferences mPreferences;
@@ -107,9 +107,6 @@ public class SlideMenuFragment extends SherlockListFragment implements
 				.findViewById(R.id.search_study_table);
 		studysearch.setOnClickListener(new StudySearchClickListener());
 
-		preference = (TableRow) footerview.findViewById(R.id.preference_table);
-		preference.setOnClickListener(new PreferenceClickListener());
-
 		logout = (TableRow) footerview.findViewById(R.id.logout_table);
 		logout.setOnClickListener(new LogoutClickListener());
 
@@ -141,7 +138,9 @@ public class SlideMenuFragment extends SherlockListFragment implements
 	class UserClickListener implements OnClickListener{
 		@Override
 		public void onClick(View arg0) {
-			// user info
+			Intent in = new Intent(getActivity(), UserInfoActivity.class);
+			in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(in);
 		}
 	}
 

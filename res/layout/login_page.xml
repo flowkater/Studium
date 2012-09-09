@@ -4,25 +4,18 @@
     android:id="@+id/login_root"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    
+    android:background="@drawable/login_bg"
     android:paddingBottom="10.0dip" >
 
-    <ImageView
-        android:id="@+id/studium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-       
-        android:src="@drawable/studium1" />
+   
 
     <EditText
         android:id="@+id/login_id_edit_text"
         android:layout_width="220.0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/studium"
+        android:layout_marginTop="236dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20.0dp"
+       
         android:background="@drawable/login_edit_text_bg"
         android:gravity="center_vertical"
         android:hint="이메일(아이디)"
@@ -69,10 +62,11 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
-        android:padding="4.0dp"
+        android:layout_marginBottom="17dp"
         android:text="혹시  Studium 아이디가 없으세요?"
-     
-        android:textSize="13.0dp" />
+     	android:textColor="#ffffffff"
+        android:textSize="10sp"
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/login_find_pw_btn"

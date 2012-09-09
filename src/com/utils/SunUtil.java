@@ -6,7 +6,6 @@ import android.os.Environment;
 
 public class SunUtil
 {
-  // ï¿½ï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿?
   public static String makeDir(String dirName)
   {
     String mRootPath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + dirName;

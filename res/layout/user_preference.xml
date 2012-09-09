@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/stud_bg1"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/user_info_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/sub_object"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dip"
+            android:paddingRight="10dip"
+            android:text="사용자 정보 설정" />
+
+        <TableLayout
+            android:id="@+id/user_info_table"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/optional_info_text"
+            android:layout_marginTop="20dip" >
+
+            <TableRow
+                android:id="@+id/user_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="10.0dip" >
+
+                <TextView
+                    android:id="@+id/user_email_text"
+                    android:drawablePadding="10.0dp"
+                    android:text="e-mail"
+                    
+                    android:textSize="15.0sp" />
+
+                <TextView
+                    android:id="@+id/user_email_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:padding="10dip"
+                    android:text="foobar@foobar.com"
+                     >
+                </TextView>
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="10.0dip" >
+
+                <TextView
+                    android:id="@+id/user_name_text"
+                    android:drawablePadding="10.0dp"
+                    android:text="이름"
+                    
+                    android:textSize="15.0sp" />
+
+                <EditText
+                    android:id="@+id/user_name_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:background="@drawable/edittext_bg"
+                    android:ems="10"
+                    android:padding="10dip"
+                    android:singleLine="true" >
+                </EditText>
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/user_phone_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:padding="10.0dip" >
+
+                <TextView
+                    android:id="@+id/user_phone_num_text"
+                    android:drawablePadding="10.0dp"
+                    android:text="핸드폰 번호"
+                    
+                    android:textSize="15.0sp" />
+
+                <EditText
+                    android:id="@+id/user_phone_num_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:background="@drawable/edittext_bg"
+                    android:ems="10"
+                    android:inputType="phone"
+                    android:padding="10dip"
+                    android:singleLine="true" >
+                </EditText>
+            </TableRow>
+        </TableLayout>
+
+        <CheckBox
+            android:id="@+id/auto_login_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="20dp"
+            android:checked="true"
+            android:text="자동 로그인 설정"
+             />
+
+        <ImageView
+            android:id="@+id/user_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:scaleType="fitStart"
+            android:src="@drawable/photo_frm" />
+    </LinearLayout>
+
+</ScrollView>
