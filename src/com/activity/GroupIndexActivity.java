@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.view.*;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -64,10 +65,21 @@ public class GroupIndexActivity extends SlidingFragmentActivity  {
 		titlebar_text = (TextView)findViewById(R.id.titlebar_text);
 		titlebar_text.setText("Group#Index");
 		
+		//tab background, text color change
+		LayoutInflater inflater = this.getLayoutInflater();
+		View cView = inflater.inflate(R.layout.tab_layout, null);
+		View cView2 = inflater.inflate(R.layout.tab_layout, null);
+		
+		TextView tv =(TextView)cView.findViewById(R.id.tabs_text_bg);
+		tv.setText("Group Message");
+		
+		TextView tv2 =(TextView)cView2.findViewById(R.id.tabs_text_bg);
+		tv2.setText("Group List");
+		
 		mTabsAdapter = new TabsAdapter(this, mViewPager);
 		
-		mTabsAdapter.addTab(bar.newTab().setText("그룹 메시지"), PartyMessagesFragment.class, null);
-		mTabsAdapter.addTab(bar.newTab().setText("그룹 목록"), GroupListFragment.class, null);
+		mTabsAdapter.addTab(bar.newTab().setCustomView(tv).setText("그룹 메시지"), PartyMessagesFragment.class, null);
+		mTabsAdapter.addTab(bar.newTab().setCustomView(tv2).setText("그룹 목록"), GroupListFragment.class, null);
 		bar.setStackedBackgroundDrawable(getResources().getDrawable(R.drawable.tap_2_menu));
 	}
 

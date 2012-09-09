@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.view.*;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,14 +83,30 @@ public class GroupShowActivity extends SlidingFragmentActivity {
 
 		titlebar_text = (TextView) findViewById(R.id.titlebar_text);
 		titlebar_text.setText("Group#Show");
+		
+		
+		//tab background, text color change
+		LayoutInflater inflater = this.getLayoutInflater();
+		View cView = inflater.inflate(R.layout.tab_layout, null);
+		View cView2 = inflater.inflate(R.layout.tab_layout, null);
+		View cView3 = inflater.inflate(R.layout.tab_layout, null);
+		
+		TextView tv =(TextView)cView.findViewById(R.id.tabs_text_bg);
+		tv.setText("Feed");
+		
+		TextView tv2 =(TextView)cView2.findViewById(R.id.tabs_text_bg);
+		tv2.setText("Step");
+		
+		TextView tv3 =(TextView)cView3.findViewById(R.id.tabs_text_bg);
+		tv3.setText("Info");
 
 		mTabsAdapter = new TabsAdapter(this, mViewPager);
 
-		mTabsAdapter.addTab(bar.newTab().setText("Feed"), FeedFragment.class,
+		mTabsAdapter.addTab(bar.newTab().setCustomView(tv).setText("Feed"), FeedFragment.class,
 				null);
-		mTabsAdapter.addTab(bar.newTab().setText("Step"), StepFragment.class,
+		mTabsAdapter.addTab(bar.newTab().setCustomView(tv2).setText("Step"), StepFragment.class,
 				null);
-		mTabsAdapter.addTab(bar.newTab().setText("Info"), InfoFragment.class,
+		mTabsAdapter.addTab(bar.newTab().setCustomView(tv3).setText("Info"), InfoFragment.class,
 				null);
 		
 		bar.setStackedBackgroundDrawable(getResources().getDrawable(R.drawable.tap_3_menu));
