@@ -91,7 +91,6 @@ public class PostPageActivity extends SherlockActivity implements
 		bar.setCustomView(R.layout.header);
 		bar.setDisplayShowCustomEnabled(true);
 		bar.setDisplayHomeAsUpEnabled(true);
-		bar.setDisplayHomeAsUpEnabled(false);
 		// end header
 		titlebar_text = (TextView) findViewById(R.id.titlebar_text);
 		titlebar_text.setText("Write Post");

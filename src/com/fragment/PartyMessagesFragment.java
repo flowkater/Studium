@@ -137,6 +137,7 @@ public class PartyMessagesFragment extends SherlockFragment implements
 		Intent in = new Intent(getActivity(), GroupShowActivity.class);
 		in.putExtra("group_id", partym.getId());
 		in.putExtra("role", partym.getRole());
+		in.putExtra("group_name", partym.getName());
 		Toast.makeText(getActivity(), partym.getRole(), Toast.LENGTH_SHORT).show();
 		startActivity(in);
 	}

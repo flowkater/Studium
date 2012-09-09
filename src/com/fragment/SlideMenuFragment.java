@@ -23,7 +23,6 @@ import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.activity.GroupCreateActivity;
@@ -56,6 +55,8 @@ public class SlideMenuFragment extends SherlockListFragment implements
 	private String auth_token;
 	private ImageView profile_thumbnail;
 	private TextView user_name;
+	private RelativeLayout userdivider;
+	private ImageView preferecedivider;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -91,6 +92,12 @@ public class SlideMenuFragment extends SherlockListFragment implements
 		
 		userlayout = (RelativeLayout) headerview.findViewById(R.id.user_layout);
 		userlayout.setOnClickListener(new UserClickListener());
+		
+		userdivider = (RelativeLayout) headerview.findViewById(R.id.user_divider);
+		userdivider.setOnClickListener(new UserDividerClickListener());
+		
+		preferecedivider = (ImageView)footerview.findViewById(R.id.preference_and_logout);
+		preferecedivider.setOnClickListener(new PrefClickListener());
 
 		studycreate = (TableRow) footerview
 				.findViewById(R.id.create_study_table);
@@ -115,6 +122,20 @@ public class SlideMenuFragment extends SherlockListFragment implements
 		// header, footer end
 		mListView.setAdapter(mAdapter);
 		mListView.setOnItemClickListener(this);
+	}
+	
+	class PrefClickListener implements OnClickListener{
+		@Override
+		public void onClick(View v) {
+			// pref divider
+		}
+	}
+	
+	class UserDividerClickListener implements OnClickListener{
+		@Override
+		public void onClick(View arg0) {
+			// user divider
+		}
 	}
 	
 	class UserClickListener implements OnClickListener{

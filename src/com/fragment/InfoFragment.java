@@ -1,7 +1,6 @@
 package com.fragment;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+
 import java.util.ArrayList;
 
 import org.apache.http.HttpResponse;
@@ -55,14 +54,12 @@ public class InfoFragment extends SherlockFragment implements
 	private PullToRefreshListView mListView;
 	private String mResult;
 	private RelativeLayout headerview;
-	private LinearLayout footerview;
 	private String id;
 	private ImageView group_image;
 	private TextView group_name;
 	private TextView group_starttime;
 	private TextView group_subject;
 	private TextView group_goal;
-	private Button JoinButton;
 	private SharedPreferences mPreferences;
 	private String auth_token;
 	private String role;
@@ -111,8 +108,6 @@ public class InfoFragment extends SherlockFragment implements
 		group_subject = (TextView) headerview.findViewById(R.id.group_subject);
 		group_goal = (TextView) headerview.findViewById(R.id.group_goal);
 		mListView.getRefreshableView().addHeaderView(headerview);
-
-	
 		mListView.getRefreshableView().setAdapter(mAdapter);
 		// setAdapter must be located below addheaderview.
 		return mView;
@@ -123,13 +118,6 @@ public class InfoFragment extends SherlockFragment implements
 		super.onActivityCreated(savedInstanceState);
 	}
 
-	class JoinClickListener implements OnClickListener {
-		@Override
-		public void onClick(View v) {
-			System.out.println("Join");
-			new Membershipscreate().execute();
-		}
-	}
 
 	private class GetMemberList extends AsyncTask<Void, Void, Void> {
 		@Override
@@ -171,41 +159,6 @@ public class InfoFragment extends SherlockFragment implements
 			mListView.onRefreshComplete();
 			mAdapter.notifyDataSetChanged();
 
-			super.onPostExecute(result);
-		}
-	}
-
-	private class Membershipscreate extends AsyncTask<Void, Void, Void> {
-		@Override
-		protected Void doInBackground(Void... params) {
-			try {
-				HttpClient httpClient = new DefaultHttpClient();
-				HttpPost postRequest = new HttpPost(Global.ServerUrl
-						+ "memberships?auth_token=" + auth_token);
-				MultipartEntity reqEntity = new MultipartEntity(
-						HttpMultipartMode.BROWSER_COMPATIBLE);
-				reqEntity.addPart("membership[group_id]", new StringBody(id));
-				postRequest.setEntity(reqEntity);
-				HttpResponse response = httpClient.execute(postRequest);
-
-				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(
-								response.getEntity().getContent(), "UTF-8"));
-				String sResponse;
-				StringBuilder s = new StringBuilder();
-
-				while ((sResponse = reader.readLine()) != null) {
-					s = s.append(sResponse);
-				}
-				Log.e("my", "Response : " + s);
-			} catch (Exception e) {
-				Log.e("my", e.getClass().getName() + e.getMessage());
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 		}
 	}

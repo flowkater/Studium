@@ -37,7 +37,6 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.activity.GroupCreate2Activity.Groupcreate;
 import com.utils.Global;
 
 public class Register2Activity extends SherlockActivity implements
@@ -165,9 +164,6 @@ public class Register2Activity extends SherlockActivity implements
 				BufferedReader reader = new BufferedReader(
 						new InputStreamReader(
 								response.getEntity().getContent(), "UTF-8"));
-				// response.getStatusLine().toString();
-				System.out.println("fsdafasdfasdfasdfsdaf     "
-						+ response.getStatusLine().toString());
 				String sResponse;
 				StringBuilder s = new StringBuilder();
 

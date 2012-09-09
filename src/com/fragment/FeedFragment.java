@@ -93,7 +93,6 @@ public class FeedFragment extends SherlockFragment implements
 		protected Void doInBackground(Void... params) {
 			mResult = NetHelper.DownloadHtml(Global.ServerUrl + "groups/" + id
 					+ "/posts.json?page=" + mCurrentPage.toString());
-			// System.out.println(mResult);
 			return null;
 		}
 
@@ -106,13 +105,11 @@ public class FeedFragment extends SherlockFragment implements
 				group_name.setText(group.getString("name"));
 				group_goal.setText(group.getString("goal"));
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			for (Post post : posts.getPosts()) {
 				mArrayList.add(post);
 			}
-
 			mCurrentPage++;
 			mListView.onRefreshComplete();
 			mAdapter.notifyDataSetChanged();
@@ -122,7 +119,6 @@ public class FeedFragment extends SherlockFragment implements
 	}
 
 	public class EndlessScrollListener implements OnScrollListener {
-
 		private int visibleThreshold = 5;
 		private boolean loading = true;
 

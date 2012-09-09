@@ -130,6 +130,7 @@ public class GroupListFragment extends SherlockFragment implements
 		Intent in = new Intent(getActivity(), GroupShowActivity.class);
 		in.putExtra("group_id", group.getId());
 		in.putExtra("role", group.getRole());
+		in.putExtra("group_name", group.getName());
 		Toast.makeText(getActivity(), group.getRole(), Toast.LENGTH_SHORT).show();
 		startActivity(in);
 	}

@@ -24,7 +24,8 @@ public class CheckTodoListAdapter extends ArrayAdapter<CheckString> {
 	private ArrayList<CheckString> mList;
 	private LayoutInflater mInflater;
 
-	public CheckTodoListAdapter(Context Context, int mResource, ArrayList<CheckString> mList) {
+	public CheckTodoListAdapter(Context Context, int mResource,
+			ArrayList<CheckString> mList) {
 		super(Context, mResource, mList);
 		this.mContext = Context;
 		this.mResource = mResource;
@@ -39,44 +40,33 @@ public class CheckTodoListAdapter extends ArrayAdapter<CheckString> {
 			this.mInflater = (LayoutInflater) mContext
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = mInflater.inflate(mResource, null);
-//			System.out.println("kl;asdfjal;sjfkdl;asfjkl;sd"+convertView.isClickable());
-//			convertView.setClickable(true);
 			holder = new ViewHolder();
 
 			holder.string = (CheckBox) convertView
 					.findViewById(R.id.todolist_checkbox);
-			
-			holder.string.setChecked(((ListView)parent).isItemChecked(position));
+
+			holder.string.setChecked(((ListView) parent)
+					.isItemChecked(position));
 			holder.string.setFocusable(false);
 			holder.string.setClickable(false);
 
 			convertView.setTag(holder);
-			
+
 			if (user.isCheck() == true) {
-			
-				
 				holder.string.setPaintFlags(Paint.ANTI_ALIAS_FLAG
 						| Paint.DEV_KERN_TEXT_FLAG);
-				
 			} else {
-				
-				//holder.string.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-
+				// holder.string.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 			}
-			
-			
-			} else {
+		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-
 		holder.string.setText(user.getString());
-
 		return convertView;
 	}
 
 	class ViewHolder {
 		CheckBox string;
 		boolean check;
-		
 	}
 }
