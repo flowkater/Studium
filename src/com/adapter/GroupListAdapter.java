@@ -55,7 +55,7 @@ public class GroupListAdapter extends ArrayAdapter<Group>{
 			if (image!=null) {
 				ImageDownloader.download(Global.ServerUrl+ image, holder.group_image);
 			}else{
-				holder.group_image.setImageResource(R.drawable.ic_launcher);
+				holder.group_image.setImageResource(R.drawable.photo_frm);
 			}
 //			holder.group_image.setImageBitmap(group.getGroup_img());
 			

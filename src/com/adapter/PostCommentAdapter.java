@@ -53,7 +53,7 @@ public class PostCommentAdapter extends ArrayAdapter<Comment> {
 			if (image!=null) {
 				ImageDownloader.download(Global.ServerUrl+image, holder.member_image);
 			}else{
-				holder.member_image.setImageResource(R.drawable.ic_launcher);
+				holder.member_image.setImageResource(R.drawable.photo_frm);
 			}
 			holder.comment_body.setText(comment.getBody());
 			holder.member_name.setText(comment.getName());

@@ -61,7 +61,7 @@ public class PartymListAdapter extends ArrayAdapter<Partymessage> {
 			if (image != null) {
 				ImageDownloader.download(Global.ServerUrl+image, holder.image);
 			}else {
-				holder.image.setImageResource(R.drawable.ic_launcher);
+				holder.image.setImageResource(R.drawable.photo_frm);
 			}
 			holder.name.setText(partymessage.getName());
 			holder.goal.setText(partymessage.getGoal());

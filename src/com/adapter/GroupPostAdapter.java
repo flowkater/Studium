@@ -63,7 +63,7 @@ public class GroupPostAdapter extends ArrayAdapter<Post> {
 				ImageDownloader.download(Global.ServerUrl + member_image,
 						holder.member_img);
 			} else {
-				holder.member_img.setImageResource(R.drawable.ic_launcher);
+				holder.member_img.setImageResource(R.drawable.photo_frm);
 			}
 			if (content_image != null) {
 				ImageDownloader.download(Global.ServerUrl + content_image,

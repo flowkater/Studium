@@ -9,6 +9,10 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.*;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +26,7 @@ import com.fragment.PartyMessagesFragment;
 import com.fragment.SlideMenuFragment;
 import com.slidingmenu.lib.app.SlidingFragmentActivity;
 
-public class GroupIndexActivity extends SlidingFragmentActivity {
+public class GroupIndexActivity extends SlidingFragmentActivity  {
 	ViewPager mViewPager;
 	TabsAdapter mTabsAdapter;
 	TextView titlebar_text;
@@ -82,14 +86,14 @@ public class GroupIndexActivity extends SlidingFragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add("search")
-				.setIcon(R.drawable.ic_action_search)
-				.setActionView(R.layout.collapsible_edittext)
+		menu.add("create")
+				.setIcon(R.drawable.create_group_icon)
 				.setShowAsAction(
 						MenuItem.SHOW_AS_ACTION_IF_ROOM
-								| MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-		return super.onCreateOptionsMenu(menu);
+								| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		return true;
 	}
+
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -98,9 +102,8 @@ public class GroupIndexActivity extends SlidingFragmentActivity {
 			toggle();
 			return true;
 		}
-		if (item.getTitle().equals("search")) {
-			Toast.makeText(getApplicationContext(), "Search",
-					Toast.LENGTH_SHORT).show();
+		if (item.getTitle().equals("create")) {
+			
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -153,14 +156,16 @@ public class GroupIndexActivity extends SlidingFragmentActivity {
 		}
 
 		public void onPageScrolled(int position, float positionOffset,
-				int positionOffsetPixels) {}
+				int positionOffsetPixels) {
+		}
 
 		public void onPageSelected(int position) {
 			mActionBar.setSelectedNavigationItem(position);
 			Fragment fr = getItem(position);
 		}
 
-		public void onPageScrollStateChanged(int state) {}
+		public void onPageScrollStateChanged(int state) {
+		}
 
 		public void onTabSelected(Tab tab, FragmentTransaction ft) {
 			Object tag = tab.getTag();
@@ -170,7 +175,11 @@ public class GroupIndexActivity extends SlidingFragmentActivity {
 				}
 			}
 		}
-		public void onTabUnselected(Tab tab, FragmentTransaction ft) {}
-		public void onTabReselected(Tab tab, FragmentTransaction ft) {}
+
+		public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+		}
+
+		public void onTabReselected(Tab tab, FragmentTransaction ft) {
+		}
 	}
 }
