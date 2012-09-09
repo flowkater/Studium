@@ -22,9 +22,6 @@ import android.graphics.Bitmap.CompressFormat;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -33,8 +30,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.utils.Global;
 
-public class GroupCreate2Activity extends SherlockActivity implements OnClickListener{
-
+public class GroupCreate2Activity extends SherlockActivity{
 	private ProgressDialog mProgressDialog;
 	private TextView titlebar_text;
 	private String name;
@@ -43,8 +39,6 @@ public class GroupCreate2Activity extends SherlockActivity implements OnClickLis
 	private String subject;
 	private String auth_token;
 	private Bitmap bm;
-
-	private Button[] week_btn = new Button[8];
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -68,18 +62,11 @@ public class GroupCreate2Activity extends SherlockActivity implements OnClickLis
 		
 		titlebar_text = (TextView)findViewById(R.id.titlebar_text);
 		titlebar_text.setText("Group#Create2");
-		week_btn[1] = (Button) findViewById(R.id.sun_btn);
-		week_btn[2] = (Button) findViewById(R.id.mon_btn);
-		week_btn[3] = (Button) findViewById(R.id.tue_btn);
-		week_btn[4] = (Button) findViewById(R.id.wed_btn);
-		week_btn[5] = (Button) findViewById(R.id.thu_btn);
-		week_btn[6] = (Button) findViewById(R.id.fri_btn);
-		week_btn[7] = (Button)findViewById(R.id.sat_btn);
 		
 		
 	}
-
-	class Groupcreate extends AsyncTask<Void, Void, Void> {
+	
+	class Groupcreate extends AsyncTask<Void, Void, Void>{
 		@Override
 		protected Void doInBackground(Void... params) {
 			try {
@@ -171,12 +158,6 @@ public class GroupCreate2Activity extends SherlockActivity implements OnClickLis
 			}
 		}
 		return null;
-	}
-
-	@Override
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		
 	}
 }
 

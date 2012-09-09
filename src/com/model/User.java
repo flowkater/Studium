@@ -1,6 +1,8 @@
 package com.model;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable{
 	private String image;
 	private String name;
 	private String role;

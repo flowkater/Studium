@@ -1,6 +1,5 @@
 package com.activity;
 
-
 import java.util.ArrayList;
 
 import com.actionbarsherlock.app.SherlockActivity;
@@ -8,8 +7,12 @@ import com.activity.R;
 import com.adapter.CheckTodoListAdapter;
 import com.adapter.ImageAdapter;
 import com.model.CheckString;
+import com.model.Party;
 import com.model.ThumbImageInfo;
+import com.model.Todolist;
+import com.model.User;
 
+import android.R.integer;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,8 +35,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class MeetingShowActivity extends SherlockActivity implements OnItemClickListener,
-		OnClickListener {
+public class MeetingShowActivity extends SherlockActivity implements
+		OnItemClickListener, OnClickListener {
 	public static int PARTY_MEMBER = 0;
 	public static int PARTYING_TIME = 1;
 	public static int LOCATION = 2;
@@ -68,6 +71,8 @@ public class MeetingShowActivity extends SherlockActivity implements OnItemClick
 	private boolean mMeeting;
 	boolean[] backup_attand = new boolean[members];
 	boolean[] backup_listnum = new boolean[listnum];
+	private ArrayList<Party> mParties = new ArrayList<Party>();
+	private int index;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,10 +85,9 @@ public class MeetingShowActivity extends SherlockActivity implements OnItemClick
 		year = in.getStringExtra("year");
 		party = in.getBooleanExtra("isParty", false);
 		mMeeting = in.getBooleanExtra("making", false);
-		String partystring[] = in.getStringArrayExtra("party");
 		role = in.getStringExtra("role");
-
-		
+		index = in.getIntExtra("index", 0);
+		mParties = (ArrayList<Party>) in.getSerializableExtra("party");
 
 		if (party) {
 			setContentView(R.layout.meeting_info_page);
@@ -99,19 +103,18 @@ public class MeetingShowActivity extends SherlockActivity implements OnItemClick
 			attandance_tv = (TextView) header
 					.findViewById(R.id.attend_rate_text);
 
-			String[] party_info = getIntent().getStringArrayExtra("party");
+			final ArrayList<Todolist> array_todo = mParties.get(index).getTodolists();
+			
 
-			Num_todoList = party_info[TODOLIST].split(delims).length;
-
-			CheckString[] fuck = new CheckString[Num_todoList];
+			CheckString[] check_input = new CheckString[array_todo.size()];
 
 			System.out.println(Num_todoList);
 
-			for (int i = 0; i < Num_todoList; i++) {
-				String string = party_info[TODOLIST].split(delims)[i];
-				fuck[i] = new CheckString();
-				fuck[i].setString(string);
-				todolist_list.add(fuck[i]);
+			for (int i = 0; i < array_todo.size(); i++) {
+				String string = array_todo.get(i).getList();
+				check_input[i] = new CheckString();
+				check_input[i].setString(string);
+				todolist_list.add(check_input[i]);
 			}
 
 			ListView lv = (ListView) findViewById(R.id.to_do_list_list);
@@ -123,38 +126,13 @@ public class MeetingShowActivity extends SherlockActivity implements OnItemClick
 			mThumbImageInfoList = new ArrayList<ThumbImageInfo>();
 
 			// thumb start
-			ThumbImageInfo thumbInfo = new ThumbImageInfo();
-
-			thumbInfo.setId("병철");
-			thumbInfo.setThum_img("member_byung");
-			thumbInfo.setCheckedState(false);
-
-			mThumbImageInfoList.add(thumbInfo);
-
-			ThumbImageInfo thumbInfo1 = new ThumbImageInfo();
-
-			thumbInfo1.setId("잡스");
-			thumbInfo1.setThum_img("member_jobs");
-			thumbInfo1.setCheckedState(false);
-
-			mThumbImageInfoList.add(thumbInfo1);
-
-			ThumbImageInfo thumbInfo2 = new ThumbImageInfo();
-
-			thumbInfo2.setId("레이디 가가");
-			thumbInfo2.setThum_img("member_ladygaga");
-			thumbInfo2.setCheckedState(false);
-
-			mThumbImageInfoList.add(thumbInfo2);
-
-			ThumbImageInfo thumbInfo3 = new ThumbImageInfo();
-
-			thumbInfo3.setId("야");
-			thumbInfo3.setThum_img("member_ya");
-			thumbInfo3.setCheckedState(false);
-
-			mThumbImageInfoList.add(thumbInfo3);
-
+			for (int i = 0; i < mParties.get(index).getUsers().size(); i++) {
+				User temp = mParties.get(index).getUsers().get(i);
+				ThumbImageInfo temp_thumb = new ThumbImageInfo();
+				temp_thumb.setId(temp.getName());
+				temp_thumb.setThum_img(temp.getImage());
+				mThumbImageInfoList.add(temp_thumb);
+			}
 			System.out.println(mThumbImageInfoList.get(0).getId());
 
 			// thum end
@@ -182,11 +160,22 @@ public class MeetingShowActivity extends SherlockActivity implements OnItemClick
 			// define
 			TextView meeting_location_input_text = (TextView) header
 					.findViewById(R.id.meeting_location_input_text);
-			meeting_location_input_text.setText(partystring[LOCATION]);
+			meeting_location_input_text.setText(mParties.get(index).getPlace());
 
 			TextView meeting_time_input_text = (TextView) header
 					.findViewById(R.id.meeting_time_input_text);
-			meeting_time_input_text.setText(partystring[TIME]);
+			
+			String[] temp = mParties.get(index).getDate().split(delims);
+			String[] temp1 = mParties.get(index).getTime().split(delims);
+			if(Integer.parseInt(temp1[0])>12)
+				temp1[0]= " 오후 "+ (Integer.parseInt(temp1[0])-12);
+			else
+				temp1[0]= " 오전 " + temp1[0];
+			
+			String time_show = temp[0]+"년 "+temp[1]+"월 "+ temp[2]+"일"+ temp1[0]+"시 "+ temp1[1]+"분";
+
+			
+			meeting_time_input_text.setText(time_show);
 
 			achive_rate_tv = (TextView) header
 					.findViewById(R.id.achievement_rate_text);
@@ -229,7 +218,7 @@ public class MeetingShowActivity extends SherlockActivity implements OnItemClick
 						}
 						System.out.println("fuck " + checked);
 
-						achive_rate = checked * 100 / Num_todoList;
+						achive_rate = checked * 100 / array_todo.size();
 						System.out.println("fuck       " + achive_rate);
 
 						achive_rate_tv.setText("목표 달성률 : " + achive_rate + "%");
@@ -314,7 +303,7 @@ public class MeetingShowActivity extends SherlockActivity implements OnItemClick
 
 		}
 
-		int attendance_rate = attandance_check * 100 / members;
+		int attendance_rate = attandance_check * 100 / mParties.get(index).getUsers().size();
 
 		attendance_bar.setMax(100);
 		attendance_bar.setProgress(attendance_rate);

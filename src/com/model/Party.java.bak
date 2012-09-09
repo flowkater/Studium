@@ -1,23 +1,13 @@
 package com.model;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Party implements Serializable{
+public class Party {
 	private String place;
 	private String time;
 	private String date;
 	private ArrayList<User> users;
 	private ArrayList<Todolist> todolists;
-	
-	public Party (String place, String time, String date, ArrayList<User> users, ArrayList<Todolist> todolists)
-	{
-		this.place=place;
-		this.time=time;
-		this.date=date;
-		this.users=users;
-		this.todolists=todolists;
-	}
 	
 	
 	public String getPlace() {

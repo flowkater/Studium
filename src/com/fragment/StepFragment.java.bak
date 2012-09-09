@@ -3,7 +3,6 @@ package com.fragment;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -40,10 +39,9 @@ import com.utils.NetHelper;
 
 public class StepFragment extends SherlockFragment implements
 		OnItemClickListener, OnClickListener {
-	public int index = 0;
 
+	private String userParty[] = new String[10];
 	private Boolean useruser = false;
-	public String delims = "-";
 
 	// it is setting of meeting day
 	// private int WhenDoyougoToStudy[] = new int[8];
@@ -85,13 +83,13 @@ public class StepFragment extends SherlockFragment implements
 
 	ListView mPostListView;
 	ArrayList<Post> mPostList = new ArrayList<Post>();
-
+	
 	private SharedPreferences mPreferences;
 	private String auth_token;
 	private String group_id;
-	private String role;
+	
 	private String mResult;
-
+	
 	private ArrayList<Party> mParties = new ArrayList<Party>();
 
 	@Override
@@ -109,7 +107,6 @@ public class StepFragment extends SherlockFragment implements
 
 		Intent in = getActivity().getIntent();
 		group_id = in.getExtras().getString("group_id");
-		role = in.getExtras().getString("role");
 		mView = inflater.inflate(R.layout.step_calender, container, false);
 		// LayoutInflater lf = (LayoutInflater)
 		// getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -124,11 +121,6 @@ public class StepFragment extends SherlockFragment implements
 		Button bNextMonth = (Button) mView
 				.findViewById(R.id.gv_calendar_activity_b_next);
 		Button create_meeting = (Button) mView.findViewById(R.id.add_meeting);
-
-		if (role.equals(Global.founder))
-			create_meeting.setVisibility(View.VISIBLE);
-		else
-			create_meeting.setVisibility(View.INVISIBLE);
 
 		mTvCalendarTitle = (TextView) mView
 				.findViewById(R.id.gv_calendar_activity_tv_title);
@@ -153,35 +145,15 @@ public class StepFragment extends SherlockFragment implements
 
 		// mPostList.add(object);
 
+		getCalendar(mThisMonthCalendar);
+
 		return mView;
 	}
 
-	private int date_to_int(String year, String month, String date) {
-		return Integer.parseInt(year) * 10000 + Integer.parseInt(month) * 100
-				+ Integer.parseInt(date);
-
-	}
-
-	private int date_to_int(String[] temp) {
-		return Integer.parseInt(temp[0]) * 10000 + Integer.parseInt(temp[1])
-				* 100 + Integer.parseInt(temp[2]);
-
-	}
-
-	private void getCalendar(Calendar calendar, ArrayList<Party> mParties) {
+	private void getCalendar(Calendar calendar) {
 		int lastMonthStartDay;
 		int dayOfMonth;
 		int thisMonthLastDay;
-
-		this.mParties = mParties;
-
-		// party compre setting
-		int[] party_int_date = new int[mParties.size()];
-		for (int i = 0; i < party_int_date.length; i++) {
-
-			String[] temp = mParties.get(i).getDate().split(delims);
-			party_int_date[i] = date_to_int(temp);
-		}
 
 		boolean a = mDayList.isEmpty();
 		if (mDayList.isEmpty() != true)
@@ -203,13 +175,15 @@ public class StepFragment extends SherlockFragment implements
 
 		lastMonthStartDay -= (dayOfMonth - 1) - 1;
 
-		mTvCalendarTitle.setText(mThisMonthCalendar.get(Calendar.YEAR) + "��"
-				+ (mThisMonthCalendar.get(Calendar.MONTH) + 1) + "��");
+		mTvCalendarTitle.setText(mThisMonthCalendar.get(Calendar.YEAR) + "년"
+				+ (mThisMonthCalendar.get(Calendar.MONTH) + 1) + "월");
 
 		DayInfo day;
 
 		Log.e("DayOfMOnth", dayOfMonth + "");
 		System.out.println("last create");
+
+		int index = 0;
 
 		start_calender[0] = mThisMonthCalendar.get(Calendar.YEAR);
 		start_calender[1] = mThisMonthCalendar.get(Calendar.MONTH);
@@ -223,7 +197,6 @@ public class StepFragment extends SherlockFragment implements
 			int date = lastMonthStartDay + i;
 
 			day = new DayInfo();
-
 			day.setDate(Integer.toString(date));
 
 			int showday = i;
@@ -236,25 +209,6 @@ public class StepFragment extends SherlockFragment implements
 			day.setInMonth(false);
 			day.setMonth(mThisMonthCalendar.get(Calendar.MONTH) + "");
 			day.setYear(mThisMonthCalendar.get(Calendar.YEAR) + "");
-
-			// party date compare
-			if (mParties.size() == 0) {
-
-			} else {
-				if (party_int_date[index] > date_to_int(day.getYear(),
-						day.getMonth(), day.getDate()))
-					Toast.makeText(getActivity(), "ㅎㅎㅎㅎㅎㅎㅎㅎ  " + day.getDate(),
-							Toast.LENGTH_SHORT);
-
-				else if (party_int_date[index] == date_to_int(day.getYear(),
-						day.getMonth(), day.getDate())) {
-					day.setParty(true);
-					if (party_int_date.length - 1 == index) {
-
-					} else
-						index++;
-				}
-			}
 
 			if (isUpdate == 1
 					&& Integer.parseInt(getActivity().getIntent()
@@ -277,9 +231,9 @@ public class StepFragment extends SherlockFragment implements
 		System.out.println("this create");
 
 		/* user party parsing */
-		// userParty[0] = party.getDate();
-
-		// String[] userPartydates = userParty[0].split(delims);
+//		userParty[0] = party.getDate();
+		String delims = "-";
+//		String[] userPartydates = userParty[0].split(delims);
 
 		for (int i = 1; i <= thisMonthLastDay; i++) {
 
@@ -296,41 +250,23 @@ public class StepFragment extends SherlockFragment implements
 			day.setMonth((mThisMonthCalendar.get(Calendar.MONTH) + 1) + "");
 			day.setYear(mThisMonthCalendar.get(Calendar.YEAR) + "");
 
-			// compare
-			if (mParties.size() == 0) {
-
-			} else {
-				if (party_int_date[index] > date_to_int(day.getYear(),
-						day.getMonth(), day.getDate()))
-					Toast.makeText(getActivity(), "ㅎㅎㅎㅎㅎㅎㅎㅎ  " + day.getDate(),
-							Toast.LENGTH_SHORT);
-
-				else if (party_int_date[index] == date_to_int(day.getYear(),
-						day.getMonth(), day.getDate())) {
-					day.setParty(true);
-					if (party_int_date.length - 1 == index) {
-
-					} else
-						index++;
-				}
-			}
-			int WhatisthedayToday = (day.getDay() + lastmonthdays % 7) % 7;
+			// int WhatisthedayToday = (day.getDay() + lastmonthdays % 7) % 7;
 
 			// if (WhenDoyougoToStudy[WhatisthedayToday] == 1) {
 			// day.setParty(true);
 			// }
 
 			// user party check
-			// if (Integer.parseInt(userPartydates[2]) == Integer.parseInt(day
-			// .getDate())
-			// && Integer.parseInt(userPartydates[1]) == Integer
-			// .parseInt(day.getMonth())
-			// && Integer.parseInt(userPartydates[0]) == Integer
-			// .parseInt(day.getYear())) {
-			// day.setParty(true);
-			// useruser = true;
-			//
-			// }
+//			if (Integer.parseInt(userPartydates[2]) == Integer.parseInt(day
+//					.getDate())
+//					&& Integer.parseInt(userPartydates[1]) == Integer
+//							.parseInt(day.getMonth())
+//					&& Integer.parseInt(userPartydates[0]) == Integer
+//							.parseInt(day.getYear())) {
+//				day.setParty(true);
+//				useruser = true;
+//
+//			}
 			if (isUpdate == 1
 					&& Integer.parseInt(getActivity().getIntent()
 							.getStringExtra("date")) == Integer.parseInt(day
@@ -364,25 +300,6 @@ public class StepFragment extends SherlockFragment implements
 			day.setInMonth(false);
 			day.setMonth((mThisMonthCalendar.get(Calendar.MONTH) + 2) + "");
 			day.setYear(mThisMonthCalendar.get(Calendar.YEAR) + "");
-
-			// compare
-			if (mParties.size() == 0) {
-
-			} else {
-				if (party_int_date[index] > date_to_int(day.getYear(),
-						day.getMonth(), day.getDate()))
-					Toast.makeText(getActivity(), "ㅎㅎㅎㅎㅎㅎㅎㅎ  " + day.getDate(),
-							Toast.LENGTH_SHORT);
-
-				else if (party_int_date[index] == date_to_int(day.getYear(),
-						day.getMonth(), day.getDate())) {
-					day.setParty(true);
-					if (party_int_date.length - 1 == index) {
-
-					} else
-						index++;
-				}
-			}
 
 			if (isUpdate == 1
 					&& Integer.parseInt(getActivity().getIntent()
@@ -445,24 +362,18 @@ public class StepFragment extends SherlockFragment implements
 		extras.putBoolean("isParty", daycl.isParty());
 		extras.putBoolean("making", mMeeting);
 		extras.putString("group_id", group_id);
-		extras.putString("auth_token", auth_token);
-		extras.putInt("index", index);
-
-		// if (daycl.isParty() == true && useruser == true)
-		// extras.putStringArray("party", partystring);
+		extras.putString("auth_token",auth_token);
+		// extras.putBoolean("mMeeting", mMeeting);
+		if (daycl.isParty() == true && useruser == true)
+//			extras.putStringArray("party", partystring);
 
 		if (mMeeting) {
 			intent = new Intent(getActivity(), MeetingCreateActivity.class);
-			intent.putExtras(extras);
-			startActivity(intent);
-
-		} else if (daycl.isParty()) {
+		} else
 			intent = new Intent(getActivity(), MeetingShowActivity.class);
-			intent.putExtra("party", mParties);
-			intent.putExtras(extras);
-			startActivity(intent);
+//			intent.putExtras(extras);
 
-		}
+//		startActivity(intent);
 
 	}
 
@@ -470,15 +381,15 @@ public class StepFragment extends SherlockFragment implements
 	public void onClick(View v) {
 		if (R.id.gv_calendar_activity_b_last == v.getId()) {
 			mThisMonthCalendar = getLastMonth(mThisMonthCalendar);
-			getCalendar(mThisMonthCalendar, mParties);
+			getCalendar(mThisMonthCalendar);
 		}
 		if (R.id.gv_calendar_activity_b_next == v.getId()) {
 			mThisMonthCalendar = getNextMonth(mThisMonthCalendar);
-			getCalendar(mThisMonthCalendar, mParties);
+			getCalendar(mThisMonthCalendar);
 		}
 		if (R.id.add_meeting == v.getId()) {
 			Toast.makeText(getActivity().getApplicationContext(),
-					"모임을 만드려면 눌러주세용!", Toast.LENGTH_SHORT).show();
+					"이제 모임 날짜를 클릭해주세용 !", Toast.LENGTH_SHORT).show();
 			mMeeting = true;
 
 		}
@@ -489,15 +400,15 @@ public class StepFragment extends SherlockFragment implements
 				mDayList);
 		mGvCalendar.setAdapter(mCalendarAdapter);
 	}
-
-	private class GetPartyList extends AsyncTask<Void, Void, Void> {
+	
+	private class GetPartyList extends AsyncTask<Void, Void, Void>{
 		@Override
 		protected Void doInBackground(Void... params) {
-			mResult = NetHelper.DownloadHtml(Global.ServerUrl + "groups/"
-					+ group_id + "/parties.json?auth_token=" + auth_token);
+			mResult = NetHelper.DownloadHtml(Global.ServerUrl + "groups/" + group_id
+					+ "/parties.json?auth_token="+auth_token);
 			return null;
 		}
-
+		
 		@Override
 		protected void onPostExecute(Void result) {
 			Gson gson = new Gson();
@@ -508,9 +419,7 @@ public class StepFragment extends SherlockFragment implements
 				System.out.println(party.getTodolists().get(0).getList());
 				mParties.add(party);
 			}
-			// UI Thread
-			getCalendar(mThisMonthCalendar, mParties);
-
+			//UI Thread
 			super.onPostExecute(result);
 		}
 	}

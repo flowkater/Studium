@@ -1,6 +1,8 @@
 package com.model;
 
-public class Todolist {
+import java.io.Serializable;
+
+public class Todolist implements Serializable{
 	private String list;
 
 	public String getList() {

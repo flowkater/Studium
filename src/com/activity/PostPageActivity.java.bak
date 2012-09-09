@@ -217,8 +217,7 @@ public class PostPageActivity extends SherlockActivity implements
 
 			case PICK_FROM_CAMERA: {
 				image = (Bitmap) data.getExtras().get("data");
-				resized = resizeBitmapImage(image, 900);
-				mPhotoImageView.setImageBitmap(resized);
+				mPhotoImageView.setImageBitmap(image);
 				break;
 			}
 			}
