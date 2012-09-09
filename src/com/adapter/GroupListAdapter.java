@@ -57,8 +57,6 @@ public class GroupListAdapter extends ArrayAdapter<Group>{
 			}else{
 				holder.group_image.setImageResource(R.drawable.photo_frm);
 			}
-//			holder.group_image.setImageBitmap(group.getGroup_img());
-			
 			holder.group_name.setText(group.getName());
 			holder.group_goal.setText(group.getGoal());
 			holder.place.setText(group.getPlace());

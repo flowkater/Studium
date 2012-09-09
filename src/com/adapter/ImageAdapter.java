@@ -1,11 +1,12 @@
 package com.adapter;
 
-
 import java.util.ArrayList;
 
 import com.activity.R;
 import com.model.DayInfo;
 import com.model.ThumbImageInfo;
+import com.utils.Global;
+import com.utils.ImageDownloader;
 
 import android.content.Context;
 
@@ -50,80 +51,65 @@ public class ImageAdapter extends BaseAdapter {
 		return position;
 	}
 
-	
 	ImageViewHolder holder;
+
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ThumbImageInfo thumb = mThumbImageInfoList.get(position);
-
 		if (convertView == null) {
 		
 			convertView = mLiInflater.inflate(mCellLayout, null);
 			holder = new ImageViewHolder();
-
 			holder.ivImage = (ImageView) convertView.findViewById(R.id.ivImage);
 			holder.chkImage = (CheckBox) convertView.findViewById(R.id.chkImage);
-			holder.ivImage.setImageResource(R.drawable.member_byung);
 			holder.username = (TextView) convertView.findViewById(R.id.username);
 			holder.username.setText(thumb.getId());
 			holder.chkImage.setChecked(thumb.getCheckedState());
 			
-			if(position % 3 == 2)
-			{
+			String image = thumb.getThum_img();
+			if (image!=null) {
+				ImageDownloader.download(Global.ServerUrl+image, holder.ivImage);
+			}else{
+				holder.ivImage.setImageResource(R.drawable.photo_frm);
+			}
+			
+			if(position % 3 == 2){
 				convertView.setLayoutParams(new GridView.LayoutParams(getCellWidthDP()+getRestCellWidthDP(), getCellHeightDP(2)));
 			}
-			else
-			{
+			else{
 				convertView.setLayoutParams(new GridView.LayoutParams(getCellWidthDP(), getCellHeightDP(2)));	
 			}
-
-
 			convertView.setTag(holder);
-			
-			
-//			String st = "R.drawable."+ mThumbImageInfoList.get(position).getId();
-			
 		}
-
-
 		else {
 			holder = (ImageViewHolder) convertView.getTag();
-		
-
 		}
-
-
 		return convertView;
 	}
-	public class ImageViewHolder
-	{
-	  ImageView ivImage;
-	  CheckBox chkImage;
-	  TextView username;
+
+	public class ImageViewHolder {
+		ImageView ivImage;
+		CheckBox chkImage;
+		TextView username;
 	}
-	
-	private int getCellWidthDP()
-	{
+
+	private int getCellWidthDP() {
 		int width = mContext.getResources().getDisplayMetrics().widthPixels;
-		int cellWidth = width/3;
-		
+		int cellWidth = width / 3;
+
 		return cellWidth;
 	}
-	
-	private int getRestCellWidthDP()
-	{
+
+	private int getRestCellWidthDP() {
 		int width = mContext.getResources().getDisplayMetrics().widthPixels;
-		int cellWidth = width%3;
-		
+		int cellWidth = width % 3;
+
 		return cellWidth;
 	}
-	
-	private int getCellHeightDP(int num)
-	{
+
+	private int getCellHeightDP(int num) {
 		int width = mContext.getResources().getDisplayMetrics().widthPixels;
-		int cellHeight = width/num;
-		
+		int cellHeight = width / num;
+
 		return cellHeight;
 	}
 }
-
-

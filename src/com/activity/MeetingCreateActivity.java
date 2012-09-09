@@ -145,7 +145,6 @@ public class MeetingCreateActivity extends SherlockActivity implements
 			timeSet = (Button) header.findViewById(R.id.time_set_btn);
 
 			timeSet.setOnClickListener(new OnClickListener() {
-
 				@Override
 				public void onClick(View v) {
 					new TimePickerDialog(MeetingCreateActivity.this,
@@ -209,7 +208,7 @@ public class MeetingCreateActivity extends SherlockActivity implements
 
 				reqEntity.addPart("party[place]", new StringBody(getLocation,
 						Charset.forName("UTF-8")));
-				reqEntity.addPart("party[starttime]", new StringBody(getTime,
+				reqEntity.addPart("party[time]", new StringBody(getTime,
 						Charset.forName("UTF-8")));
 				reqEntity.addPart("party[date]", new StringBody(getDate,
 						Charset.forName("UTF-8")));
