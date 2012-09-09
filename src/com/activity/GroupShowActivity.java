@@ -1,18 +1,29 @@
 package com.activity;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.*;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
@@ -33,8 +44,8 @@ public class GroupShowActivity extends SlidingFragmentActivity {
 	private String group_id;
 	private String auth_token;
 	private String role;
+	private String group_name;
 	private SharedPreferences mPreferences;
-
 	// private String mResult;
 	// private String role;
 	// private Bundle info;
@@ -45,16 +56,15 @@ public class GroupShowActivity extends SlidingFragmentActivity {
 		// info = new Bundle();
 		mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
 		auth_token = mPreferences.getString("AuthToken", "");
-
 		// new GetRole().execute();
 
 		Intent in = getIntent();
 		group_id = in.getExtras().getString("group_id");
 		role = in.getExtras().getString("role");
+		group_name = in.getExtras().getString("group_name");
 
 		mViewPager = new ViewPager(this);
 		mViewPager.setId(R.id.pager);
-		mViewPager.setBackgroundResource(R.drawable.pattern_bitmap);
 		setContentView(mViewPager);
 
 		// start slide_menu
@@ -73,88 +83,90 @@ public class GroupShowActivity extends SlidingFragmentActivity {
 		ActionBar bar = getSupportActionBar();
 		bar.setBackgroundDrawable(getResources().getDrawable(
 				R.drawable.actionbar_bitmap));
-		bar.setLogo(R.drawable.title_btn_setting);
+		bar.setLogo(R.drawable.logoicon);
 		bar.setCustomView(R.layout.header);
 		bar.setDisplayShowCustomEnabled(true);
 		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		bar.setDisplayHomeAsUpEnabled(true);
-		bar.setDisplayHomeAsUpEnabled(false);
 		// end header
-
 		titlebar_text = (TextView) findViewById(R.id.titlebar_text);
-		titlebar_text.setText("Group#Show");
-		
-		
-		//tab background, text color change
+		titlebar_text.setText(group_name);
+
+		// tab background, text color change
 		LayoutInflater inflater = this.getLayoutInflater();
 		View cView = inflater.inflate(R.layout.tab_layout, null);
 		View cView2 = inflater.inflate(R.layout.tab_layout, null);
 		View cView3 = inflater.inflate(R.layout.tab_layout, null);
-		
-		TextView tv =(TextView)cView.findViewById(R.id.tabs_text_bg);
+
+		TextView tv = (TextView) cView.findViewById(R.id.tabs_text_bg);
 		tv.setText("Feed");
-		
-		TextView tv2 =(TextView)cView2.findViewById(R.id.tabs_text_bg);
+
+		TextView tv2 = (TextView) cView2.findViewById(R.id.tabs_text_bg);
 		tv2.setText("Step");
-		
-		TextView tv3 =(TextView)cView3.findViewById(R.id.tabs_text_bg);
+
+		TextView tv3 = (TextView) cView3.findViewById(R.id.tabs_text_bg);
 		tv3.setText("Info");
 
 		mTabsAdapter = new TabsAdapter(this, mViewPager);
 
-		mTabsAdapter.addTab(bar.newTab().setCustomView(tv).setText("Feed"), FeedFragment.class,
-				null);
-		mTabsAdapter.addTab(bar.newTab().setCustomView(tv2).setText("Step"), StepFragment.class,
-				null);
-		mTabsAdapter.addTab(bar.newTab().setCustomView(tv3).setText("Info"), InfoFragment.class,
-				null);
-		
-		bar.setStackedBackgroundDrawable(getResources().getDrawable(R.drawable.tap_3_menu));
+		mTabsAdapter.addTab(bar.newTab().setCustomView(tv).setText("Feed"),
+				FeedFragment.class, null);
+		mTabsAdapter.addTab(bar.newTab().setCustomView(tv2).setText("Step"),
+				StepFragment.class, null);
+		mTabsAdapter.addTab(bar.newTab().setCustomView(tv3).setText("Info"),
+				InfoFragment.class, null);
+
+		bar.setStackedBackgroundDrawable(getResources().getDrawable(
+				R.drawable.tap_3_menu));
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if (role.equals(Global.founder)) {
 			menu.add("write")
-			.setIcon(R.drawable.title_btn_geo)
-			.setShowAsAction(
-					MenuItem.SHOW_AS_ACTION_IF_ROOM
-							| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+					.setIcon(R.drawable.title_btn_geo)
+					.setShowAsAction(
+							MenuItem.SHOW_AS_ACTION_IF_ROOM
+									| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 			menu.add("setting")
-			.setIcon(R.drawable.title_btn_setting)
-			.setShowAsAction(
-					MenuItem.SHOW_AS_ACTION_IF_ROOM
-							| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-		}else if(role.equals(Global.member)){
+					.setIcon(R.drawable.title_btn_setting)
+					.setShowAsAction(
+							MenuItem.SHOW_AS_ACTION_IF_ROOM
+									| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		} else if (role.equals(Global.member)) {
 			menu.add("write")
-			.setIcon(R.drawable.title_btn_geo)
-			.setShowAsAction(
-					MenuItem.SHOW_AS_ACTION_IF_ROOM
-							| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-		}else{
-			menu.add("Join")
-			.setShowAsAction(
+					.setIcon(R.drawable.title_btn_geo)
+					.setShowAsAction(
+							MenuItem.SHOW_AS_ACTION_IF_ROOM
+									| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		} else {
+			menu.add("Join").setShowAsAction(
 					MenuItem.SHOW_AS_ACTION_IF_ROOM
 							| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 		}
-		
+
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Toast.makeText(getApplicationContext(), item.getItemId()+"", Toast.LENGTH_SHORT).show();
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			toggle();
 			return true;
 		}
-		Intent intent = new Intent(this, PostPageActivity.class);
-		intent.putExtra("group_id", group_id);
-		intent.putExtra("role",role);
+		if (item.getTitle().equals("write")) {
+			Intent intent = new Intent(this, PostPageActivity.class);
+			intent.putExtra("group_id", group_id);
+			intent.putExtra("role", role);
+			startActivity(intent);
+			return true;
+		} else if (item.getTitle().equals("setting")) {
 
-		startActivity(intent);
-		return true;
+		} else if (item.getTitle().equals("Join")) {
+			new Membershipscreate().execute();
+		}
+		return false;
 	}
 
 	public static class TabsAdapter extends FragmentStatePagerAdapter implements
@@ -206,22 +218,17 @@ public class GroupShowActivity extends SlidingFragmentActivity {
 
 		public void onPageScrolled(int position, float positionOffset,
 				int positionOffsetPixels) {
-			// Log.i("my", "onPageScrolled" + position);
 		}
 
 		public void onPageSelected(int position) {
-			// Log.i("my", "onPageSelected " + position);
 			mActionBar.setSelectedNavigationItem(position);
 			Fragment fr = getItem(position);
-
 		}
 
 		public void onPageScrollStateChanged(int state) {
 		}
 
 		public void onTabSelected(Tab tab, FragmentTransaction ft) {
-
-			// Log.i("my", "onTabSelected");
 			Object tag = tab.getTag();
 			for (int i = 0; i < mTabs.size(); i++) {
 				if (mTabs.get(i) == tag) {
@@ -234,6 +241,42 @@ public class GroupShowActivity extends SlidingFragmentActivity {
 		}
 
 		public void onTabReselected(Tab tab, FragmentTransaction ft) {
+		}
+	}
+
+	private class Membershipscreate extends AsyncTask<Void, Void, Void> {
+		@Override
+		protected Void doInBackground(Void... params) {
+			try {
+				HttpClient httpClient = new DefaultHttpClient();
+				HttpPost postRequest = new HttpPost(Global.ServerUrl
+						+ "memberships?auth_token=" + auth_token);
+				MultipartEntity reqEntity = new MultipartEntity(
+						HttpMultipartMode.BROWSER_COMPATIBLE);
+				reqEntity.addPart("membership[group_id]", new StringBody(
+						group_id));
+				postRequest.setEntity(reqEntity);
+				HttpResponse response = httpClient.execute(postRequest);
+
+				BufferedReader reader = new BufferedReader(
+						new InputStreamReader(
+								response.getEntity().getContent(), "UTF-8"));
+				String sResponse;
+				StringBuilder s = new StringBuilder();
+
+				while ((sResponse = reader.readLine()) != null) {
+					s = s.append(sResponse);
+				}
+				Log.e("my", "Response : " + s);
+			} catch (Exception e) {
+				Log.e("my", e.getClass().getName() + e.getMessage());
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
 		}
 	}
 }

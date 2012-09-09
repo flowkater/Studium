@@ -77,12 +77,6 @@ public class LoginActivity extends SherlockActivity {
 		} else {
 			Toast.makeText(getApplicationContext(), "Login State!",
 					Toast.LENGTH_LONG).show();
-			/*
-			 * Directly opens the Welcome page, if the username and password is
-			 * already available in the SharedPreferences
-			 */
-
-			// Trying to minimize the number of screens
 			Intent intent = new Intent(this, GroupIndexActivity.class);
 			startActivity(intent);
 			finish();

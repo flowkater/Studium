@@ -77,7 +77,6 @@ public class RegisterActivity extends SherlockActivity {
 				intent.putExtras(extras);
 
 				startActivity(intent);
-				finish();
 				return true;
 			}
 		}
