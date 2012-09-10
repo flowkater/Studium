@@ -46,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dip"
                     android:padding="10dip"
-                    android:text="foobar@foobar.com"
+                    android:text="email"
                      >
                 </TextView>
             </TableRow>
@@ -65,16 +65,15 @@
                     
                     android:textSize="15.0sp" />
 
-                <EditText
+                <TextView
                     android:id="@+id/user_name_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dip"
-                    android:background="@drawable/edittext_bg"
                     android:ems="10"
                     android:padding="10dip"
                     android:singleLine="true" >
-                </EditText>
+                </TextView>
             </TableRow>
 
             <TableRow
@@ -91,38 +90,37 @@
                     
                     android:textSize="15.0sp" />
 
-                <EditText
+                <TextView
                     android:id="@+id/user_phone_num_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dip"
-                    android:background="@drawable/edittext_bg"
                     android:ems="10"
                     android:inputType="phone"
                     android:padding="10dip"
                     android:singleLine="true" >
-                </EditText>
+                </TextView>
             </TableRow>
         </TableLayout>
 
-        <CheckBox
-            android:id="@+id/auto_login_check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="20dp"
-            android:checked="true"
-            android:text="자동 로그인 설정"
-             />
+<!--         <CheckBox -->
+<!--             android:id="@+id/auto_login_check" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_gravity="center_horizontal" -->
+<!--             android:layout_margin="20dp" -->
+<!--             android:checked="true" -->
+<!--             android:text="자동 로그인 설정" -->
+<!--              /> -->
 
-        <ImageView
-            android:id="@+id/user_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:scaleType="fitStart"
-            android:src="@drawable/photo_frm" />
+<!--         <ImageView -->
+<!--             android:id="@+id/user_img" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_gravity="center_horizontal" -->
+<!--             android:layout_marginTop="10dp" -->
+<!--             android:scaleType="fitStart" -->
+<!--             android:src="@drawable/photo_frm" /> -->
     </LinearLayout>
 
 </ScrollView>

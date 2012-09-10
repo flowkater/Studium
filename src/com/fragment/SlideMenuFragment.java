@@ -57,6 +57,11 @@ public class SlideMenuFragment extends SherlockListFragment implements
 	private TextView user_name;
 	private RelativeLayout userdivider;
 	private ImageView preferecedivider;
+	private String name;
+	private String email;
+	private String phone;
+	private String image;
+	private String id;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -140,6 +145,10 @@ public class SlideMenuFragment extends SherlockListFragment implements
 		public void onClick(View arg0) {
 			Intent in = new Intent(getActivity(), UserInfoActivity.class);
 			in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			in.putExtra("id",id);
+			in.putExtra("email",email);
+			in.putExtra("name", name);
+			in.putExtra("phone", phone);
 			startActivity(in);
 		}
 	}
@@ -198,8 +207,13 @@ public class SlideMenuFragment extends SherlockListFragment implements
 		protected void onPostExecute(Void result) {
 			try {
 				JSONObject user = new JSONObject(mResult);
-				user_name.setText(user.getString("name"));
-				String image = user.getString("image");
+				id = user.getString("id");
+				name = user.getString("name");
+				user_name.setText(name);
+				email = user.getString("email");
+				phone = user.getString("phone");
+				
+				image = user.getString("image");
 				if (image.equals("")) {
 					profile_thumbnail.setImageResource(R.drawable.photo_frm);
 				} else{

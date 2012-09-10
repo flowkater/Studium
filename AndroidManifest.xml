@@ -17,6 +17,10 @@
         android:screenOrientation="portrait"
         android:theme="@style/Theme.Sherlock.Light" >
         <activity
+            android:name="com.activity.GroupManageActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.activity.LoginActivity"
             android:screenOrientation="portrait" >
         </activity>

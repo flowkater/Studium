@@ -3,6 +3,7 @@ package com.activity;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -81,7 +82,7 @@ public class GroupIndexActivity extends SlidingFragmentActivity  {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add("create")
+		menu.add("弊缝积己")
 				.setIcon(R.drawable.create_group_icon)
 				.setShowAsAction(
 						MenuItem.SHOW_AS_ACTION_IF_ROOM
@@ -97,8 +98,10 @@ public class GroupIndexActivity extends SlidingFragmentActivity  {
 			toggle();
 			return true;
 		}
-		if (item.getTitle().equals("create")) {
-			
+		if (item.getTitle().equals("弊缝积己")) {
+			Intent in = new Intent(getApplicationContext(), GroupCreateActivity.class);
+			in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(in);
 		}
 		return super.onOptionsItemSelected(item);
 	}

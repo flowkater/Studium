@@ -40,10 +40,6 @@ import com.utils.NetHelper;
 public class FeedFragment extends SherlockFragment implements
 		OnItemClickListener {
 	// party test
-	
-	
-	
-	
 	public ArrayList<Party> pppp= new ArrayList<Party>();
 	
 

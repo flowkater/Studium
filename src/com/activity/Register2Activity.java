@@ -209,6 +209,7 @@ public class Register2Activity extends SherlockActivity implements
 						new StringBody(password, Charset.forName("UTF-8")));
 				reqEntity.addPart("user[name]",
 						new StringBody(name, Charset.forName("UTF-8")));
+				reqEntity.addPart("user[phone]", new StringBody(phone));
 				reqEntity.addPart("user[gender]", new StringBody("male",
 						Charset.forName("UTF-8")));
 				if (bab != null) {

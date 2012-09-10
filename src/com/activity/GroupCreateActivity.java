@@ -1,15 +1,33 @@
 package com.activity;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.ByteArrayBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Bitmap.CompressFormat;
 import android.net.Uri;
 import android.os.*;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.*;
@@ -18,6 +36,7 @@ import android.app.AlertDialog;
 import com.actionbarsherlock.app.*;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.utils.Global;
 
 public class GroupCreateActivity extends SherlockActivity implements
 		OnClickListener {
@@ -35,8 +54,13 @@ public class GroupCreateActivity extends SherlockActivity implements
 	private static final int REQUEST_CODE = 3;
 	private Bitmap bm;
 	private Bitmap resized;
+	private String goal;
+	private String subject;
+	private String location;
+	private String name;
 
 	private Bitmap image;
+	private ProgressDialog mProgressDialog;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,7 +69,7 @@ public class GroupCreateActivity extends SherlockActivity implements
 		ActionBar bar = getSupportActionBar();
 		bar.setBackgroundDrawable(getResources().getDrawable(
 				R.drawable.actionbar_bitmap));
-		bar.setLogo(R.drawable.title_btn_setting);
+		bar.setLogo(R.drawable.logoicon);
 		bar.setCustomView(R.layout.header);
 		bar.setDisplayShowCustomEnabled(true);
 		bar.setDisplayHomeAsUpEnabled(true);
@@ -55,7 +79,7 @@ public class GroupCreateActivity extends SherlockActivity implements
 		auth_token = mPreferences.getString("AuthToken", "");
 
 		titlebar_text = (TextView) findViewById(R.id.titlebar_text);
-		titlebar_text.setText("Group#Create");
+		titlebar_text.setText("Í∑∏Î£πÏÉùÏÑ±");
 
 		group_name_edit_text = (EditText) findViewById(R.id.group_name_edit_text);
 		group_goal_edit_text = (EditText) findViewById(R.id.group_goal_edit_text);
@@ -102,7 +126,7 @@ public class GroupCreateActivity extends SherlockActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add("Next").setShowAsAction(
+		menu.add("ÏÉùÏÑ±").setShowAsAction(
 				MenuItem.SHOW_AS_ACTION_IF_ROOM
 						| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 		return super.onCreateOptionsMenu(menu);
@@ -116,32 +140,90 @@ public class GroupCreateActivity extends SherlockActivity implements
 			return true;
 		}
 		if (group_name_edit_text.length() < 3) {
-			Toast.makeText(getApplicationContext(), "Ω∫≈Õµ¿Ã∏ß¿∫ 3¿⁄∏Æ ¿ÃªÛ!",
+			Toast.makeText(getApplicationContext(), "Í∑∏Î£π Ïù¥Î¶Ñ 3Ïûê Ïù¥ÏÉÅ",
 					Toast.LENGTH_LONG).show();
 			return true;
 		} else if (group_goal_edit_text.length() < 3) {
-			Toast.makeText(getApplicationContext(), "Ω∫≈Õµ∏Ò«•¥¬ 3¿⁄∏Æ ¿ÃªÛ!",
+			Toast.makeText(getApplicationContext(), "Î™©Ìëú 3Ïûê Ïù¥ÏÉÅ!",
 					Toast.LENGTH_LONG).show();
 			return true;
 		} else if (group_location_edit_text.length() < 3) {
-			Toast.makeText(getApplicationContext(), "Ω∫≈Õµ¿Âº“¥¬ 3¿⁄∏Æ ¿ÃªÛ!",
+			Toast.makeText(getApplicationContext(), "ÏßÄÏó≠ 3Ïûê Ïù¥ÏÉÅ!",
 					Toast.LENGTH_LONG).show();
 			return true;
 		} else {
-
-			Intent in = new Intent(getApplication(), GroupCreate2Activity.class);
-			in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			in.putExtra("auth_token", auth_token);
-			in.putExtra("group_name", group_name_edit_text.getText().toString());
-			in.putExtra("group_goal", group_goal_edit_text.getText().toString());
-			in.putExtra("group_location", group_location_edit_text.getText()
-					.toString());
-			in.putExtra("group_category", group_category_edit_text.getText()
-					.toString());
-
-			finish();
-			startActivity(in);
+			if (resized!=null) {
+				bm = resized;
+			}
+			name =group_name_edit_text.getText().toString();
+			goal = group_goal_edit_text.getText().toString();
+			location = group_location_edit_text.getText()
+					.toString();
+			subject = group_category_edit_text.getText()
+					.toString();
+			
+			new Groupcreate().execute();
 			return super.onOptionsItemSelected(item);
+		}
+	}
+	class Groupcreate extends AsyncTask<Void, Void, Void> {
+		@Override
+		protected Void doInBackground(Void... params) {
+			try {
+				ByteArrayBody bab = null;
+				if (bm != null) {
+					ByteArrayOutputStream bos = new ByteArrayOutputStream();
+					bm.compress(CompressFormat.JPEG, 75, bos);
+					byte[] data = bos.toByteArray();
+					bab = new ByteArrayBody(data, "group_image.jpg");
+				}
+
+				HttpClient httpClient = new DefaultHttpClient();
+				HttpPost postRequest = new HttpPost(Global.ServerUrl
+						+ "groups.json?auth_token=" + auth_token);
+				MultipartEntity reqEntity = new MultipartEntity(
+						HttpMultipartMode.BROWSER_COMPATIBLE);
+
+				reqEntity.addPart("group[goal]",
+						new StringBody(goal, Charset.forName("UTF-8")));
+				reqEntity.addPart("group[subject]", new StringBody(subject,
+						Charset.forName("UTF-8")));
+				reqEntity.addPart("group[place]", new StringBody(location,
+						Charset.forName("UTF-8")));
+				reqEntity.addPart("group[name]",
+						new StringBody(name, Charset.forName("UTF-8")));
+				if (bab != null) {
+					reqEntity.addPart("group[pictures_attributes][0][image]",
+							bab);
+				}
+				postRequest.setEntity(reqEntity);
+				HttpResponse response = httpClient.execute(postRequest);
+
+				BufferedReader reader = new BufferedReader(
+						new InputStreamReader(
+								response.getEntity().getContent(), "UTF-8"));
+				String sResponse;
+				StringBuilder s = new StringBuilder();
+
+				while ((sResponse = reader.readLine()) != null) {
+					s = s.append(sResponse);
+				}
+				Log.e("my", "Response : " + s);
+			} catch (Exception e) {
+				removeDialog(0);
+				Log.e("my", e.getClass().getName() + e.getMessage());
+			}
+			return null;
+		}
+		@Override
+		protected void onPostExecute(Void result) {
+			finish();
+			Intent in = new Intent(getApplicationContext(),
+					GroupIndexActivity.class);
+			in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(in);
+			removeDialog(0);
+			super.onPostExecute(result);
 		}
 	}
 
@@ -228,6 +310,19 @@ public class GroupCreateActivity extends SherlockActivity implements
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 
+	}
+	@Override
+	protected Dialog onCreateDialog(int id) { // Dialog preference
+		switch (id) {
+		case 0: {
+			mProgressDialog = new ProgressDialog(this);
+			mProgressDialog.setMessage("Please wait...");
+			mProgressDialog.setIndeterminate(true);
+			mProgressDialog.setCancelable(true);
+			return mProgressDialog;
+		}
+		}
+		return null;
 	}
 
 }

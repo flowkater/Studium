@@ -86,14 +86,14 @@ public class GroupCreate2Activity extends SherlockActivity implements
 		ActionBar bar = getSupportActionBar();
 		bar.setBackgroundDrawable(getResources().getDrawable(
 				R.drawable.actionbar_bitmap));
-		bar.setLogo(R.drawable.title_btn_setting);
+		bar.setLogo(R.drawable.logoicon);
 		bar.setCustomView(R.layout.header);
 		bar.setDisplayShowCustomEnabled(true);
 		bar.setDisplayHomeAsUpEnabled(true);
 		// end header
 
 		titlebar_text = (TextView) findViewById(R.id.titlebar_text);
-		titlebar_text.setText("Group#Create2");
+		titlebar_text.setText("그룹생성");
 
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		header = (LinearLayout) inflater.inflate(R.layout.group_create_plan,
@@ -236,7 +236,6 @@ public class GroupCreate2Activity extends SherlockActivity implements
 				scroll.addView(header);
 
 				setContentView(scroll);
-				System.out.println(todolist_ed.size() + " �̴� ��ƾƾƾӾƾ�");
 			}
 		});
 
@@ -309,7 +308,7 @@ public class GroupCreate2Activity extends SherlockActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add("write").setShowAsAction(
+		menu.add("생성").setShowAsAction(
 				MenuItem.SHOW_AS_ACTION_IF_ROOM
 						| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 		return super.onCreateOptionsMenu(menu);
@@ -330,7 +329,6 @@ public class GroupCreate2Activity extends SherlockActivity implements
 			for (EditText ed : todolist_ed) {
 				todolists.add(ed.getText().toString());
 			}
-			//int week_int [] send this please jaewoo hung
 			
 			new Groupcreate().execute();
 			return true;
