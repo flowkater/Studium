@@ -36,15 +36,15 @@
                 android:layout_centerHorizontal="true"
                 android:text="사진 올리기" />
             
-            <CheckBox
-        android:id="@+id/notice_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+<!--             <CheckBox -->
+<!--         android:id="@+id/notice_checkbox" -->
+<!--         android:layout_width="wrap_content" -->
+<!--         android:layout_height="wrap_content" -->
         
-        android:layout_alignBottom="@+id/postcreate_img_btn"
-        android:layout_toLeftOf="@+id/postcreate_img_btn"
-        android:layout_marginRight="10dip"
-        android:text="공지" />
+<!--         android:layout_alignBottom="@+id/postcreate_img_btn" -->
+<!--         android:layout_toLeftOf="@+id/postcreate_img_btn" -->
+<!--         android:layout_marginRight="10dip" -->
+<!--         android:text="공지" /> -->
 
             <ImageView
                 android:id="@+id/postcreate_img"

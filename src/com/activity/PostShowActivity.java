@@ -39,6 +39,7 @@ public class PostShowActivity extends SherlockActivity {
 	private Integer mCurrentPage = 1;
 	private LinearLayout headerview;
 	private ImageView member_img;
+	private ImageView content_img;
 	private TextView member_name;
 	private TextView create_time;
 	private TextView post_body;
@@ -60,14 +61,14 @@ public class PostShowActivity extends SherlockActivity {
 		ActionBar bar = getSupportActionBar();
 		bar.setBackgroundDrawable(getResources().getDrawable(
 				R.drawable.actionbar_bitmap));
-		bar.setLogo(R.drawable.title_btn_setting);
+		bar.setLogo(R.drawable.logoicon);
 		bar.setCustomView(R.layout.header);
 		bar.setDisplayShowCustomEnabled(true);
 		bar.setDisplayHomeAsUpEnabled(true);
 		// end header
 		
 		titlebar_text = (TextView) findViewById(R.id.titlebar_text);
-		titlebar_text.setText("Post#Show");
+		titlebar_text.setText("±Ûº¸±â");
 
 		mArrayList = new ArrayList<Comment>();
 
@@ -93,6 +94,7 @@ public class PostShowActivity extends SherlockActivity {
 		member_name = (TextView) headerview.findViewById(R.id.member_name);
 		create_time = (TextView) headerview.findViewById(R.id.create_time);
 		post_body = (TextView) headerview.findViewById(R.id.post_body);
+		content_img = (ImageView) headerview.findViewById(R.id.post_content_img);
 
 		mListView.getRefreshableView().addHeaderView(headerview);
 		mListView.getRefreshableView().setAdapter(mAdapter);
@@ -117,11 +119,18 @@ public class PostShowActivity extends SherlockActivity {
 				create_time.setText(post.getString("created_at"));
 				post_body.setText(post.getString("body"));
 				String image = post.getString("image");
-				if (image != null) {
+				if (image.equals("")) {
+					member_img.setImageResource(R.drawable.photo_frm);
+				} else {
 					ImageDownloader.download(Global.ServerUrl + image,
 							member_img);
-				} else {
-					member_img.setImageResource(R.drawable.ic_launcher);
+				}
+				String content_image = post.getString("content_image");
+				if (content_image.equals("")) {
+					content_img.setImageResource(R.drawable.photo_frm);
+				}else{
+					ImageDownloader.download(Global.ServerUrl + content_image,
+							content_img);
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -175,8 +184,7 @@ public class PostShowActivity extends SherlockActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add("write")
-				.setIcon(R.drawable.title_btn_geo)
+		menu.add("´ñ±Û")
 				.setShowAsAction(
 						MenuItem.SHOW_AS_ACTION_IF_ROOM
 								| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
@@ -190,7 +198,7 @@ public class PostShowActivity extends SherlockActivity {
 			finish();
 			return true;
 		}
-		if (item.getTitle().equals("write")) {
+		if (item.getTitle().equals("´ñ±Û")) {
 			Intent intent = new Intent(this, CommentPageActivity.class);
 			intent.putExtra("post_id", post_id);
 			intent.putExtra("group_id", group_id);

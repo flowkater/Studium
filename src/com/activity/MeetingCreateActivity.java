@@ -108,7 +108,7 @@ public class MeetingCreateActivity extends SherlockActivity implements
 	private String getDate;
 	private String getTime;
 	private ArrayList<String> todolists = new ArrayList<String>();
-	
+
 	private ProgressDialog mProgressDialog;
 
 	@Override
@@ -129,14 +129,13 @@ public class MeetingCreateActivity extends SherlockActivity implements
 		ActionBar bar = getSupportActionBar();
 		bar.setBackgroundDrawable(getResources().getDrawable(
 				R.drawable.actionbar_bitmap));
-		bar.setLogo(R.drawable.title_btn_setting);
+		bar.setLogo(R.drawable.logoicon);
 		bar.setCustomView(R.layout.header);
 		bar.setDisplayShowCustomEnabled(true);
 		bar.setDisplayHomeAsUpEnabled(true);
-		bar.setDisplayHomeAsUpEnabled(false);
 		// end header
 		titlebar_text = (TextView) findViewById(R.id.titlebar_text);
-		titlebar_text.setText("Post#Show");
+		titlebar_text.setText("모임 만들기");
 
 		if (mMeeting) {
 
@@ -246,11 +245,6 @@ public class MeetingCreateActivity extends SherlockActivity implements
 		@Override
 		protected void onPostExecute(Void result) {
 			finish();
-			Intent in = new Intent(getApplicationContext(), GroupShowActivity.class);
-			in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			in.putExtra("group_id", group_id);
-			in.putExtra("role", role);
-			startActivity(in);
 			removeDialog(0);
 			super.onPostExecute(result);
 		}
@@ -264,7 +258,7 @@ public class MeetingCreateActivity extends SherlockActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add("write").setShowAsAction(
+		menu.add("생성").setShowAsAction(
 				MenuItem.SHOW_AS_ACTION_IF_ROOM
 						| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 		return super.onCreateOptionsMenu(menu);
@@ -272,20 +266,28 @@ public class MeetingCreateActivity extends SherlockActivity implements
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		showDialog(0);
-		getLocation = meeting_location.getText().toString();
-		getDate = year + "-" + month + "-" + date;
-		getTime = hours + "-" + minute;
-		for (EditText ed : todolist_ed) {
-			todolists.add(ed.getText().toString());
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			return true;
 		}
+		if (item.getTitle().equals("생성")) {
+			showDialog(0);
+			getLocation = meeting_location.getText().toString();
+			getDate = year + "-" + month + "-" + date;
+			getTime = hours + "-" + minute;
+			for (EditText ed : todolist_ed) {
+				todolists.add(ed.getText().toString());
+			}
 
-		new Partycreate().execute();
-		/*
-		 * 시간 변수들 year month date hours minute afternoon을 사용하여 서버에 저장하세용
-		 * todolist_ed
-		 */
-		return true;
+			new Partycreate().execute();
+			/*
+			 * 시간 변수들 year month date hours minute afternoon을 사용하여 서버에 저장하세용
+			 * todolist_ed
+			 */
+			return true;
+		}
+		return false;
 	}
 
 	private void setMeetingTime(int hour, int minute, boolean afternoon) {
@@ -314,7 +316,7 @@ public class MeetingCreateActivity extends SherlockActivity implements
 			setMeetingTime(hourOfDay, minute, afternoon);
 		}
 	};
-	
+
 	@Override
 	protected Dialog onCreateDialog(int id) { // Dialog preference
 		switch (id) {

@@ -150,7 +150,7 @@ public class InfoFragment extends SherlockFragment implements
 			
 			for (User member : members.getUsers()) {
 				if(member.getRole().equals(Global.waiting)){
-					mArrayWaitingList.add(member);
+					
 				}else{
 					mArrayMemberList.add(member);
 				}

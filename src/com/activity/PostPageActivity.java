@@ -61,7 +61,7 @@ public class PostPageActivity extends SherlockActivity implements
 	private Button mButton;
 	private String group_id;
 	private String auth_token;
-	
+
 	private String role;
 
 	private Bitmap bm;
@@ -87,13 +87,13 @@ public class PostPageActivity extends SherlockActivity implements
 		ActionBar bar = getSupportActionBar();
 		bar.setBackgroundDrawable(getResources().getDrawable(
 				R.drawable.actionbar_bitmap));
-		bar.setLogo(R.drawable.title_btn_setting);
+		bar.setLogo(R.drawable.logoicon);
 		bar.setCustomView(R.layout.header);
 		bar.setDisplayShowCustomEnabled(true);
 		bar.setDisplayHomeAsUpEnabled(true);
 		// end header
 		titlebar_text = (TextView) findViewById(R.id.titlebar_text);
-		titlebar_text.setText("Write Post");
+		titlebar_text.setText("글쓰기");
 
 		// post
 		post_body = (EditText) findViewById(R.id.post_string);
@@ -284,7 +284,7 @@ public class PostPageActivity extends SherlockActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add("write").setShowAsAction(
+		menu.add("쓰기").setShowAsAction(
 				MenuItem.SHOW_AS_ACTION_IF_ROOM
 						| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 		return super.onCreateOptionsMenu(menu);
@@ -292,18 +292,25 @@ public class PostPageActivity extends SherlockActivity implements
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		showDialog(0);
-		post_string = post_body.getText().toString();
-		if (image != null) {
-			bm = image;
-		}
-		new Postcreate().execute();
-		if(post_body.getText().length()<1)
-			{
-			Toast.makeText(getApplicationContext(), "�̸��� 2�� �̻�!",Toast.LENGTH_LONG).show();
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
 			return true;
+		}
+		if (item.getTitle().equals("쓰기")) {
+			showDialog(0);
+			post_string = post_body.getText().toString();
+			if (image != null) {
+				bm = image;
 			}
-		return true;
+			new Postcreate().execute();
+			if (post_body.getText().length() < 1) {
+				Toast.makeText(getApplicationContext(), "2자 이상 적어주세요!",
+						Toast.LENGTH_LONG).show();
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -344,17 +351,17 @@ public class PostPageActivity extends SherlockActivity implements
 		mPhotoImageView.setImageBitmap(resized);
 		super.onRestoreInstanceState(savedInstanceState);
 	}
-	
+
 	@Override
 	protected Dialog onCreateDialog(int id) { // Dialog preference
 		switch (id) {
-			case 0: {
-				mProgressDialog = new ProgressDialog(this);
-				mProgressDialog.setMessage("Please wait...");
-				mProgressDialog.setIndeterminate(true);
-				mProgressDialog.setCancelable(true);
-				return mProgressDialog;
-			}
+		case 0: {
+			mProgressDialog = new ProgressDialog(this);
+			mProgressDialog.setMessage("Please wait...");
+			mProgressDialog.setIndeterminate(true);
+			mProgressDialog.setCancelable(true);
+			return mProgressDialog;
+		}
 		}
 		return null;
 	}

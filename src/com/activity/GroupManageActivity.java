@@ -3,6 +3,7 @@ package com.activity;
 import java.util.ArrayList;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -33,10 +34,16 @@ public class GroupManageActivity extends SherlockActivity {
 	private PullToRefreshListView mListView;
 	private ArrayAdapter<User> mAdapter;
 	private LinearLayout headerview;
+	private String auth_token;
+	private SharedPreferences mPreferences;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
+		auth_token = mPreferences.getString("AuthToken","");
+		
 		setContentView(R.layout.group_manage_waiting_list);
 		Intent in = getIntent();
 		group_id = in.getExtras().getString("group_id");
@@ -45,7 +52,7 @@ public class GroupManageActivity extends SherlockActivity {
 		ActionBar bar = getSupportActionBar();
 		bar.setBackgroundDrawable(getResources().getDrawable(
 				R.drawable.actionbar_bitmap));
-		bar.setLogo(R.drawable.title_btn_setting);
+		bar.setLogo(R.drawable.logoicon);
 		bar.setCustomView(R.layout.header);
 		bar.setDisplayShowCustomEnabled(true);
 		bar.setDisplayHomeAsUpEnabled(true);
@@ -76,7 +83,7 @@ public class GroupManageActivity extends SherlockActivity {
 		@Override
 		protected Void doInBackground(Void... params) {
 			mResult = NetHelper.DownloadHtml(Global.ServerUrl + "/groups/"
-					+ group_id + "/founder.json");
+					+ group_id + "/founder.json?auth_token=" + auth_token);
 			return null;
 		}
 
@@ -101,8 +108,7 @@ public class GroupManageActivity extends SherlockActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add("submit")
-				.setIcon(R.drawable.title_btn_geo)
+		menu.add("저장")
 				.setShowAsAction(
 						MenuItem.SHOW_AS_ACTION_IF_ROOM
 								| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
@@ -116,7 +122,7 @@ public class GroupManageActivity extends SherlockActivity {
 			finish();
 			return true;
 		}
-		if (item.getTitle().equals("submit")) {
+		if (item.getTitle().equals("저장")) {
 			return true;
 		}
 		return false;

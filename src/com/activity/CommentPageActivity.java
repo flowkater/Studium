@@ -53,17 +53,16 @@ public class CommentPageActivity extends SherlockActivity {
 		ActionBar bar = getSupportActionBar();
 		bar.setBackgroundDrawable(getResources().getDrawable(
 				R.drawable.actionbar_bitmap));
-		bar.setLogo(R.drawable.title_btn_setting);
+		bar.setLogo(R.drawable.logoicon);
 		bar.setCustomView(R.layout.header);
 		bar.setDisplayShowCustomEnabled(true);
 		bar.setDisplayHomeAsUpEnabled(true);
 		// end header
 		titlebar_text = (TextView) findViewById(R.id.titlebar_text);
-		titlebar_text.setText("Comment#Page");
+		titlebar_text.setText("댓글쓰기");
 
 		// comment 작성 화면
 		comment_body = (EditText) findViewById(R.id.comment_edit_text);
-
 	}
 
 	private class Commentcreate extends AsyncTask<Void, Void, Void> {

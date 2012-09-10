@@ -2,7 +2,10 @@ package com.activity;
 
 import java.util.ArrayList;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.activity.R;
 import com.adapter.CheckTodoListAdapter;
 import com.adapter.ImageAdapter;
@@ -73,6 +76,7 @@ public class MeetingShowActivity extends SherlockActivity implements
 	boolean[] backup_listnum = new boolean[listnum];
 	private ArrayList<Party> mParties = new ArrayList<Party>();
 	private int index;
+	private TextView titlebar_text;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +93,18 @@ public class MeetingShowActivity extends SherlockActivity implements
 		index = in.getIntExtra("index", 0);
 		mParties = (ArrayList<Party>) in.getSerializableExtra("party");
 
+		// start header
+		ActionBar bar = getSupportActionBar();
+		bar.setBackgroundDrawable(getResources().getDrawable(
+				R.drawable.actionbar_bitmap));
+		bar.setLogo(R.drawable.logoicon);
+		bar.setCustomView(R.layout.header);
+		bar.setDisplayShowCustomEnabled(true);
+		bar.setDisplayHomeAsUpEnabled(true);
+		// end header
+		titlebar_text = (TextView) findViewById(R.id.titlebar_text);
+		titlebar_text.setText("모임 만들기");
+
 		if (party) {
 			setContentView(R.layout.meeting_info_page);
 			ListView meeting = (ListView) findViewById(R.id.to_do_list_list);
@@ -103,8 +119,8 @@ public class MeetingShowActivity extends SherlockActivity implements
 			attandance_tv = (TextView) header
 					.findViewById(R.id.attend_rate_text);
 
-			final ArrayList<Todolist> array_todo = mParties.get(index).getTodolists();
-			
+			final ArrayList<Todolist> array_todo = mParties.get(index)
+					.getTodolists();
 
 			CheckString[] check_input = new CheckString[array_todo.size()];
 
@@ -164,17 +180,17 @@ public class MeetingShowActivity extends SherlockActivity implements
 
 			TextView meeting_time_input_text = (TextView) header
 					.findViewById(R.id.meeting_time_input_text);
-			
+
 			String[] temp = mParties.get(index).getDate().split(delims);
 			String[] temp1 = mParties.get(index).getTime().split(delims);
-			if(Integer.parseInt(temp1[0])>12)
-				temp1[0]= " 오후 "+ (Integer.parseInt(temp1[0])-12);
+			if (Integer.parseInt(temp1[0]) > 12)
+				temp1[0] = " 오후 " + (Integer.parseInt(temp1[0]) - 12);
 			else
-				temp1[0]= " 오전 " + temp1[0];
-			
-			String time_show = temp[0]+"년 "+temp[1]+"월 "+ temp[2]+"일"+ temp1[0]+"시 "+ temp1[1]+"분";
+				temp1[0] = " 오전 " + temp1[0];
 
-			
+			String time_show = temp[0] + "년 " + temp[1] + "월 " + temp[2] + "일"
+					+ temp1[0] + "시 " + temp1[1] + "분";
+
 			meeting_time_input_text.setText(time_show);
 
 			achive_rate_tv = (TextView) header
@@ -232,6 +248,27 @@ public class MeetingShowActivity extends SherlockActivity implements
 			lv.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		} else
 			alert(date, month, year);
+	}
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add("저장")
+				.setShowAsAction(
+						MenuItem.SHOW_AS_ACTION_IF_ROOM
+								| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		return super.onCreateOptionsMenu(menu);
+	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			finish();
+			return true;
+		}
+		if (item.getTitle().equals("저장")) {
+			finish();
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -303,7 +340,8 @@ public class MeetingShowActivity extends SherlockActivity implements
 
 		}
 
-		int attendance_rate = attandance_check * 100 / mParties.get(index).getUsers().size();
+		int attendance_rate = attandance_check * 100
+				/ mParties.get(index).getUsers().size();
 
 		attendance_bar.setMax(100);
 		attendance_bar.setProgress(attendance_rate);
