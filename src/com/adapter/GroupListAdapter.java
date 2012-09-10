@@ -41,6 +41,9 @@ public class GroupListAdapter extends ArrayAdapter<Group>{
 			holder.group_image = (ImageView)convertView.findViewById(R.id.group_image);
 			holder.group_name = (TextView)convertView.findViewById(R.id.group_name);
 			holder.group_goal = (TextView)convertView.findViewById(R.id.group_goal);
+//			holder.group_goal.setSelected(true);
+			
+			
 			holder.place = (TextView)convertView.findViewById(R.id.location);
 			holder.user_count = (TextView)convertView.findViewById(R.id.people_count);
 			holder.post_count = (TextView)convertView.findViewById(R.id.feed_count);
@@ -57,8 +60,16 @@ public class GroupListAdapter extends ArrayAdapter<Group>{
 			}else{
 				holder.group_image.setImageResource(R.drawable.photo_frm);
 			}
-			holder.group_name.setText(group.getName());
-			holder.group_goal.setText(group.getGoal());
+			
+			holder.group_name.setText(group.getName());			 
+			String temp = continueSpaceRemove(group.getGoal());
+			if(group.getGoal().length()>150)
+			{
+				 temp = temp.substring(0, 149) + "...";
+			}
+			
+			
+			holder.group_goal.setText(temp);
 			holder.place.setText(group.getPlace());
 			holder.user_count.setText(group.getUser_count());
 			holder.post_count.setText(group.getPost_count());
@@ -73,5 +84,10 @@ public class GroupListAdapter extends ArrayAdapter<Group>{
 		TextView place;
 		TextView user_count;
 		TextView post_count;
+	}
+	public static String continueSpaceRemove(String str){
+	    String match2 = "\\s{2,}";
+	    str = str.replaceAll(match2, " ");
+	    return str;
 	}
 }

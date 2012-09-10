@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" 
-    android:background="@drawable/post_bg2">
+    android:layout_height="wrap_content"
+    android:background="@drawable/post_bg2" >
 
     <ImageView
         android:id="@+id/group_image"
@@ -13,19 +13,19 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:src="@drawable/ic_launcher" />
-
+
     <TextView
         android:id="@+id/group_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/group_image"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_toLeftOf="@+id/imageView1"
         android:layout_toRightOf="@+id/group_image"
-        android:layout_marginRight="10dp"
         android:text="group#name"
         android:textSize="20sp" />
-
+
     <TextView
         android:id="@+id/group_goal"
         android:layout_width="match_parent"
@@ -46,15 +46,15 @@
         android:layout_marginTop="20dp"
         android:src="@drawable/navigation_next" />
 
-      <ImageView
+    <ImageView
         android:id="@+id/sub_divider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/group_goal"
         android:layout_marginTop="10dp"
-        android:background="@drawable/divider5"
-         />
+        android:background="@drawable/divider5" />
+
     <ImageView
         android:id="@+id/people_count_image"
         android:layout_width="15dp"
@@ -101,7 +101,7 @@
         android:layout_marginLeft="20dp"
         android:layout_toRightOf="@+id/feed_count"
         android:src="@drawable/location_image" />
-
+
     <TextView
         android:id="@+id/location"
         android:layout_width="wrap_content"
@@ -112,7 +112,7 @@
         android:layout_toRightOf="@+id/location_image"
         android:text="서울 강동구 도서관"
         android:textSize="12sp" />
-    
+
     <ImageView
         android:id="@+id/group_list_divider"
         android:layout_width="match_parent"
@@ -120,7 +120,6 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/location"
         android:layout_marginTop="10dp"
-        android:background="@drawable/divider2"
-         />
+        android:background="@drawable/divider2" />
 
 </RelativeLayout>

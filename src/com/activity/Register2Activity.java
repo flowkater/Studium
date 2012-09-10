@@ -41,7 +41,6 @@ import com.utils.Global;
 
 public class Register2Activity extends SherlockActivity implements
 		OnClickListener {
-	private ImageView mMember_img;
 	private static final int PICK_FROM_CAMERA = 0;
 	private static final int PICK_FROM_ALBUM = 1;
 	private static final int CROP_FROM_CAMERA = 2;
@@ -58,8 +57,9 @@ public class Register2Activity extends SherlockActivity implements
 
 	private String name;
 	private String phone;
-	private String gender;
+	private String male;
 	private Bitmap bm;
+	private ImageView user_img;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,18 +82,59 @@ public class Register2Activity extends SherlockActivity implements
 		Intent in = getIntent();
 		email = in.getStringExtra("email");
 		password = in.getStringExtra("password");
+		
+		user_img = (ImageView)findViewById(R.id.member_img);
+		
+		user_img.setOnClickListener(new ImageView.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				 {
+					DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							doTakePhotoAction();
+						}
+					};
+
+					DialogInterface.OnClickListener albumListener = new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							doTakeAlbumAction();
+						}
+					};
+
+					DialogInterface.OnClickListener cancelListener = new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
+						}
+					};
+
+					new AlertDialog.Builder(Register2Activity.this).setTitle("select the image")
+							.setPositiveButton("take picture", cameraListener)
+							.setNeutralButton("album", albumListener)
+							.setNegativeButton("cancel", cancelListener).show();
+				}
+			}
+		}
+
+		);
 
 		super.onCreate(savedInstanceState);
 	}
+	
 
 	public void mOnClick(View v) {
+
 		switch (v.getId()) {
 		case R.id.radio_btn_man:
-			gender = "male";
+			Toast.makeText(getApplicationContext(), "Man clicked", 3000).show();
+
 			break;
 
 		case R.id.radio_btn_woman:
-			gender = "female";
+			Toast.makeText(getApplicationContext(), "Woman clicked", 3000).show();
+
 			break;
 		}
 
@@ -115,11 +156,27 @@ public class Register2Activity extends SherlockActivity implements
 			return true;
 		}
 		if (item.getTitle().equals("Join")) {
+			if (member_name_edit_text.getText().length() < 2)
+			{
+				Toast.makeText(getApplicationContext(), "이름은 2자 이상!",
+						Toast.LENGTH_LONG).show();
+				return true;
+			}
+			else if (member_phone_num_edit_text.getText().length() < 11)
+			{
+				Toast.makeText(getApplicationContext(), "전화번호가 올바르지 않습니다!",
+						Toast.LENGTH_LONG).show();
+				return true;
+			}
+			else{
+
+			
 			name = member_name_edit_text.getText().toString();
 			phone = member_phone_num_edit_text.getText().toString();
-			bm = resized;
 			new Usercreate().execute();
+			finish();
 			return true;
+			}
 		}
 		return true;
 	}
@@ -149,7 +206,7 @@ public class Register2Activity extends SherlockActivity implements
 						new StringBody(password, Charset.forName("UTF-8")));
 				reqEntity.addPart("user[name]",
 						new StringBody(name, Charset.forName("UTF-8")));
-				reqEntity.addPart("user[gender]", new StringBody(gender,
+				reqEntity.addPart("user[gender]", new StringBody("male",
 						Charset.forName("UTF-8")));
 				if (bab != null) {
 					reqEntity.addPart("user[avatar]", bab);
@@ -171,8 +228,6 @@ public class Register2Activity extends SherlockActivity implements
 			} catch (Exception e) {
 				Log.e("my", e.getClass().getName() + e.getMessage());
 			}
-			finish();
-			
 			return null;
 		}
 
@@ -219,7 +274,7 @@ public class Register2Activity extends SherlockActivity implements
 							.getColumnIndex(MediaStore.MediaColumns.DATA));
 					image = BitmapFactory.decodeFile(image_url);
 					resized = resizeBitmapImage(image, 500);
-					mMember_img.setImageBitmap(resized);
+					user_img.setImageBitmap(resized);
 
 				}
 				break;
@@ -231,9 +286,9 @@ public class Register2Activity extends SherlockActivity implements
 
 				image = (Bitmap) data.getExtras().get("data");
 
-				resized = resizeBitmapImage(image, 500);
+				resized = resizeBitmapImage(image, 800);
 
-				mMember_img.setImageBitmap(resized);
+				user_img.setImageBitmap(resized);
 
 				break;
 			}
@@ -295,7 +350,7 @@ public class Register2Activity extends SherlockActivity implements
 	}
 
 	public void setImage() {
-		mMember_img.setImageURI(mImageCaptureUri);
+		user_img.setImageURI(mImageCaptureUri);
 	}
 
 	@Override
@@ -335,7 +390,7 @@ public class Register2Activity extends SherlockActivity implements
 			}
 		}
 
-		mMember_img.setImageBitmap(resized);
+		user_img.setImageBitmap(resized);
 		super.onRestoreInstanceState(savedInstanceState);
 	}
 }

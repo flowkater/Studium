@@ -46,7 +46,7 @@ public class StepFragment extends SherlockFragment implements
 	public String delims = "-";
 
 	// it is setting of meeting day
-	private int WhenDoyougoToStudy[] = new int[8];
+	// private int WhenDoyougoToStudy[] = new int[8];
 
 	public static int PARTY_MEMBER = 0;
 	public static int PARTYING_TIME = 1;
@@ -243,7 +243,7 @@ public class StepFragment extends SherlockFragment implements
 			} else {
 				if (party_int_date[index] > date_to_int(day.getYear(),
 						day.getMonth(), day.getDate()))
-					Toast.makeText(getActivity(), "?�ㅎ?�ㅎ?�ㅎ?�ㅎ  " + day.getDate(),
+					Toast.makeText(getActivity(), "ㅎㅎㅎㅎㅎㅎㅎㅎ  " + day.getDate(),
 							Toast.LENGTH_SHORT);
 
 				else if (party_int_date[index] == date_to_int(day.getYear(),
@@ -302,7 +302,7 @@ public class StepFragment extends SherlockFragment implements
 			} else {
 				if (party_int_date[index] > date_to_int(day.getYear(),
 						day.getMonth(), day.getDate()))
-					Toast.makeText(getActivity(), "?�ㅎ?�ㅎ?�ㅎ?�ㅎ  " + day.getDate(),
+					Toast.makeText(getActivity(), "ㅎㅎㅎㅎㅎㅎㅎㅎ  " + day.getDate(),
 							Toast.LENGTH_SHORT);
 
 				else if (party_int_date[index] == date_to_int(day.getYear(),
@@ -371,7 +371,7 @@ public class StepFragment extends SherlockFragment implements
 			} else {
 				if (party_int_date[index] > date_to_int(day.getYear(),
 						day.getMonth(), day.getDate()))
-					Toast.makeText(getActivity(), "?�ㅎ?�ㅎ?�ㅎ?�ㅎ  " + day.getDate(),
+					Toast.makeText(getActivity(), "ㅎㅎㅎㅎㅎㅎㅎㅎ  " + day.getDate(),
 							Toast.LENGTH_SHORT);
 
 				else if (party_int_date[index] == date_to_int(day.getYear(),
@@ -478,7 +478,7 @@ public class StepFragment extends SherlockFragment implements
 		}
 		if (R.id.add_meeting == v.getId()) {
 			Toast.makeText(getActivity().getApplicationContext(),
-					"모임??만드?�면 ?�러주세??", Toast.LENGTH_SHORT).show();
+					"모임을 만드려면 눌러주세용!", Toast.LENGTH_SHORT).show();
 			mMeeting = true;
 
 		}

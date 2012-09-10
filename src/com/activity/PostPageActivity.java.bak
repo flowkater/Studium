@@ -298,11 +298,7 @@ public class PostPageActivity extends SherlockActivity implements
 			bm = image;
 		}
 		new Postcreate().execute();
-		if(post_body.getText().length()<1)
-			{
-			Toast.makeText(getApplicationContext(), "이름은 2자 이상!",Toast.LENGTH_LONG).show();
-			return true;
-			}
+
 		return true;
 	}
 
