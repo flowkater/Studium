@@ -95,6 +95,7 @@ public class CommentPageActivity extends SherlockActivity {
 				}
 				Log.e("my", "Response : " + s);
 			} catch (Exception e) {
+				removeDialog(0);
 				Log.e("my", e.getClass().getName() + e.getMessage());
 				Toast.makeText(getApplicationContext(), "Error!",
 						Toast.LENGTH_SHORT).show();

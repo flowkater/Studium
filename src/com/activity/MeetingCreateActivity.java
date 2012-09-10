@@ -34,6 +34,8 @@ import com.model.ThumbImageInfo;
 import com.model.Todolist;
 import com.utils.Global;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.view.View;
@@ -106,6 +108,8 @@ public class MeetingCreateActivity extends SherlockActivity implements
 	private String getDate;
 	private String getTime;
 	private ArrayList<String> todolists = new ArrayList<String>();
+	
+	private ProgressDialog mProgressDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -231,6 +235,7 @@ public class MeetingCreateActivity extends SherlockActivity implements
 				}
 				Log.e("my", "Response : " + s);
 			} catch (Exception e) {
+				removeDialog(0);
 				Log.e("my", e.getClass().getName() + e.getMessage());
 				Toast.makeText(getApplicationContext(), "Error!",
 						Toast.LENGTH_SHORT).show();
@@ -240,6 +245,13 @@ public class MeetingCreateActivity extends SherlockActivity implements
 
 		@Override
 		protected void onPostExecute(Void result) {
+			finish();
+			Intent in = new Intent(getApplicationContext(), GroupShowActivity.class);
+			in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			in.putExtra("group_id", group_id);
+			in.putExtra("role", role);
+			startActivity(in);
+			removeDialog(0);
 			super.onPostExecute(result);
 		}
 	}
@@ -260,6 +272,7 @@ public class MeetingCreateActivity extends SherlockActivity implements
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		showDialog(0);
 		getLocation = meeting_location.getText().toString();
 		getDate = year + "-" + month + "-" + date;
 		getTime = hours + "-" + minute;
@@ -272,8 +285,6 @@ public class MeetingCreateActivity extends SherlockActivity implements
 		 * 시간 변수들 year month date hours minute afternoon을 사용하여 서버에 저장하세용
 		 * todolist_ed
 		 */
-
-		finish();
 		return true;
 	}
 
@@ -303,4 +314,19 @@ public class MeetingCreateActivity extends SherlockActivity implements
 			setMeetingTime(hourOfDay, minute, afternoon);
 		}
 	};
+	
+	@Override
+	protected Dialog onCreateDialog(int id) { // Dialog preference
+		switch (id) {
+		case 0: {
+			mProgressDialog = new ProgressDialog(this);
+			mProgressDialog.setMessage("Please wait...");
+			mProgressDialog.setIndeterminate(true);
+			mProgressDialog.setCancelable(true);
+			return mProgressDialog;
+		}
+		}
+		return null;
+	}
+
 }
