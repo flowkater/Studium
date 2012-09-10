@@ -97,7 +97,7 @@ public class LoginActivity extends SherlockActivity {
 		switch (id) {
 		case 0: {
 			mProgressDialog = new ProgressDialog(this);
-			mProgressDialog.setMessage("Please wait while signing in ...");
+			mProgressDialog.setMessage("로그인 중입니다...");
 			mProgressDialog.setIndeterminate(true);
 			mProgressDialog.setCancelable(true);
 			return mProgressDialog;

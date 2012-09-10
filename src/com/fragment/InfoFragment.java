@@ -82,7 +82,6 @@ public class InfoFragment extends SherlockFragment implements
 		mView = inflater.inflate(R.layout.group_show_info_list, container,
 				false);
 		mArrayMemberList = new ArrayList<User>();
-		mArrayWaitingList = new ArrayList<User>();
 
 		new GetMemberList().execute();
 		mListView = (PullToRefreshListView) mView

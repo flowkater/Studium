@@ -200,11 +200,11 @@ public class SlideMenuFragment extends SherlockListFragment implements
 				JSONObject user = new JSONObject(mResult);
 				user_name.setText(user.getString("name"));
 				String image = user.getString("image");
-				if (image != null) {
+				if (image.equals("")) {
+					profile_thumbnail.setImageResource(R.drawable.photo_frm);
+				} else{
 					ImageDownloader.download(Global.ServerUrl + image,
 							profile_thumbnail);
-				} else {
-					profile_thumbnail.setImageResource(R.drawable.photo_frm);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

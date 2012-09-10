@@ -3,6 +3,7 @@ package com.activity;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.nio.charset.Charset;
 
 import org.apache.http.HttpResponse;
@@ -15,6 +16,8 @@ import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -57,9 +60,13 @@ public class Register2Activity extends SherlockActivity implements
 
 	private String name;
 	private String phone;
-	private String male;
+	private String gender = "male";
 	private Bitmap bm;
 	private ImageView user_img;
+	private int code;
+	
+
+	private ProgressDialog mProgressDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,12 +75,12 @@ public class Register2Activity extends SherlockActivity implements
 		ActionBar bar = getSupportActionBar();
 		bar.setBackgroundDrawable(getResources().getDrawable(
 				R.drawable.actionbar_bitmap));
-		bar.setLogo(R.drawable.title_btn_setting);
+		bar.setLogo(R.drawable.logoicon);
 		bar.setCustomView(R.layout.header);
 		bar.setDisplayShowCustomEnabled(true);
 		bar.setDisplayHomeAsUpEnabled(true);
 		titlebar_text = (TextView) findViewById(R.id.titlebar_text);
-		titlebar_text.setText("Register2");
+		titlebar_text.setText("기본정보 입력");
 		// end header
 
 		member_name_edit_text = (EditText) findViewById(R.id.member_name_edit_text);
@@ -82,13 +89,13 @@ public class Register2Activity extends SherlockActivity implements
 		Intent in = getIntent();
 		email = in.getStringExtra("email");
 		password = in.getStringExtra("password");
-		
-		user_img = (ImageView)findViewById(R.id.member_img);
-		
+
+		user_img = (ImageView) findViewById(R.id.member_img);
+
 		user_img.setOnClickListener(new ImageView.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				 {
+				{
 					DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
@@ -110,7 +117,8 @@ public class Register2Activity extends SherlockActivity implements
 						}
 					};
 
-					new AlertDialog.Builder(Register2Activity.this).setTitle("select the image")
+					new AlertDialog.Builder(Register2Activity.this)
+							.setTitle("select the image")
 							.setPositiveButton("take picture", cameraListener)
 							.setNeutralButton("album", albumListener)
 							.setNegativeButton("cancel", cancelListener).show();
@@ -122,19 +130,15 @@ public class Register2Activity extends SherlockActivity implements
 
 		super.onCreate(savedInstanceState);
 	}
-	
 
 	public void mOnClick(View v) {
-
 		switch (v.getId()) {
 		case R.id.radio_btn_man:
-			Toast.makeText(getApplicationContext(), "Man clicked", 3000).show();
-
+			gender = "male";
 			break;
 
 		case R.id.radio_btn_woman:
-			Toast.makeText(getApplicationContext(), "Woman clicked", 3000).show();
-
+			gender = "female";
 			break;
 		}
 
@@ -142,7 +146,7 @@ public class Register2Activity extends SherlockActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add("Join").setShowAsAction(
+		menu.add("가입").setShowAsAction(
 				MenuItem.SHOW_AS_ACTION_IF_ROOM
 						| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 		return super.onCreateOptionsMenu(menu);
@@ -155,27 +159,25 @@ public class Register2Activity extends SherlockActivity implements
 			finish();
 			return true;
 		}
-		if (item.getTitle().equals("Join")) {
-			if (member_name_edit_text.getText().length() < 2)
-			{
+		if (item.getTitle().equals("가입")) {
+			if (member_name_edit_text.getText().length() < 2) {
 				Toast.makeText(getApplicationContext(), "이름은 2자 이상!",
 						Toast.LENGTH_LONG).show();
 				return true;
-			}
-			else if (member_phone_num_edit_text.getText().length() < 11)
-			{
+			} else if (member_phone_num_edit_text.getText().length() < 11) {
 				Toast.makeText(getApplicationContext(), "전화번호가 올바르지 않습니다!",
 						Toast.LENGTH_LONG).show();
 				return true;
-			}
-			else{
+			} else {
+				showDialog(0);
+				name = member_name_edit_text.getText().toString();
+				phone = member_phone_num_edit_text.getText().toString();
+				if (resized != null) {
+					bm = resized;
+				}
+				new Usercreate().execute();
 
-			
-			name = member_name_edit_text.getText().toString();
-			phone = member_phone_num_edit_text.getText().toString();
-			new Usercreate().execute();
-			finish();
-			return true;
+				return true;
 			}
 		}
 		return true;
@@ -194,7 +196,8 @@ public class Register2Activity extends SherlockActivity implements
 				}
 
 				HttpClient httpClient = new DefaultHttpClient();
-				HttpPost postRequest = new HttpPost(Global.ServerUrl + "users");
+				HttpPost postRequest = new HttpPost(Global.ServerUrl
+						+ "users.json");
 				MultipartEntity reqEntity = new MultipartEntity(
 						HttpMultipartMode.BROWSER_COMPATIBLE);
 
@@ -215,6 +218,14 @@ public class Register2Activity extends SherlockActivity implements
 				postRequest.setEntity(reqEntity);
 				HttpResponse response = httpClient.execute(postRequest);
 
+				if (response.getStatusLine().getStatusCode() == HttpURLConnection.HTTP_CREATED) {
+					System.out.println("Success");
+					code = 1;
+				}else{
+					System.out.println("Error");
+					code = 2;
+				}
+
 				BufferedReader reader = new BufferedReader(
 						new InputStreamReader(
 								response.getEntity().getContent(), "UTF-8"));
@@ -226,6 +237,7 @@ public class Register2Activity extends SherlockActivity implements
 				}
 				Log.e("my", "Response : " + s);
 			} catch (Exception e) {
+				removeDialog(0);
 				Log.e("my", e.getClass().getName() + e.getMessage());
 			}
 			return null;
@@ -233,6 +245,19 @@ public class Register2Activity extends SherlockActivity implements
 
 		@Override
 		protected void onPostExecute(Void result) {
+			if (code==1) {
+				finish();
+				Intent in = new Intent(getApplicationContext(), LoginActivity.class);
+				in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				in.putExtra("email", email);
+				in.putExtra("password", password);
+				startActivity(in);
+				removeDialog(0);
+			}else if(code==2){
+				removeDialog(0);
+				showDialog(1);
+			}
+			
 			super.onPostExecute(result);
 		}
 	}
@@ -392,5 +417,33 @@ public class Register2Activity extends SherlockActivity implements
 
 		user_img.setImageBitmap(resized);
 		super.onRestoreInstanceState(savedInstanceState);
+	}
+
+	@Override
+	protected Dialog onCreateDialog(int id) { // Dialog preference
+		Dialog dialog = null;
+		switch (id) {
+		case 0: {
+			mProgressDialog = new ProgressDialog(this);
+			mProgressDialog.setMessage("회원가입을 요청 중입니다...");
+			mProgressDialog.setIndeterminate(true);
+			mProgressDialog.setCancelable(true);
+			return mProgressDialog;
+		}
+		case 1: {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle("Error");
+			builder.setMessage("중복된 메일입니다.");
+			builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			});
+			AlertDialog errorAlert = builder.create();
+			return errorAlert;
+		}
+		}
+		return null;
 	}
 }

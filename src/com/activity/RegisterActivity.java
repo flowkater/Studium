@@ -25,13 +25,13 @@ public class RegisterActivity extends SherlockActivity {
 		ActionBar bar = getSupportActionBar();
 		bar.setBackgroundDrawable(getResources().getDrawable(
 				R.drawable.actionbar_bitmap));
-		bar.setLogo(R.drawable.title_btn_setting);
+		bar.setLogo(R.drawable.logoicon);
 		bar.setCustomView(R.layout.header);
 		bar.setDisplayShowCustomEnabled(true);
 		bar.setDisplayHomeAsUpEnabled(true);
 		// end header
 		titlebar_text = (TextView) findViewById(R.id.titlebar_text);
-		titlebar_text.setText("Register1");
+		titlebar_text.setText("회원가입");
 
 		mEmailEditText = (EditText) findViewById(R.id.member_email_edit_text);
 		mPasswordEditText = (EditText) findViewById(R.id.member_password_edit_text);
@@ -42,7 +42,8 @@ public class RegisterActivity extends SherlockActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add("Next").setShowAsAction(
+		menu.add("다음")
+		.setShowAsAction(
 				MenuItem.SHOW_AS_ACTION_IF_ROOM
 						| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 		return super.onCreateOptionsMenu(menu);
@@ -55,7 +56,7 @@ public class RegisterActivity extends SherlockActivity {
 			finish();
 			return true;
 		}
-		if (item.getTitle().equals("Next")) {
+		if (item.getTitle().equals("다음")) {
 			email = mEmailEditText.getText().toString();
 			password = mPasswordEditText.getText().toString();
 
@@ -70,6 +71,7 @@ public class RegisterActivity extends SherlockActivity {
 			else {
 				Intent intent = new Intent(RegisterActivity.this,
 						Register2Activity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				Bundle extras = new Bundle();
 
 				extras.putString("email", email);

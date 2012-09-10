@@ -162,7 +162,10 @@ public class GroupShowActivity extends SlidingFragmentActivity {
 			startActivity(intent);
 			return true;
 		} else if (item.getTitle().equals("setting")) {
-
+			Intent intent = new Intent(this, GroupManageActivity.class);
+			intent.putExtra("group_id", group_id);
+			intent.putExtra("role", role);
+			startActivity(intent);
 		} else if (item.getTitle().equals("Join")) {
 			new Membershipscreate().execute();
 		}
