@@ -3,13 +3,7 @@ package com.fragment;
 
 import java.util.ArrayList;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.DefaultHttpClient;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,29 +12,26 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
-import com.activity.R;
-import com.adapter.GroupMemberAdapter;
+import studium.sactivity.groupindex.studiummainsplash.activity.R;
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.model.User;
-import com.model.Users;
+import com.studium.adapter.GroupMemberAdapter;
+import com.studium.model.User;
+import com.studium.model.Users;
 import com.utils.Global;
 import com.utils.ImageDownloader;
 import com.utils.NetHelper;
@@ -147,14 +138,19 @@ public class InfoFragment extends SherlockFragment implements
 			}
 			Gson gson = new Gson();
 			Users members = gson.fromJson(mResult, Users.class);
-			
-			for (User member : members.getUsers()) {
-				if(member.getRole().equals(Global.waiting)){
-					
-				}else{
-					mArrayMemberList.add(member);
+			try {
+				for (User member : members.getUsers()) {
+					if(member.getRole().equals(Global.waiting)){
+						
+					}else{
+						mArrayMemberList.add(member);
+					}
 				}
+			} catch(Exception e){
+				Toast.makeText(getActivity(), "인터넷 연결상태가 좋지 않습니다. 잠시 후에 다시 시도해주세요.", Toast.LENGTH_LONG).show();
+				getActivity().finish();
 			}
+			
 			mListView.onRefreshComplete();
 			mAdapter.notifyDataSetChanged();
 

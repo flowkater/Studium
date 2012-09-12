@@ -21,12 +21,12 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <CheckBox
-            android:id="@+id/recruit_check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:text="모집 중" />
+<!--         <CheckBox -->
+<!--             android:id="@+id/recruit_check" -->
+<!--             android:layout_width="wrap_content" -->
+<!--             android:layout_height="wrap_content" -->
+<!--             android:layout_margin="20dp" -->
+<!--             android:text="모집 중" /> -->
 
         <Button
             android:id="@+id/create_partymessage_btn"

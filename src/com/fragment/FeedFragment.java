@@ -6,6 +6,8 @@ import java.util.Calendar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import studium.sactivity.groupindex.studiummainsplash.activity.PostShowActivity;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -14,34 +16,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.AbsListView.OnScrollListener;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
-import com.activity.PostShowActivity;
-import com.activity.R;
-import com.adapter.GroupPostAdapter;
+import studium.sactivity.groupindex.studiummainsplash.activity.R;
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.model.Party;
-import com.model.Post;
-import com.model.Posts;
-import com.model.User;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.studium.adapter.GroupPostAdapter;
+import com.studium.model.Party;
+import com.studium.model.Partys;
+import com.studium.model.Post;
+import com.studium.model.Posts;
 import com.utils.Global;
 import com.utils.NetHelper;
 
 public class FeedFragment extends SherlockFragment implements
 		OnItemClickListener {
 	// party test
-	public ArrayList<Party> pppp= new ArrayList<Party>();
-	
+	public ArrayList<Party> mPartyList = new ArrayList<Party>();
 
 	public ArrayList<String> party_dates = new ArrayList<String>();
 
@@ -58,6 +60,11 @@ public class FeedFragment extends SherlockFragment implements
 	private TextView group_goal; // headerview group_goal
 	private Button party_info;// headerview party_info
 	public final String delims = "-";
+
+	private ProgressBar todoBar;
+	private ProgressBar attendBar;
+	private TextView todotv;
+	private TextView attendtv;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -92,19 +99,17 @@ public class FeedFragment extends SherlockFragment implements
 		group_goal = (TextView) headerview.findViewById(R.id.group_goal);
 		party_info = (Button) headerview
 				.findViewById(R.id.group_meeting_date_btn);
-		
-		party_dates.add("2012-8-30");
-		party_dates.add("2012-9-3");
-		party_dates.add("2012-9-5");
-		party_dates.add("2012-9-9");
+		todoBar = (ProgressBar) headerview
+				.findViewById(R.id.total_acheive_rate_progress);
+		todotv = (TextView) headerview
+				.findViewById(R.id.total_acheive_rate_text);
+		attendBar = (ProgressBar) headerview
+				.findViewById(R.id.total_attend_rate_progress);
+		attendtv = (TextView) headerview
+				.findViewById(R.id.total_attend_rate_text);
 
-	
-	
-		int next_index = getNextParty(party_dates);
 		
-		party_info.setText("ㅅㅂ이다 ㅅㅂ색히야 \n "+next_index);
-		
-		//Show_Party(next_index);
+		// Show_Party(next_index);
 
 		mListView.getRefreshableView().addHeaderView(headerview);
 		mListView.getRefreshableView().setAdapter(mAdapter);
@@ -115,55 +120,40 @@ public class FeedFragment extends SherlockFragment implements
 		return mView;
 	}
 
-//	private void Show_Party(int next_index) {
-//
-//		
-//		
-//		String date = pppp.get(next_index).getDate();
-//		String location = pppp.get(next_index).getLocation();
-//		
-//		String[] temp = date.split(delims);
-//		
-//		
-//		party_info.setText("다음 모임 \n"+temp[1]+"월 " + temp[2]+"일 \n"+ "장소 : "+ location);
-//
-//		
-//	}
-
 	private int getNextParty(ArrayList<String> party_dates2) {
 		Calendar calender = Calendar.getInstance();
-		int i ;
+		int i;
 		boolean IfindTheFUCKINDEX = false;
+		if(party_dates2.size()==0)
+			return -1;
 		for (i = 0; i < party_dates2.size(); i++) {
-			
+
 			String find_dates = party_dates2.get(i);
 
 			String[] temp = find_dates.split(delims);
-			int [] temp_int = new int [3];
+			int[] temp_int = new int[3];
 			temp_int[0] = Integer.parseInt(temp[0]);
 			temp_int[1] = Integer.parseInt(temp[1]);
 			temp_int[2] = Integer.parseInt(temp[2]);
-			
-			int temp_fuck = temp_int[0]*10000 + temp_int[1]*100 + temp_int[2];
-			int now_fuck = calender.get(Calendar.YEAR) * 10000 + (calender.get(Calendar.MONTH)+1) *100 + calender.get(Calendar.DATE);
 
-			
-			
-			if(temp_fuck < now_fuck)
-			{
-				
+			int temp_fuck = temp_int[0] * 10000 + temp_int[1] * 100
+					+ temp_int[2];
+			int now_fuck = calender.get(Calendar.YEAR) * 10000
+					+ (calender.get(Calendar.MONTH) + 1) * 100
+					+ calender.get(Calendar.DATE);
+
+			if (temp_fuck < now_fuck) {
+
+			} else {
+				IfindTheFUCKINDEX = true;
 			}
-			else
-			{
-				IfindTheFUCKINDEX=true;
-			}
-			
-			if(IfindTheFUCKINDEX)
+
+			if (IfindTheFUCKINDEX)
 				break;
-			
+
 		}
 		return i;
-		
+
 	}
 
 	private class GetPostList extends AsyncTask<Void, Void, Void> {
@@ -178,7 +168,9 @@ public class FeedFragment extends SherlockFragment implements
 		@Override
 		protected void onPostExecute(Void result) {
 			Gson gson = new Gson();
+			Gson gson1 = new Gson();
 			Posts posts = gson.fromJson(mResult, Posts.class);
+			Partys partys = gson1.fromJson(mResult, Partys.class);
 			try {
 				JSONObject group = new JSONObject(mResult);
 				group_name.setText(group.getString("name"));
@@ -187,13 +179,51 @@ public class FeedFragment extends SherlockFragment implements
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			for (Post post : posts.getPosts()) {
-				mArrayList.add(post);
+			try{
+				for (Post post : posts.getPosts()) {
+					mArrayList.add(post);
+				}
+				for (Party party : partys.getPartys()) {
+					mPartyList.add(party);
+				}
+			}catch(Exception e){
+				Toast.makeText(getActivity(), "인터넷 연결상태가 좋지 않습니다. 잠시 후에 다시 시도해주세요.", Toast.LENGTH_LONG).show();
+				getActivity().finish();
 			}
-
+			
 			mCurrentPage++;
 			mListView.onRefreshComplete();
 			mAdapter.notifyDataSetChanged();
+			
+			for (int i = 0; i < mPartyList.size(); i++)
+			{
+				party_dates.add(mPartyList.get(i).getDate());
+//				System.out.println("adjfkdaj;sfa;jkfjkasf;djkl;jdkaf        "+mPartyList.get(i).getDate());
+			}
+
+		int next_index = getNextParty(party_dates);
+		System.out.println("afad    "+ next_index);
+		int last_index = next_index - 1;
+		if(next_index==-1)
+			party_info.setText("다음 모임이 없습니다.");
+
+		
+		if (last_index < 0) {
+			todotv.setText("최근 달성률이 없습니다.");
+			attendtv.setText("최근 출석률이 없습니다.");
+
+
+		} else {
+			todoBar.setProgress(Integer.parseInt(mPartyList.get(next_index - 1)
+					.getTodorate()));
+			attendBar.setProgress(Integer.parseInt(mPartyList.get(
+					next_index - 1).getAttendrate()));
+			
+			todotv.setText("최근 달성률 : "+ mPartyList.get(next_index - 1).getTodorate()+"%");
+			attendtv.setText("최근 출석률 : "+ mPartyList.get(next_index - 1).getAttendrate()+"%");
+			party_info.setText("다음 모임 \n "
+					+ mPartyList.get(next_index).getDate());
+		}
 
 			super.onPostExecute(result);
 		}

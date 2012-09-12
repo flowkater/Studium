@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_margin="10dp"
-            android:text="전체 출석률 0%"
+            android:text="최근 출석률 0%"
             android:textSize="10sp" />
 
         <ProgressBar
@@ -77,7 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_margin="10dp"
-            android:text="전체 달성율 0%"
+            android:text="최근 달성율 0%"
             android:textSize="10sp" />
 
         <ProgressBar

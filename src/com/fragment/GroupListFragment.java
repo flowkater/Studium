@@ -2,6 +2,8 @@ package com.fragment;
 
 import java.util.ArrayList;
 
+import studium.sactivity.groupindex.studiummainsplash.activity.GroupShowActivity;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -17,15 +19,14 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockFragment;
-import com.activity.GroupShowActivity;
-import com.activity.R;
-import com.adapter.GroupListAdapter;
+import studium.sactivity.groupindex.studiummainsplash.activity.R;
 import com.google.gson.Gson;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.model.Group;
-import com.model.Groups;
+import com.studium.adapter.GroupListAdapter;
+import com.studium.model.Group;
+import com.studium.model.Groups;
 import com.utils.Global;
 import com.utils.NetHelper;
 
@@ -78,10 +79,14 @@ public class GroupListFragment extends SherlockFragment implements
 		protected void onPostExecute(Void result) {
 			Gson gson = new Gson();
 			Groups groups = gson.fromJson(mResult, Groups.class);
-			
-			for (Group group : groups.getGroups()) {
-				mArrayList.add(group);
+			try {
+				for (Group group : groups.getGroups()) {
+					mArrayList.add(group);
+				}
+			} catch(Exception e){
+				Toast.makeText(getActivity(), "인터넷 연결상태가 좋지 않습니다. 잠시 후에 다시 시도해주세요.", Toast.LENGTH_LONG).show();
 			}
+			
 			mCurrentPage++;
 			mListView.onRefreshComplete();
 			mAdapter.notifyDataSetChanged();
@@ -131,7 +136,7 @@ public class GroupListFragment extends SherlockFragment implements
 		in.putExtra("group_id", group.getId());
 		in.putExtra("role", group.getRole());
 		in.putExtra("group_name", group.getName());
-		Toast.makeText(getActivity(), group.getRole(), Toast.LENGTH_SHORT).show();
+//		Toast.makeText(getActivity(), group.getRole(), Toast.LENGTH_SHORT).show();
 		startActivity(in);
 	}
 

@@ -3,6 +3,9 @@ package com.fragment;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import studium.sactivity.groupindex.studiummainsplash.activity.MeetingCreateActivity;
+import studium.sactivity.groupindex.studiummainsplash.activity.MeetingShowActivity;
+
 import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
@@ -26,15 +29,13 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
-import com.activity.MeetingCreateActivity;
-import com.activity.MeetingShowActivity;
-import com.activity.R;
-import com.adapter.CalendarAdapter;
+import studium.sactivity.groupindex.studiummainsplash.activity.R;
 import com.google.gson.Gson;
-import com.model.DayInfo;
-import com.model.Party;
-import com.model.Partys;
-import com.model.Post;
+import com.studium.adapter.CalendarAdapter;
+import com.studium.model.DayInfo;
+import com.studium.model.Party;
+import com.studium.model.Partys;
+import com.studium.model.Post;
 import com.utils.Global;
 import com.utils.NetHelper;
 
@@ -203,8 +204,8 @@ public class StepFragment extends SherlockFragment implements
 
 		lastMonthStartDay -= (dayOfMonth - 1) - 1;
 
-		mTvCalendarTitle.setText(mThisMonthCalendar.get(Calendar.YEAR) + "��"
-				+ (mThisMonthCalendar.get(Calendar.MONTH) + 1) + "��");
+		mTvCalendarTitle.setText(mThisMonthCalendar.get(Calendar.YEAR) + "년"
+				+ (mThisMonthCalendar.get(Calendar.MONTH) + 1) + "월");
 
 		DayInfo day;
 
@@ -242,13 +243,12 @@ public class StepFragment extends SherlockFragment implements
 
 			} else {
 				if (party_int_date[index] > date_to_int(day.getYear(),
-						day.getMonth(), day.getDate()))
-					Toast.makeText(getActivity(), "?�ㅎ?�ㅎ?�ㅎ?�ㅎ  " + day.getDate(),
-							Toast.LENGTH_SHORT);
-
-				else if (party_int_date[index] == date_to_int(day.getYear(),
+						day.getMonth(), day.getDate())) {
+				} else if (party_int_date[index] == date_to_int(day.getYear(),
 						day.getMonth(), day.getDate())) {
 					day.setParty(true);
+					day.setParty_id(mParties.get(index).getId());
+					day.setIndex(index);
 					if (party_int_date.length - 1 == index) {
 
 					} else
@@ -302,12 +302,14 @@ public class StepFragment extends SherlockFragment implements
 			} else {
 				if (party_int_date[index] > date_to_int(day.getYear(),
 						day.getMonth(), day.getDate()))
-					Toast.makeText(getActivity(), "?�ㅎ?�ㅎ?�ㅎ?�ㅎ  " + day.getDate(),
+					Toast.makeText(getActivity(), "  " + day.getDate(),
 							Toast.LENGTH_SHORT);
 
 				else if (party_int_date[index] == date_to_int(day.getYear(),
 						day.getMonth(), day.getDate())) {
 					day.setParty(true);
+					day.setParty_id(mParties.get(index).getId());
+					day.setIndex(index);
 					if (party_int_date.length - 1 == index) {
 
 					} else
@@ -371,12 +373,15 @@ public class StepFragment extends SherlockFragment implements
 			} else {
 				if (party_int_date[index] > date_to_int(day.getYear(),
 						day.getMonth(), day.getDate()))
-					Toast.makeText(getActivity(), "?�ㅎ?�ㅎ?�ㅎ?�ㅎ  " + day.getDate(),
+					Toast.makeText(getActivity(),
+							":" + day.getDate(),
 							Toast.LENGTH_SHORT);
 
 				else if (party_int_date[index] == date_to_int(day.getYear(),
 						day.getMonth(), day.getDate())) {
 					day.setParty(true);
+					day.setParty_id(mParties.get(index).getId());
+					day.setIndex(index);
 					if (party_int_date.length - 1 == index) {
 
 					} else
@@ -437,31 +442,44 @@ public class StepFragment extends SherlockFragment implements
 			long arg3) {
 
 		daycl = mDayList.get(position);
-		Intent intent;
-		Bundle extras = new Bundle();
-		extras.putString("date", daycl.getDate());
-		extras.putString("month", daycl.getMonth());
-		extras.putString("year", daycl.getYear());
-		extras.putBoolean("isParty", daycl.isParty());
-		extras.putBoolean("making", mMeeting);
-		extras.putString("group_id", group_id);
-		extras.putString("auth_token", auth_token);
-		extras.putInt("index", index);
+		int temp_fuck = Integer.parseInt(daycl.getYear()) * 10000
+				+ Integer.parseInt(daycl.getMonth()) * 100
+				+ Integer.parseInt(daycl.getDate());
+		Calendar calender = Calendar.getInstance();
+		int now_fuck = calender.get(Calendar.YEAR) * 10000
+				+ (calender.get(Calendar.MONTH) + 1) * 100
+				+ calender.get(Calendar.DATE);
 
-		// if (daycl.isParty() == true && useruser == true)
-		// extras.putStringArray("party", partystring);
+		if (temp_fuck < now_fuck) {
 
-		if (mMeeting) {
-			intent = new Intent(getActivity(), MeetingCreateActivity.class);
-			intent.putExtras(extras);
-			startActivity(intent);
+		} else {
+			Intent intent;
+			Bundle extras = new Bundle();
+			extras.putString("date", daycl.getDate());
+			extras.putString("month", daycl.getMonth());
+			extras.putString("year", daycl.getYear());
+			extras.putBoolean("isParty", daycl.isParty());
+			extras.putBoolean("making", mMeeting);
+			extras.putString("group_id", group_id);
+			extras.putString("auth_token", auth_token);
+			extras.putInt("index", daycl.getIndex());
+			extras.putString("party_id", daycl.getParty_id());
 
-		} else if (daycl.isParty()) {
-			intent = new Intent(getActivity(), MeetingShowActivity.class);
-			intent.putExtra("party", mParties);
-			intent.putExtras(extras);
-			startActivity(intent);
+			// if (daycl.isParty() == true && useruser == true)
+			// extras.putStringArray("party", partystring);
 
+			if (mMeeting) {
+				intent = new Intent(getActivity(), MeetingCreateActivity.class);
+				intent.putExtras(extras);
+				startActivity(intent);
+
+			} else if (daycl.isParty()) {
+				intent = new Intent(getActivity(), MeetingShowActivity.class);
+				intent.putExtra("party", mParties);
+				intent.putExtras(extras);
+				startActivity(intent);
+
+			}
 		}
 
 	}
@@ -478,7 +496,7 @@ public class StepFragment extends SherlockFragment implements
 		}
 		if (R.id.add_meeting == v.getId()) {
 			Toast.makeText(getActivity().getApplicationContext(),
-					"모임??만드?�면 ?�러주세??", Toast.LENGTH_SHORT).show();
+					"모임하려면 원하는 날짜를 눌러주세요", Toast.LENGTH_SHORT).show();
 			mMeeting = true;
 
 		}
@@ -502,15 +520,21 @@ public class StepFragment extends SherlockFragment implements
 		protected void onPostExecute(Void result) {
 			Gson gson = new Gson();
 			Partys partys = gson.fromJson(mResult, Partys.class);
-			for (Party party : partys.getPartys()) {
-				System.out.println(party.getPlace());
-				System.out.println(party.getUsers().get(0).getName());
-				System.out.println(party.getTodolists().get(0).getList());
-				mParties.add(party);
+			try {
+				for (Party party : partys.getPartys()) {
+					System.out.println(party.getPlace());
+					System.out.println(party.getUsers().get(0).getName());
+					System.out.println(party.getTodolists().get(0).getList());
+					mParties.add(party);
+				}
+				getCalendar(mThisMonthCalendar, mParties);
+			} catch(Exception e){
+				Toast.makeText(getActivity(), "인터넷 연결상태가 좋지 않습니다. 잠시 후에 다시 시도해주세요.", Toast.LENGTH_LONG).show();
+				getActivity().finish();
 			}
+			
 			// UI Thread
-			getCalendar(mThisMonthCalendar, mParties);
-
+			
 			super.onPostExecute(result);
 		}
 	}

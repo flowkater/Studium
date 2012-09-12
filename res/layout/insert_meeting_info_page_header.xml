@@ -66,7 +66,7 @@
             android:layout_alignRight="@+id/meeting_location_edit_text"
             android:layout_below="@+id/textView2"
             android:layout_marginTop="20dp"
-            android:text="12월 31일 오후 12시 30분 ddd d ddd"
+            android:text="시간을 설정해주세요"
             android:textSize="20sp" />
 
         <TextView

@@ -4,6 +4,12 @@ import java.util.ArrayList;
 
 import org.json.JSONObject;
 
+import studium.sactivity.groupindex.studiummainsplash.activity.GroupCreateActivity;
+import studium.sactivity.groupindex.studiummainsplash.activity.GroupIndexActivity;
+import studium.sactivity.groupindex.studiummainsplash.activity.GroupShowActivity;
+import studium.sactivity.groupindex.studiummainsplash.activity.LoginActivity;
+import studium.sactivity.groupindex.studiummainsplash.activity.UserInfoActivity;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,16 +31,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
-import com.activity.GroupCreateActivity;
-import com.activity.GroupIndexActivity;
-import com.activity.GroupShowActivity;
-import com.activity.LoginActivity;
-import com.activity.R;
-import com.activity.UserInfoActivity;
-import com.adapter.MyStudyListAdapter;
+import studium.sactivity.groupindex.studiummainsplash.activity.R;
 import com.google.gson.Gson;
-import com.model.Group;
-import com.model.Groups;
+import com.studium.adapter.MyStudyListAdapter;
+import com.studium.model.Group;
+import com.studium.model.Groups;
 import com.utils.Global;
 import com.utils.ImageDownloader;
 import com.utils.NetHelper;
@@ -225,11 +226,17 @@ public class SlideMenuFragment extends SherlockListFragment implements
 			}
 			Gson gson = new Gson();
 			Groups groups = gson.fromJson(mResult, Groups.class);
-			for (Group group : groups.getGroups()) {
-				if (group.getName()!=null) {
-					mArrayList.add(group);
+			
+			try {
+				for (Group group : groups.getGroups()) {
+					if (group.getName()!=null) {
+						mArrayList.add(group);
+					}
 				}
+			} catch(Exception e){
+				Toast.makeText(getActivity(), "인터넷 연결상태가 좋지 않습니다. 잠시 후에 다시 시도해주세요.", Toast.LENGTH_LONG).show();
 			}
+			
 			mAdapter.notifyDataSetChanged();
 			super.onPostExecute(result);
 		}
@@ -266,9 +273,10 @@ public class SlideMenuFragment extends SherlockListFragment implements
 		Group group = mArrayList.get(position - 1);
 		Intent in = new Intent(getActivity(), GroupShowActivity.class);
 		in.putExtra("group_id", group.getId());
+		in.putExtra("group_name", group.getName());
 		in.putExtra("role", group.getRole());
-		Toast.makeText(getActivity(), group.getRole(), Toast.LENGTH_SHORT)
-				.show();
+//		Toast.makeText(getActivity(), group.getRole(), Toast.LENGTH_SHORT)
+//				.show();
 		startActivity(in);
 	}
 }
