@@ -131,9 +131,16 @@ public class CalendarAdapter extends BaseAdapter
 			dayViewHolder.llBackground = (RelativeLayout)convertView.findViewById(R.id.day_cell_ll_background);
 			dayViewHolder.tvDay = (TextView) convertView.findViewById(R.id.day_cell_tv_day);
 			TextView feed_num =(TextView) convertView.findViewById(R.id.number_of_feed);
-			if(day.getPost_num()==0)
+			dayViewHolder.llBackground.setBackgroundColor(day.getBg_color());
+
+			if(day.getPost_num().equals("¿À´Ã"))
+				{
+					feed_num.setText("¿À´Ã");
+					LinearLayout day_index = (LinearLayout)convertView.findViewById(R.id.day_index);
+					day_index.setBackgroundColor(Color.GREEN);
+				}
+			else
 				feed_num.setVisibility(View.INVISIBLE);
-			feed_num.setText(Integer.toString(day.getPost_num()));
 			
 
 			if (temp_fuck < now_fuck) {
@@ -143,7 +150,6 @@ public class CalendarAdapter extends BaseAdapter
 			else 
 				past=false;
 			
-			dayViewHolder.llBackground.setBackgroundColor(day.getBg_color());
 			convertView.setTag(dayViewHolder);
 		}
 		else

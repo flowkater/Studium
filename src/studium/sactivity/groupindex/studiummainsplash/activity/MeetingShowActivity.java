@@ -118,8 +118,6 @@ public class MeetingShowActivity extends SherlockActivity implements
 		index = in.getIntExtra("index", 0);
 		mParties = (ArrayList<Party>) in.getSerializableExtra("party");
 
-		Toast.makeText(getApplicationContext(), index + "", Toast.LENGTH_SHORT)
-				.show();
 
 		mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
 		auth_token = mPreferences.getString("AuthToken", "");

@@ -13,7 +13,7 @@ public class DayInfo {
 	private String month;
 	private String year;
 	private int bg_color;
-	private int Post_num;
+	private String Post_num;
 	private boolean party;
 	private String party_id;
 	private int index;
@@ -54,7 +54,7 @@ public class DayInfo {
 
 	public DayInfo() {
 		super();
-		setPost_num(0);
+		setPost_num("0");
 	}
 
 	public DayInfo(String month) {
@@ -88,11 +88,11 @@ public class DayInfo {
 
 
 
-	public int getPost_num() {
+	public String getPost_num() {
 		return Post_num;
 	}
 
-	public void setPost_num(int post_num) {
+	public void setPost_num(String post_num) {
 		this.Post_num = post_num;
 	}
 

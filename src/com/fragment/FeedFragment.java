@@ -125,7 +125,7 @@ public class FeedFragment extends SherlockFragment implements
 		int i;
 		boolean IfindTheFUCKINDEX = false;
 		if(party_dates2.size()==0)
-			return -1;
+			return -2;
 		for (i = 0; i < party_dates2.size(); i++) {
 
 			String find_dates = party_dates2.get(i);
@@ -152,6 +152,9 @@ public class FeedFragment extends SherlockFragment implements
 				break;
 
 		}
+		if(i==party_dates2.size() && IfindTheFUCKINDEX==false)
+			return -1;
+		
 		return i;
 
 	}
@@ -198,22 +201,30 @@ public class FeedFragment extends SherlockFragment implements
 			for (int i = 0; i < mPartyList.size(); i++)
 			{
 				party_dates.add(mPartyList.get(i).getDate());
-//				System.out.println("adjfkdaj;sfa;jkfjkasf;djkl;jdkaf        "+mPartyList.get(i).getDate());
 			}
 
 		int next_index = getNextParty(party_dates);
-		System.out.println("afad    "+ next_index);
 		int last_index = next_index - 1;
 		if(next_index==-1)
-			party_info.setText("다음 모임이 없습니다.");
-
+			{
+				party_info.setText("다음 모임이 없습니다.");
+				todoBar.setProgress(Integer.parseInt(mPartyList.get(mPartyList.size() - 1)
+						.getTodorate()));
+				attendBar.setProgress(Integer.parseInt(mPartyList.get(
+						mPartyList.size() - 1).getAttendrate()));
+				todotv.setText("최근 달성률 : "+ mPartyList.get(mPartyList.size() - 1).getTodorate()+"%");
+				attendtv.setText("최근 출석률 : "+ mPartyList.get(mPartyList.size() - 1).getAttendrate()+"%");
+			}
 		
-		if (last_index < 0) {
-			todotv.setText("최근 달성률이 없습니다.");
-			attendtv.setText("최근 출석률이 없습니다.");
+		if(next_index==-2)
+			{
+				party_info.setText("모임이 생성되지 않았습니다.");
+				todotv.setText("최근 달성률이 없습니다.");
+				attendtv.setText("최근 출석률이 없습니다.");
+			}
 
-
-		} else {
+		 
+		if(next_index>0){
 			todoBar.setProgress(Integer.parseInt(mPartyList.get(next_index - 1)
 					.getTodorate()));
 			attendBar.setProgress(Integer.parseInt(mPartyList.get(
@@ -224,6 +235,17 @@ public class FeedFragment extends SherlockFragment implements
 			party_info.setText("다음 모임 \n "
 					+ mPartyList.get(next_index).getDate());
 		}
+		if(next_index==0)
+		{
+			
+			
+			todotv.setText("최근 달성률이 없습니다.");
+			attendtv.setText("최근 출석률이 없습니다.");
+			party_info.setText("다음 모임 "
+					+ mPartyList.get(next_index).getDate());
+			
+		}
+		
 
 			super.onPostExecute(result);
 		}

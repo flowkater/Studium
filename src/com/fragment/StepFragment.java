@@ -5,6 +5,7 @@ import java.util.Calendar;
 
 import studium.sactivity.groupindex.studiummainsplash.activity.MeetingCreateActivity;
 import studium.sactivity.groupindex.studiummainsplash.activity.MeetingShowActivity;
+import studium.sactivity.groupindex.studiummainsplash.activity.R.drawable;
 
 import android.R.integer;
 import android.app.Activity;
@@ -295,6 +296,15 @@ public class StepFragment extends SherlockFragment implements
 			day.setInMonth(true);
 			day.setMonth((mThisMonthCalendar.get(Calendar.MONTH) + 1) + "");
 			day.setYear(mThisMonthCalendar.get(Calendar.YEAR) + "");
+			
+			if(Integer.parseInt(day.getDate())==Calendar.getInstance().get(Calendar.DATE) && 
+					Integer.parseInt(day.getMonth())==Calendar.getInstance().get(Calendar.MONTH)+1 &&
+					Integer.parseInt(day.getYear())==Calendar.getInstance().get(Calendar.YEAR))
+				{
+					day.setPost_num("오늘");
+					day.setBg_color(Color.LTGRAY);
+				}
+			
 
 			// compare
 			if (mParties.size() == 0) {
@@ -302,8 +312,9 @@ public class StepFragment extends SherlockFragment implements
 			} else {
 				if (party_int_date[index] > date_to_int(day.getYear(),
 						day.getMonth(), day.getDate()))
-					Toast.makeText(getActivity(), "  " + day.getDate(),
-							Toast.LENGTH_SHORT);
+				{
+					
+				}
 
 				else if (party_int_date[index] == date_to_int(day.getYear(),
 						day.getMonth(), day.getDate())) {
@@ -373,9 +384,10 @@ public class StepFragment extends SherlockFragment implements
 			} else {
 				if (party_int_date[index] > date_to_int(day.getYear(),
 						day.getMonth(), day.getDate()))
-					Toast.makeText(getActivity(),
-							":" + day.getDate(),
-							Toast.LENGTH_SHORT);
+				{
+					
+				}
+				
 
 				else if (party_int_date[index] == date_to_int(day.getYear(),
 						day.getMonth(), day.getDate())) {
@@ -451,6 +463,7 @@ public class StepFragment extends SherlockFragment implements
 				+ calender.get(Calendar.DATE);
 
 		if (temp_fuck < now_fuck) {
+			Toast.makeText(getActivity(), "지난 날짜는 선택할 수 없습니다.", Toast.LENGTH_SHORT).show();
 
 		} else {
 			Intent intent;
